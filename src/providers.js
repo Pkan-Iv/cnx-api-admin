@@ -10,6 +10,8 @@ import {
   fetchUtils,
 } from 'react-admin'
 
+import * as Config from '../config.json'
+
 const fetch = fetchUtils.fetchJson
 
 /*
@@ -114,7 +116,7 @@ function getManyReference (url, params) {
   })
 }
 
-const requestHandler = requestCreator( 'http://vs-dev-prd-mys-fr-301:3000/api', {
+const requestHandler = requestCreator( Config.api.url, {
   GET_LIST: getList,
 
   GET_ONE: (url, params) => fetch(
