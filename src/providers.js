@@ -3,7 +3,7 @@ import { fetchUtils } from 'react-admin'
 import {
   CreateRestProvider,
   CreateRestJsonResponse,
-  CreateRestRequester
+  CreateRestRequest
 } from '../lib/factories'
 
 import * as Config from '../config.json'
@@ -80,7 +80,7 @@ function getManyReference (url, params) {
   })
 }
 
-const requestHandler = CreateRestRequester( Config.api.url, {
+const requestHandler = CreateRestRequest( Config.api.url, {
   GET_LIST: getList,
 
   GET_ONE: (url, params) => fetch(
