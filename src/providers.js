@@ -1,4 +1,10 @@
 import { fetchUtils } from 'react-admin'
+
+import {
+  CreateRestProvider,
+  CreateRestJsonResponse,
+  CreateRestRequester
+} from '../lib/factories'
 import * as Config from '../config.json'
 
 const fetch = fetchUtils.fetchJson
@@ -10,38 +16,6 @@ function buildParameters (parameters) {
   return Object.keys( parameters ).map(
     (key) => `${key}=${parameters[key]}`
   ).join( '&' )
-}
-
-function providerCreator (requestHandler, responseHandler) {
-  return (type, resource, params) => {
-    return requestHandler( type, resource, params ).then(
-      (response) => responseHandler( response, type, resource, params )
-    )
-  }
-}
-
-function requestCreator (url, handlers) {
-  return (type, resource, params) => {
-    const handler = handlers[ type ]
-
-    if (handler === undefined) {
-      throw new Error( `Unsupported fetch action type ${type}` )
-    }
-
-    return handler( `${url}/${resource}`, params )
-  }
-}
-
-function jsonResponseCreator (handlers) {
-  return (response, type, params) => {
-    const handler = handlers[ type ]
-
-    if (handler === undefined) {
-      return { data: response.json }
-    }
-
-    return handler( response, params )
-  }
 }
 
 /*
@@ -105,7 +79,7 @@ function getManyReference (url, params) {
   })
 }
 
-const requestHandler = requestCreator( Config.api.url, {
+const requestHandler = CreateRestRequester( Config.api.url, {
   GET_LIST: getList,
 
   GET_ONE: (url, params) => fetch(
@@ -151,7 +125,7 @@ function createOrUpdate (response, params) {
   }
 }
 
-const responseHandler = jsonResponseCreator({
+const responseHandler = CreateRestJsonResponse({
   GET_LIST: (response) => ({
     data: response.json,
     total: response.total
@@ -168,4 +142,4 @@ const responseHandler = jsonResponseCreator({
 /*
  *  PROVIDER
  */
-export default providerCreator( requestHandler, responseHandler)
+export default CreateRestProvider( requestHandler, responseHandler )
