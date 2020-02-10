@@ -166,6 +166,6 @@ const responseHandler = jsonResponseCreator({
 })
 
 /*
- *  PROOVIDER
+ *  PROVIDER
  */
 export default providerCreator( requestHandler, responseHandler)
