@@ -1,15 +1,4 @@
-import {
-  GET_LIST,
-  GET_ONE,
-  GET_MANY,
-  GET_MANY_REFERENCE,
-  CREATE,
-  UPDATE,
-  DELETE,
-  DELETE_MANY,
-  fetchUtils,
-} from 'react-admin'
-
+import { fetchUtils } from 'react-admin'
 import * as Config from '../config.json'
 
 const fetch = fetchUtils.fetchJson
