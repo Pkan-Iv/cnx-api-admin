@@ -12,6 +12,7 @@ const entry = {
 
 const exclude = [
   path.resolve( __dirname, 'node_modules' ),
+  path.resolve( __dirname, 'static' ),
   path.resolve( __dirname, 'test' ),
   home
 ]
@@ -94,11 +95,7 @@ module.exports = (env, argv) => {
               {
                 loader: 'babel-loader',
                 options: {
-                  plugins: [
-                    [ '@babel/plugin-proposal-decorators', { 'legacy': true }],
-                    '@babel/plugin-proposal-class-properties',
-                    '@babel/plugin-transform-runtime'
-                  ],
+                  plugins: [],
                   presets: [
                     '@babel/preset-env',
                     '@babel/preset-react'
