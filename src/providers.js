@@ -5,6 +5,7 @@ import {
   CreateRestJsonResponse,
   CreateRestRequester
 } from '../lib/factories'
+
 import * as Config from '../config.json'
 
 const fetch = fetchUtils.fetchJson
