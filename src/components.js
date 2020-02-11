@@ -1,16 +1,14 @@
 import React from 'react'
 import { Admin, Resource, ListGuesser } from 'react-admin'
 
+import authProvider from './authProvider'
 import dataProvider from './providers'
 
 export default function MainComponent () {
   return (
     <div className='row flex fullscreen'>
-      <Admin dataProvider={ dataProvider }>
-        <Resource name='Whitelabels' list={ ListGuesser } />
-        <Resource name='Projects' list={ ListGuesser } />
-        <Resource name='Users' list={ ListGuesser } />
-        <Resource name='EntryPoints' list={ ListGuesser } />
+      <Admin authProvider={ authProvider } dataProvider={dataProvider}>
+        <Resource/>
       </Admin>
     </div>
   )
