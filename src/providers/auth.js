@@ -1,34 +1,31 @@
-import * as Config from '../../config.json'
+export default {
+	login ({ username, password }) {
+		localStorage.setItem( 'username', username )
+		return Promise.resolve()
+	},
 
-const authProvider = {
+	logout () {
+		localStorage.removeItem( 'username' )
+		return Promise.resolve()
+	},
 
-    login: ({ username }) => {
-        localStorage.setItem('username', username)
-        // accept all username/password combinations
-        return Promise.resolve()
-    },
+	checkAuth () {
+		const check = localStorage.getItem( 'username' )
+		return check ? Promise.resolve() : Promise.reject()
+	},
 
-    logout: () => {
-        localStorage.removeItem('username')
-        return Promise.resolve()
-    },
+	checkError (error) {
+		const status = error.status
 
-    checkAuth: () => {
-        return localStorage.getItem('username')
-            ? Promise.resolve()
-            : Promise.reject()
-    },
+		if (status === 401 || status === 403) {
+			localStorage.removeItem( 'username' )
+			return Promise.reject()
+		}
 
-    checkError: (error) => {
-        const status = error.status;
-        if (status === 401 || status === 403) {
-            localStorage.removeItem('token');
-            return Promise.reject();
-        }
-        return Promise.resolve();
-    },
+		return Promise.resolve()
+	},
 
-    getPermissions: params => Promise.resolve()
+	getPermissions (params) {
+		return Promise.resolve()
+	}
 }
-
-export default authProvider
