@@ -80,6 +80,13 @@ function getManyReference (url, params) {
   })
 }
 
+const requestProxy = {
+  Users: {
+    GET_LIST: 'XM_Users',
+    GET_MANY_REFERENCE: 'XM_Users'
+  }
+}
+
 const requestHandler = CreateRestRequest( Config.api.url, {
   GET_LIST: getList,
 
@@ -112,7 +119,7 @@ const requestHandler = CreateRestRequest( Config.api.url, {
       method: 'DELETE'
     }
   )
-})
+}, requestProxy )
 
 /*
  *  RESPONSE
