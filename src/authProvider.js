@@ -1,31 +1,34 @@
-import * as Config from '../config.json' 
+import * as Config from '../config.json'
 
 const authProvider = {
 
-    // TODO
-    // Get url from fera
-    login: ({ username, password }) => {
-        const req = new Request(Config.api.url, {
-            method: 'POST',
-            body: JSON.stringify({ username, password }),
-            headers: new Headers({ 'Content-Type': 'application/json' })
-        })
-        return fetch(req)
-            .then(res => {
-                if (res.status < 200 || res.status >= 300) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-            .then(({ token }) => {
-                localStorage.setItem('token', token)
-            })
+    login: ({ username }) => {
+        localStorage.setItem('username', username)
+        // accept all username/password combinations
+        return Promise.resolve()
     },
 
     logout: () => {
-        localStorage.removeItem('token')
+        localStorage.removeItem('username')
         return Promise.resolve()
-    }
+    },
+
+    checkAuth: () => {
+        return localStorage.getItem('username')
+            ? Promise.resolve()
+            : Promise.reject()
+    },
+
+    checkError: (error) => {
+        const status = error.status;
+        if (status === 401 || status === 403) {
+            localStorage.removeItem('token');
+            return Promise.reject();
+        }
+        return Promise.resolve();
+    },
+
+    getPermissions: params => Promise.resolve()
 }
 
 export default authProvider
