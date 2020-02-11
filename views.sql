@@ -1,6 +1,7 @@
 USE `ivconfigdb`;
 
-CREATE VIEW `XM_Users` AS SELECT
+DROP VIEW IF EXISTS `XM_Users`;
+CREATE ALGORITHM=MERGE VIEW `XM_Users` AS SELECT
 	U.`id` AS `id`,
   W.`name` AS `whitelabel`,
   P.`name` AS `project`,
