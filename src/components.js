@@ -8,7 +8,7 @@ export default function MainComponent () {
   return (
     <div className='row flex fullscreen'>
       <Admin authProvider={ authProvider } dataProvider={dataProvider}>
-        <Resource/>
+        <Resource name='Users' list={ ListGuesser }/>
       </Admin>
     </div>
   )
