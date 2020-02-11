@@ -1,7 +1,5 @@
-import AuthProvider from './auth'
-import DataProvider from './data'
+import auth from './auth'
+import data from './data'
 
-export default {
-  AuthProvider,
-  DataProvider
-}
+export const AuthProvider = auth
+export const DataProvider = data
