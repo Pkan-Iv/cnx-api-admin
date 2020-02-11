@@ -2,7 +2,7 @@ import { fetchUtils } from 'react-admin'
 
 import {
   CreateRestProvider,
-  CreateRestJsonResponse,
+  CreateRestResponse,
   CreateRestRequest
 } from '../lib/factories'
 
@@ -126,7 +126,7 @@ function createOrUpdate (response, params) {
   }
 }
 
-const responseHandler = CreateRestJsonResponse({
+const responseHandler = CreateRestResponse({
   GET_LIST: (response) => ({
     data: response.json,
     total: response.total
