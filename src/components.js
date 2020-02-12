@@ -1,14 +1,25 @@
 import React from 'react'
+import { Provider } from 'react-redux'
+import { createHashHistory } from 'history'
 import { Admin, Resource, ListGuesser } from 'react-admin'
 
 import { AuthProvider, DataProvider } from './providers'
+import CreateStore from './store'
+
+const History = createHashHistory()
+
+const Store = CreateStore({
+  authProvider: AuthProvider,
+  dataProvider: DataProvider,
+  history: History
+})
 
 export default function MainComponent () {
   return (
-    <div className='row flex fullscreen'>
-      <Admin authProvider={ AuthProvider } dataProvider={ DataProvider }>
+    <Provider store={ Store }>
+      <Admin authProvider={ AuthProvider } dataProvider={ DataProvider } history={ History }>
         <Resource name='Users' list={ ListGuesser }/>
       </Admin>
-    </div>
+    </Provider>
   )
 }
