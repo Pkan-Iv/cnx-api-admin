@@ -1,10 +1,10 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { createHashHistory } from 'history'
-import { Admin, Resource, ListGuesser, ShowGuesser } from 'react-admin'
+import { Admin, EditGuesser, Resource } from 'react-admin'
 
 import { AuthProvider, DataProvider } from './providers'
-import { UserList, UserShow } from './users'
+import { UserEdit, UserList, UserShow } from './users'
 import CreateStore from './store'
 
 const History = createHashHistory()
@@ -19,7 +19,7 @@ export default function MainComponent () {
   return (
     <Provider store={ Store }>
       <Admin authProvider={ AuthProvider } dataProvider={ DataProvider } history={ History }>
-        <Resource name='Users' list={ UserList } show={ UserShow }/>
+        <Resource name='Users' list={ UserList } show={ UserShow } edit={ UserEdit }/>
       </Admin>
     </Provider>
   )

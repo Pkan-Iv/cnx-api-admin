@@ -1,9 +1,27 @@
 import React from 'react'
-import { Datagrid, DateField, List, NumberField, Show, SimpleShowLayout, TextField } from 'react-admin'
+import { Datagrid, DateField, DateInput, Edit, List, NumberField, NumberInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin'
 
 const UserDisplayName = ({ record }) => {
+    console.log(record)
     return <span>User {record ? `"${record.display_name}"` : ''}</span>
 }
+
+export const UserEdit = props => (
+    <Edit title={ <UserDisplayName/> } {...props}>
+        <SimpleForm>
+            <TextInput source="id" />
+            <NumberInput source="project_ref" />
+            <TextInput source="type" />
+            <TextInput source="login" />
+            <TextInput source="display_name" />
+            <TextInput source="language" />
+            <TextInput source="password.type" />
+            <NumberInput source="folder_ref" />
+            <DateInput source="created_at" />
+            <DateInput source="updated_at" />
+        </SimpleForm>
+    </Edit>
+)
 
 export const UserList = props => (
     <List {...props}>
