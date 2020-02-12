@@ -27,7 +27,6 @@ function getList(url, params) {
 
     const { no_of_rows } = response.json[0]
     const count = parseInt(no_of_rows, 10)
-    console.log(response)
 
     if (count < 1) {
       return {
