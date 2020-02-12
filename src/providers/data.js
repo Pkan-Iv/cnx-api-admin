@@ -13,19 +13,21 @@ const fetch = fetchUtils.fetchJson
 /*
  *  UTILS
  */
-function buildParameters (parameters) {
-  return Object.keys( parameters ).map(
+function buildParameters(parameters) {
+  return Object.keys(parameters).map(
     (key) => `${key}=${parameters[key]}`
-  ).join( '&' )
+  ).join('&')
 }
 
 /*
  *  REQUEST
  */
-function getList (url, params) {
-  return fetch( `${url}/count` ).then( (response) => {
+function getList(url, params) {
+  return fetch(`${url}/count`).then((response) => {
+
     const { no_of_rows } = response.json[0]
-    const count = parseInt( no_of_rows, 10 )
+    const count = parseInt(no_of_rows, 10)
+    console.log(response)
 
     if (count < 1) {
       return {
@@ -38,24 +40,24 @@ function getList (url, params) {
     const { field, order } = params.sort
 
     const parameters = buildParameters({
-      'p': page - 1,
+      '_p': page - 1,
       '_size': perPage,
       '_sort': order === 'DESC' ? '-' : ''
     })
 
     return fetch(
       `${url}?${parameters}${field}`
-    ).then( (response) => {
+    ).then((response) => {
       response.total = count
       return response
     })
   })
 }
 
-function getManyReference (url, params) {
-  return fetch( `${url}/count` ).then( (response) => {
+function getManyReference(url, params) {
+  return fetch(`${url}/count`).then((response) => {
     const { no_of_rows } = response.json[0]
-    const count = parseInt( no_of_rows, 10 )
+    const count = parseInt(no_of_rows, 10)
 
     if (count < 1) {
       return {
@@ -68,7 +70,7 @@ function getManyReference (url, params) {
     const { field, order } = params.sort
 
     const parameters = buildParameters({
-      'p': page - 1,
+      '_p': page - 1,
       '_size': perPage,
       '_sort': order === 'DESC' ? '-' : '',
       '_where': `(${params.target},eq,${params.id})`
@@ -87,7 +89,7 @@ const requestProxy = {
   }
 }
 
-const requestHandler = CreateRestRequest( Config.api.url, {
+const requestHandler = CreateRestRequest(Config.api.url, {
   GET_LIST: getList,
 
   GET_ONE: (url, params) => fetch(
@@ -95,36 +97,36 @@ const requestHandler = CreateRestRequest( Config.api.url, {
   ),
 
   GET_MANY: (url, params) => fetch(
-    `${url}/bulk/?_ids=${params.ids.join( ',' )}`
+    `${url}/bulk/?_ids=${params.ids.join(',')}`
   ),
 
   GET_MANY_REFERENCE: getManyReference,
 
-  UPDATE: (url, params) => fetch( `${url}/${params.id}`, {
+  UPDATE: (url, params) => fetch(`${url}/${params.id}`, {
     method: 'PATCH',
-    body: JSON.stringify( params.data )
+    body: JSON.stringify(params.data)
   }),
 
-  CREATE: (url, params) => fetch( `${url}`, {
+  CREATE: (url, params) => fetch(`${url}`, {
     method: 'POST',
-    body: JSON.stringify( params.data ),
+    body: JSON.stringify(params.data),
   }),
 
-  DELETE: (url, params) => fetch( `${url}/${params.id}`, {
+  DELETE: (url, params) => fetch(`${url}/${params.id}`, {
     method: 'DELETE'
   }),
 
   DELETE_MANY: (url, params) => fetch(
-    `${url}/bulk/?_ids=${params.ids.join( ',' )}`, {
-      method: 'DELETE'
-    }
+    `${url}/bulk/?_ids=${params.ids.join(',')}`, {
+    method: 'DELETE'
+  }
   )
-}, requestProxy )
+}, requestProxy)
 
 /*
  *  RESPONSE
  */
-function createOrUpdate (response, params) {
+function createOrUpdate(response, params) {
   return {
     data: {
       ...params.data,
@@ -150,4 +152,4 @@ const responseHandler = CreateRestResponse({
 /*
  *  PROVIDER
  */
-export default CreateRestProvider( requestHandler, responseHandler )
+export default CreateRestProvider(requestHandler, responseHandler)
