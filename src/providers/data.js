@@ -38,26 +38,20 @@ function getList(url, params) {
     const { filter, pagination, sort} = params
     const { page, perPage } = pagination
     const { field, order } = sort
-    const ColumnNameFiltered = Object.keys(filter)
-    const ColumnNameValue = Object.values(filter)
 
+    const filters = Object.keys( filter ).map(
+      (key) => `(${key},like,~${filter[key]}~)`
+    ).join( '~and' )
 
     const parameters = buildParameters({
       '_p': page - 1,
       '_size': perPage,
-      '_sort': order === 'DESC' ? '-' : '',
-      // filter: JSON.stringify(filter)
-      '_where': (filter !== {}) ? '' : `(${ColumnNameFiltered},eq,${ColumnNameValue})`
+      '_sort': order === 'DESC' ? `-${field}` : `${field}`,
+      '_where': filters !== '' ? filters : null
     })
 
-
-    console.log('filter: ', JSON.stringify(filter))
-    console.log('ColumnNameFiltered: ', `${ColumnNameFiltered}`)
-    console.log('ColumnNameValue: ', `${ColumnNameValue}`)
-
-
     return fetch(
-      `${url}?${parameters}${field}`
+      `${url}?${parameters}`
     ).then((response) => {
       response.total = count
       return response
