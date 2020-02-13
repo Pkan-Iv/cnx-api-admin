@@ -35,14 +35,26 @@ function getList(url, params) {
       }
     }
 
-    const { page, perPage } = params.pagination
-    const { field, order } = params.sort
+    const { filter, pagination, sort} = params
+    const { page, perPage } = pagination
+    const { field, order } = sort
+    const ColumnNameFiltered = Object.keys(filter)
+    const ColumnNameValue = Object.values(filter)
+
 
     const parameters = buildParameters({
       '_p': page - 1,
       '_size': perPage,
-      '_sort': order === 'DESC' ? '-' : ''
+      '_sort': order === 'DESC' ? '-' : '',
+      // filter: JSON.stringify(filter)
+      '_where': (filter !== {}) ? '' : `(${ColumnNameFiltered},eq,${ColumnNameValue})`
     })
+
+
+    console.log('filter: ', JSON.stringify(filter))
+    console.log('ColumnNameFiltered: ', `${ColumnNameFiltered}`)
+    console.log('ColumnNameValue: ', `${ColumnNameValue}`)
+
 
     return fetch(
       `${url}?${parameters}${field}`

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { createHashHistory } from 'history'
-import { Admin, EditGuesser, Resource } from 'react-admin'
+import { Admin, Resource } from 'react-admin'
 
 import { AuthProvider, DataProvider } from './providers'
 import { UserEdit, UserList, UserShow } from './users'
