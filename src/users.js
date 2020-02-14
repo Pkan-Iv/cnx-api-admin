@@ -19,6 +19,12 @@ import {
 
 import { useDataLoader } from './hooks'
 
+const CustomSelector = ({ error, loading, props, values }) => (
+  error ? <Error /> : (
+    loading ? <Loading /> : <SelectInput {...props} choices={values} />
+  )
+)
+
 const LanguageSelector = (props) => {
   const [error, loading, values] = useDataLoader({
     field: 'language',
@@ -26,11 +32,7 @@ const LanguageSelector = (props) => {
     resource: 'XM_Languages',
   })
 
-  return (
-    error ? <Error /> : (
-      loading ? <Loading /> : <SelectInput {...props} choices={values} />
-    )
-  )
+  return <CustomSelector { ...{ error, loading, props, values }} />
 }
 
 const ProjectSelector = (props) => {
@@ -39,11 +41,7 @@ const ProjectSelector = (props) => {
     resource: 'Projects'
   })
 
-  return (
-    error ? <Error /> : (
-      loading ? <Loading /> : <SelectInput {...props} choices={values} />
-    )
-  )
+  return <CustomSelector { ...{ error, loading, props, values }} />
 }
 
 const WhitelabelSelector = (props) => {
@@ -52,11 +50,7 @@ const WhitelabelSelector = (props) => {
     resource: 'Whitelabels'
   })
 
-  return (
-    error ? <Error /> : (
-      loading ? <Loading /> : <SelectInput {...props} choices={values} />
-    )
-  )
+  return <CustomSelector { ...{ error, loading, props, values }} />
 }
 
 const UserDisplayName = ({ record }) => {
