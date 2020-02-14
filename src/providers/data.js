@@ -24,7 +24,6 @@ function buildParameters(parameters) {
  */
 function getList(url, params) {
   return fetch(`${url}/count`).then((response) => {
-
     const { no_of_rows } = response.json[0]
     const count = parseInt(no_of_rows, 10)
 
