@@ -20,7 +20,7 @@ import {
 import { useDataLoader } from './hooks'
 
 const LanguageSelector = (props) => {
-  const [ error, loading, values ] = useDataLoader({
+  const [error, loading, values] = useDataLoader({
     field: 'language',
     mapper: (row) => ({ id: row.language, name: row.language }),
     resource: 'XM_Languages',
@@ -28,33 +28,33 @@ const LanguageSelector = (props) => {
 
   return (
     error ? <Error /> : (
-      loading ? <Loading /> : <SelectInput { ...props } choices={ values } />
+      loading ? <Loading /> : <SelectInput {...props} choices={values} />
     )
   )
 }
 
 const ProjectSelector = (props) => {
-  const [ error, loading, values ] = useDataLoader({
+  const [error, loading, values] = useDataLoader({
     mapper: (row) => ({ id: row.name, name: row.name }),
     resource: 'Projects'
   })
 
   return (
     error ? <Error /> : (
-      loading ? <Loading /> : <SelectInput { ...props } choices={ values } />
+      loading ? <Loading /> : <SelectInput {...props} choices={values} />
     )
   )
 }
 
 const WhitelabelSelector = (props) => {
-  const [ error, loading, values ] = useDataLoader({
+  const [error, loading, values] = useDataLoader({
     mapper: (row) => ({ id: row.name, name: row.name }),
     resource: 'Whitelabels'
   })
 
   return (
     error ? <Error /> : (
-      loading ? <Loading /> : <SelectInput { ...props } choices={ values } />
+      loading ? <Loading /> : <SelectInput {...props} choices={values} />
     )
   )
 }
@@ -77,11 +77,11 @@ export const UserEdit = props => (
   <Edit title={<UserDisplayName />} {...props}>
     <SimpleForm>
       <TextInput source="id" />
-      <TextField source="whitelabel" />
-      <TextField source="project" />
+      <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn />
+      <ProjectSelector label="Search by Project" source="project" alwaysOn />
       <TextInput source="type" />
       <TextInput source="name" />
-      <TextInput source="language" />
+      <LanguageSelector label="Search by Language" source="language" alwaysOn />
     </SimpleForm>
   </Edit>
 )
