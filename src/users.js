@@ -1,19 +1,63 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+
 import {
   Datagrid,
   DateField,
   DateInput,
   Edit,
+  Error,
   Filter,
   List,
+  Loading,
   NumberField,
   NumberInput,
+  SelectInput,
   Show,
   SimpleForm,
   SimpleShowLayout,
   TextField,
-  TextInput
+  TextInput,
+  useDataProvider
 } from 'react-admin'
+
+const LanguageSelector = (props) => {
+    const dataProvider = useDataProvider()
+    const [ languages, setLanguages ] = useState()
+    const [ loading, setLoading ] = useState( true )
+    const [ error, setError ] = useState()
+
+    useEffect( () => {
+      dataProvider.getList( 'XM_Languages', {
+        filter: {},
+        pagination: { page: 1, perPage: 100 },
+        sort: {
+          field: 'language',
+          order: 'ASC'
+        }
+      }).then( ({ data }) => {
+        setLanguages( data.map( (row) => {
+          return { id: row.language, name: row.language }
+        }))
+
+        setLoading( false )
+      }).catch( (error) => {
+        setError( error )
+        setLoading( false )
+      })
+    }, [])
+
+    if (loading) {
+      return <Loading />
+    }
+
+    if (error) {
+      return <Error />
+    }
+
+    return (
+      <SelectInput { ...props } choices={ languages } />
+    )
+}
 
 const UserDisplayName = ({ record }) => {
   return <span>User {record ? `"${record.display_name}"` : ''}</span>
@@ -26,7 +70,7 @@ const UserFilter = (props) => (
     <TextInput label="Search by Project" source="project" alwaysOn />
     <TextInput label="Search by Type" source="type" alwaysOn />
     <TextInput label="Search by Name" source="name" alwaysOn />
-    <TextInput label="Search by Language" source="language" alwaysOn />
+    <LanguageSelector label="Search by Language" source="language" alwaysOn />
   </Filter>
 )
 
