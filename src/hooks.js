@@ -15,7 +15,7 @@ export function useDataLoader ({
 
   useEffect( () => {
     if (values.length !== 0 && count !== null) {
-      if (count === values.length) {
+      if (count <= values.length) {
         setLoading( false )
       }
     }
