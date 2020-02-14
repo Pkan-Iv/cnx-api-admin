@@ -26,16 +26,10 @@ const LanguageSelector = (props) => {
     resource: 'XM_Languages',
   })
 
-  if (loading) {
-    return <Loading />
-  }
-
-  if (error) {
-    return <Error />
-  }
-
   return (
-    <SelectInput { ...props } choices={ values } />
+    error ? <Error /> : (
+      loading ? <Loading /> : <SelectInput { ...props } choices={ values } />
+    )
   )
 }
 
@@ -45,16 +39,10 @@ const ProjectSelector = (props) => {
     resource: 'Projects'
   })
 
-  if (loading) {
-    return <Loading />
-  }
-
-  if (error) {
-    return <Error />
-  }
-
   return (
-    <SelectInput { ...props } choices={ values } />
+    error ? <Error /> : (
+      loading ? <Loading /> : <SelectInput { ...props } choices={ values } />
+    )
   )
 }
 
@@ -64,16 +52,10 @@ const WhitelabelSelector = (props) => {
     resource: 'Whitelabels'
   })
 
-  if (loading) {
-    return <Loading />
-  }
-
-  if (error) {
-    return <Error />
-  }
-
   return (
-    <SelectInput { ...props } choices={ values } />
+    error ? <Error /> : (
+      loading ? <Loading /> : <SelectInput { ...props } choices={ values } />
+    )
   )
 }
 
