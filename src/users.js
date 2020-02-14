@@ -1,62 +1,80 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react'
 
 import {
   Datagrid,
   DateField,
-  DateInput,
   Edit,
   Error,
   Filter,
   List,
   Loading,
   NumberField,
-  NumberInput,
   SelectInput,
   Show,
   SimpleForm,
   SimpleShowLayout,
   TextField,
-  TextInput,
-  useDataProvider
+  TextInput
 } from 'react-admin'
 
+import { useDataLoader } from './hooks'
+
 const LanguageSelector = (props) => {
-    const dataProvider = useDataProvider()
-    const [ languages, setLanguages ] = useState()
-    const [ loading, setLoading ] = useState( true )
-    const [ error, setError ] = useState()
+  const [ error, loading, values ] = useDataLoader({
+    field: 'language',
+    mapper: (row) => ({ id: row.language, name: row.language }),
+    resource: 'XM_Languages',
+  })
 
-    useEffect( () => {
-      dataProvider.getList( 'XM_Languages', {
-        filter: {},
-        pagination: { page: 1, perPage: 100 },
-        sort: {
-          field: 'language',
-          order: 'ASC'
-        }
-      }).then( ({ data }) => {
-        setLanguages( data.map( (row) => {
-          return { id: row.language, name: row.language }
-        }))
+  if (loading) {
+    return <Loading />
+  }
 
-        setLoading( false )
-      }).catch( (error) => {
-        setError( error )
-        setLoading( false )
-      })
-    }, [])
+  if (error) {
+    return <Error />
+  }
 
-    if (loading) {
-      return <Loading />
-    }
+  return (
+    <SelectInput { ...props } choices={ values } />
+  )
+}
 
-    if (error) {
-      return <Error />
-    }
+const ProjectSelector = (props) => {
+  const [ error, loading, values ] = useDataLoader({
+    mapper: (row) => ({ id: row.name, name: row.name }),
+    resource: 'Projects'
+  })
 
-    return (
-      <SelectInput { ...props } choices={ languages } />
-    )
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <Error />
+  }
+
+  return (
+    <SelectInput { ...props } choices={ values } />
+  )
+}
+
+const WhitelabelSelector = (props) => {
+  const [ error, loading, values ] = useDataLoader({
+    mapper: (row) => ({ id: row.name, name: row.name }),
+    resource: 'Whitelabels'
+  })
+
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <Error />
+  }
+
+  return (
+    <SelectInput { ...props } choices={ values } />
+  )
 }
 
 const UserDisplayName = ({ record }) => {
@@ -65,9 +83,8 @@ const UserDisplayName = ({ record }) => {
 
 const UserFilter = (props) => (
   <Filter {...props}>
-    <TextInput label="Search by Id" source="id" alwaysOn />
-    <TextInput label="Search by Whitelabel" source="whitelabel" alwaysOn />
-    <TextInput label="Search by Project" source="project" alwaysOn />
+    <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn />
+    <ProjectSelector label="Search by Project" source="project" alwaysOn />
     <TextInput label="Search by Type" source="type" alwaysOn />
     <TextInput label="Search by Name" source="name" alwaysOn />
     <LanguageSelector label="Search by Language" source="language" alwaysOn />
