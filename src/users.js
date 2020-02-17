@@ -59,11 +59,11 @@ const UserDisplayName = ({ record }) => {
 
 const UserFilter = (props) => (
   <Filter {...props}>
-    <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn />
-    <ProjectSelector label="Search by Project" source="project" alwaysOn />
-    <TextInput label="Search by Type" source="type" alwaysOn />
-    <TextInput label="Search by Name" source="name" alwaysOn />
-    <LanguageSelector label="Search by Language" source="language" alwaysOn />
+    <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn resettable />
+    <ProjectSelector label="Search by Project" source="project" alwaysOn resettable />
+    <TextInput label="Search by Type" source="type" alwaysOn resettable />
+    <TextInput label="Search by Name" source="name" alwaysOn resettable />
+    <LanguageSelector label="Search by Language" source="language" alwaysOn resettable />
   </Filter>
 )
 
