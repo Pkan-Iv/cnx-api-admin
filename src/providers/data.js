@@ -13,7 +13,7 @@ const fetch = fetchUtils.fetchJson
 /*
  *  UTILS
  */
-function buildParameters(parameters) {
+function buildParameters (parameters) {
   return Object.keys(parameters).map(
     (key) => `${key}=${parameters[key]}`
   ).join('&')
@@ -22,8 +22,23 @@ function buildParameters(parameters) {
 /*
  *  REQUEST
  */
-function getList(url, params) {
-  return fetch(`${url}/count`).then((response) => {
+function getList (url, params) {
+  const { filter, pagination, sort } = params
+  const { page, perPage } = pagination
+  const { field, order } = sort
+
+  const filters = Object.keys( filter ).map(
+    (key) => `(${key},like,~${filter[key]}~)`
+  ).join( '~and' )
+
+  const parameters = buildParameters({
+    '_p': page - 1,
+    '_size': perPage,
+    '_sort': order === 'DESC' ? `-${field}` : `${field}`,
+    '_where': filters !== '' ? filters : null
+  })
+
+  return fetch( `${url}/count?_where=${filters}` ).then( (response) => {
     const { no_of_rows } = response.json[0]
     const count = parseInt(no_of_rows, 10)
 
@@ -34,32 +49,15 @@ function getList(url, params) {
       }
     }
 
-    const { filter, pagination, sort} = params
-    const { page, perPage } = pagination
-    const { field, order } = sort
-
-    const filters = Object.keys( filter ).map(
-      (key) => `(${key},like,~${filter[key]}~)`
-    ).join( '~and' )
-
-    const parameters = buildParameters({
-      '_p': page - 1,
-      '_size': perPage,
-      '_sort': order === 'DESC' ? `-${field}` : `${field}`,
-      '_where': filters !== '' ? filters : null
-    })
-
-    return fetch(
-      `${url}?${parameters}`
-    ).then((response) => {
+    return fetch( `${url}?${parameters}` ).then( (response) => {
       response.total = count
       return response
     })
   })
 }
 
-function getManyReference(url, params) {
-  return fetch(`${url}/count`).then((response) => {
+function getManyReference (url, params) {
+  return fetch( `${url}/count` ).then( (response) => {
     const { no_of_rows } = response.json[0]
     const count = parseInt(no_of_rows, 10)
 
@@ -80,9 +78,7 @@ function getManyReference(url, params) {
       '_where': `(${params.target},eq,${params.id})`
     })
 
-    return fetch(
-      `${url}?${parameters}${field}`
-    )
+    return fetch( `${url}?${parameters}${field}` )
   })
 }
 
@@ -93,7 +89,7 @@ const requestProxy = {
   }
 }
 
-const requestHandler = CreateRestRequest(Config.api.url, {
+const requestHandler = CreateRestRequest( Config.api.url, {
   GET_LIST: getList,
 
   GET_ONE: (url, params) => fetch(
@@ -106,17 +102,17 @@ const requestHandler = CreateRestRequest(Config.api.url, {
 
   GET_MANY_REFERENCE: getManyReference,
 
-  UPDATE: (url, params) => fetch(`${url}/${params.id}`, {
+  UPDATE: (url, params) => fetch( `${url}/${params.id}`, {
     method: 'PATCH',
     body: JSON.stringify(params.data)
   }),
 
-  CREATE: (url, params) => fetch(`${url}`, {
+  CREATE: (url, params) => fetch( `${url}`, {
     method: 'POST',
     body: JSON.stringify(params.data),
   }),
 
-  DELETE: (url, params) => fetch(`${url}/${params.id}`, {
+  DELETE: (url, params) => fetch( `${url}/${params.id}`, {
     method: 'DELETE'
   }),
 
