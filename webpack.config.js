@@ -53,7 +53,7 @@ module.exports = (env, argv) => {
 
     tools.devServer = {
       contentBase: home,
-      port: 1339
+      port: 1340
     }
 
     tools.devtool = 'source-map'
