@@ -3,7 +3,10 @@ const path = require( 'path' )
 const { DefinePlugin, HotModuleReplacementPlugin } = require( 'webpack' )
 const TerserPlugin = require( 'terser-webpack-plugin' )
 
-const alias = {}
+const alias = {
+  'lib': path.join(__dirname, 'lib')
+}
+
 const home = path.resolve( __dirname, 'static' )
 const optimization = {}
 const entry = {
