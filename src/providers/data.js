@@ -4,7 +4,7 @@ import {
   CreateRestProvider,
   CreateRestResponse,
   CreateRestRequest
-} from '../../lib/factories'
+} from 'lib/factories'
 
 import * as Config from '../../config.json'
 
