@@ -1,0 +1,13 @@
+{
+  "mysql": {
+    "connectionLimit": 1,
+    "host": "",
+    "user": "",
+    "password": "",
+    "database": ""
+  },
+  "proxy": {
+    "host": "",
+    "port": ""
+  }
+}
