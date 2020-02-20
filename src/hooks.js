@@ -7,26 +7,16 @@ export function useDataLoader ({
   resource = null
 } = {}) {
   const dataProvider = useDataProvider()
-  const [ count, setCount ] = useState( null )
   const [ error, setError ] = useState( null )
   const [ loading, setLoading ] = useState( true )
-  const [ page, setPage ] = useState( 1 )
   const [ values, setValues ] = useState([])
-
-  useEffect( () => {
-    if (values.length !== 0 && count !== null) {
-      if (count <= values.length) {
-        setLoading( false )
-      }
-    }
-  }, [ count, values ])
 
   useEffect( () => {
     if (loading && resource) {
       dataProvider.getList( resource, {
         filter: {},
         pagination: {
-          page,
+          page:1,
           perPage: 100
         },
         sort: {
@@ -34,20 +24,16 @@ export function useDataLoader ({
           order: 'ASC'
         }
       }).then( (response) => {
-        const { data, total } = response
+        const { data } = response
 
-        if (count === null) {
-          setCount( total )
-        }
-
-        setPage( page + 1)
-        setValues([ ...values, ...data.map( mapper ) ])
+        setLoading( false )
+        setValues( data.map( mapper ))
       }).catch( (error) => {
         setError( error )
         setLoading( false )
       })
     }
-  }, [ values ])
+  }, [])
 
   return [ error, loading, values ]
 }
