@@ -32,15 +32,15 @@ function getList (url, params) {
   ).join( '~and' )
 
   const parameters = buildParameters({
-    '_p': page - 1,
-    '_size': perPage,
-    '_sort': order === 'DESC' ? `-${field}` : `${field}`,
-    '_where': filters !== '' ? filters : null
+    '_p': page,
+    '_n': perPage,
+    '_s': order === 'DESC' ? `-${field}` : `${field}`,
+    '_w': filters !== '' ? filters : null
   })
 
-  return fetch( `${url}/count?_where=${filters}` ).then( (response) => {
-    const { no_of_rows } = response.json[0]
-    const count = parseInt(no_of_rows, 10)
+  return fetch( `${url}?${parameters}` ).then( (response) => {
+    const { json } = response,
+      count = json.count
 
     if (count < 1) {
       return {
@@ -49,10 +49,8 @@ function getList (url, params) {
       }
     }
 
-    return fetch( `${url}?${parameters}` ).then( (response) => {
-      response.total = count
-      return response
-    })
+    return response
+
   })
 }
 
@@ -72,7 +70,7 @@ function getManyReference (url, params) {
     const { field, order } = params.sort
 
     const parameters = buildParameters({
-      '_p': page - 1,
+      '_p': page,
       '_size': perPage,
       '_sort': order === 'DESC' ? '-' : '',
       '_where': `(${params.target},eq,${params.id})`
@@ -84,7 +82,7 @@ function getManyReference (url, params) {
 
 const requestProxy = {
   Users: {
-    GET_LIST: 'XM_Users',
+    GET_LIST: 'users',
     GET_MANY_REFERENCE: 'XM_Users'
   }
 }
@@ -137,8 +135,8 @@ function createOrUpdate(response, params) {
 
 const responseHandler = CreateRestResponse({
   GET_LIST: (response) => ({
-    data: response.json,
-    total: response.total
+    data: response.json.rows,
+    total: response.json.count
   }),
 
   CREATE: createOrUpdate,

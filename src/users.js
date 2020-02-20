@@ -25,45 +25,52 @@ const CustomSelector = ({ error, loading, props, values }) => (
   )
 )
 
-const LanguageSelector = (props) => {
-  const [error, loading, values] = useDataLoader({
-    field: 'language',
-    mapper: (row) => ({ id: row.language, name: row.language }),
-    resource: 'XM_Languages',
-  })
+// const LanguageSelector = (props) => {
+//   const [error, loading, values] = useDataLoader({
+//     field: 'language',
+//     mapper: (row) => ({ id: row.language, name: row.language }),
+//     resource: 'XM_Languages',
+//   })
 
-  return <CustomSelector { ...{ error, loading, props, values }} />
-}
+//   return <CustomSelector { ...{ error, loading, props, values }} />
+// }
 
-const ProjectSelector = (props) => {
-  const [error, loading, values] = useDataLoader({
-    mapper: (row) => ({ id: row.name, name: row.name }),
-    resource: 'Projects'
-  })
+// const ProjectSelector = (props) => {
+//   const [error, loading, values] = useDataLoader({
+//     mapper: (row) => ({ id: row.name, name: row.name }),
+//     resource: 'Projects'
+//   })
 
-  return <CustomSelector { ...{ error, loading, props, values }} />
-}
+//   return <CustomSelector { ...{ error, loading, props, values }} />
+// }
 
-const WhitelabelSelector = (props) => {
-  const [error, loading, values] = useDataLoader({
-    mapper: (row) => ({ id: row.name, name: row.name }),
-    resource: 'Whitelabels'
-  })
+// const WhitelabelSelector = (props) => {
+//   const [error, loading, values] = useDataLoader({
+//     mapper: (row) => ({ id: row.name, name: row.name }),
+//     resource: 'Whitelabels'
+//   })
 
-  return <CustomSelector { ...{ error, loading, props, values }} />
-}
+//   return <CustomSelector { ...{ error, loading, props, values }} />
+// }
 
 const UserDisplayName = ({ record }) => {
   return <span>User {record ? `"${record.display_name}"` : ''}</span>
 }
 
+// const UserFilter = (props) => (
+//   <Filter {...props}>
+//     <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn resettable />
+//     <ProjectSelector label="Search by Project" source="project" alwaysOn resettable />
+//     <TextInput label="Search by Type" source="type" alwaysOn resettable />
+//     <TextInput label="Search by Name" source="name" alwaysOn resettable />
+//     <LanguageSelector label="Search by Language" source="language" alwaysOn resettable />
+//   </Filter>
+// )
+
 const UserFilter = (props) => (
   <Filter {...props}>
-    <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn resettable />
-    <ProjectSelector label="Search by Project" source="project" alwaysOn resettable />
     <TextInput label="Search by Type" source="type" alwaysOn resettable />
-    <TextInput label="Search by Name" source="name" alwaysOn resettable />
-    <LanguageSelector label="Search by Language" source="language" alwaysOn resettable />
+    <TextInput label="Search by User name" source="user" alwaysOn resettable />
   </Filter>
 )
 
@@ -74,7 +81,7 @@ export const UserEdit = props => (
       <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn />
       <ProjectSelector label="Search by Project" source="project" alwaysOn />
       <TextInput source="type" />
-      <TextInput source="name" />
+      <TextInput source="user" />
       <LanguageSelector label="Search by Language" source="language" alwaysOn />
     </SimpleForm>
   </Edit>
@@ -87,7 +94,7 @@ export const UserList = props => (
       <TextField source="whitelabel" />
       <TextField source="project" />
       <TextField source="type" />
-      <TextField source="name" />
+      <TextField source="user" />
       <TextField source="language" />
     </Datagrid>
   </List>
