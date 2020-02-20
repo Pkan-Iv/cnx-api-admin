@@ -28,7 +28,7 @@ function getList (url, params) {
   const { field, order } = sort
 
   const filters = Object.keys( filter ).map(
-    (key) => `(${key},like,~${filter[key]}~)`
+    (key) => `(${key},eq,${filter[key]})`
   ).join( '~and' )
 
   const parameters = buildParameters({
