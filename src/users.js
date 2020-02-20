@@ -27,31 +27,30 @@ const CustomSelector = ({ error, loading, props, values }) => (
 
 const LanguageSelector = (props) => {
   const [error, loading, values] = useDataLoader({
-    field: 'language',
     mapper: (row) => ({ id: row.language, name: row.language }),
-    resource: 'Users',
+    resource: 'languages',
   })
 
   return <CustomSelector { ...{ error, loading, props, values }} />
 }
 
-// const ProjectSelector = (props) => {
-//   const [error, loading, values] = useDataLoader({
-//     mapper: (row) => ({ id: row.name, name: row.name }),
-//     resource: 'users'
-//   })
+const ProjectSelector = (props) => {
+  const [error, loading, values] = useDataLoader({
+    mapper: (row) => ({ id: row.name, name: row.name }),
+    resource: 'projects'
+  })
 
-//   return <CustomSelector { ...{ error, loading, props, values }} />
-// }
+  return <CustomSelector { ...{ error, loading, props, values }} />
+}
 
-// const WhitelabelSelector = (props) => {
-//   const [error, loading, values] = useDataLoader({
-//     mapper: (row) => ({ id: row.name, name: row.name }),
-//     resource: 'users'
-//   })
+const WhitelabelSelector = (props) => {
+  const [error, loading, values] = useDataLoader({
+    mapper: (row) => ({ id: row.name, name: row.name }),
+    resource: 'whitelabels'
+  })
 
-//   return <CustomSelector { ...{ error, loading, props, values }} />
-// }
+  return <CustomSelector { ...{ error, loading, props, values }} />
+}
 
 const UserDisplayName = ({ record }) => {
   return <span>User {record ? `"${record.display_name}"` : ''}</span>
@@ -59,22 +58,13 @@ const UserDisplayName = ({ record }) => {
 
 const UserFilter = (props) => (
   <Filter {...props}>
+    <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn resettable />
+    <ProjectSelector label="Search by Project" source="project" alwaysOn resettable />
     <TextInput label="Search by Type" source="type" alwaysOn resettable />
     <TextInput label="Search by User name" source="user" alwaysOn resettable />
     <LanguageSelector label="Search by Language" source="language" alwaysOn resettable />
   </Filter>
 )
-
-// const UserFilter = (props) => (
-//   <Filter {...props}>
-//     <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn resettable />
-//     <ProjectSelector label="Search by Project" source="project" alwaysOn resettable />
-//     <TextInput label="Search by Type" source="type" alwaysOn resettable />
-//     <TextInput label="Search by User name" source="user" alwaysOn resettable />
-//     <LanguageSelector label="Search by Language" source="language" alwaysOn resettable />
-//   </Filter>
-// )
-
 
 export const UserEdit = props => (
   <Edit title={<UserDisplayName />} {...props}>
