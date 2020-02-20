@@ -40,7 +40,7 @@ function getList (url, params) {
 
   return fetch( `${url}?${parameters}` ).then( (response) => {
     const { json } = response,
-      count = json.count
+          { count, rows } = json
 
     if (count < 1) {
       return {
@@ -49,7 +49,10 @@ function getList (url, params) {
       }
     }
 
-    return response
+    return {
+      json: rows,
+      total: count
+    }
 
   })
 }
@@ -135,8 +138,8 @@ function createOrUpdate(response, params) {
 
 const responseHandler = CreateRestResponse({
   GET_LIST: (response) => ({
-    data: response.json.rows,
-    total: response.json.count
+    data: response.json,
+    total: response.total
   }),
 
   CREATE: createOrUpdate,
