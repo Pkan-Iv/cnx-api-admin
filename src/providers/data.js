@@ -4,7 +4,7 @@ import {
   CreateRestProvider,
   CreateRestResponse,
   CreateRestRequest
-} from '../../lib/factories'
+} from 'lib/factories'
 
 import * as Config from '../../config.json'
 
@@ -14,18 +14,33 @@ const fetch = fetchUtils.fetchJson
  *  UTILS
  */
 function buildParameters (parameters) {
-  return Object.keys( parameters ).map(
+  return Object.keys(parameters).map(
     (key) => `${key}=${parameters[key]}`
-  ).join( '&' )
+  ).join('&')
 }
 
 /*
  *  REQUEST
  */
 function getList (url, params) {
-  return fetch( `${url}/count` ).then( (response) => {
-    const { no_of_rows } = response.json[0]
-    const count = parseInt( no_of_rows, 10 )
+  const { filter, pagination, sort } = params
+  const { page, perPage } = pagination
+  const { field, order } = sort
+
+  const filters = Object.keys( filter ).map(
+    (key) => `(${key},eq,${filter[key]})`
+  ).join( '~and' )
+
+  const parameters = buildParameters({
+    '_p': page,
+    '_n': perPage,
+    '_s': order === 'DESC' ? `-${field}` : `${field}`,
+    '_w': filters !== '' ? filters : null
+  })
+
+  return fetch( `${url}?${parameters}` ).then( (response) => {
+    const { json } = response,
+          { count, rows } = json
 
     if (count < 1) {
       return {
@@ -34,28 +49,18 @@ function getList (url, params) {
       }
     }
 
-    const { page, perPage } = params.pagination
-    const { field, order } = params.sort
+    return {
+      json: rows,
+      total: count
+    }
 
-    const parameters = buildParameters({
-      'p': page - 1,
-      '_size': perPage,
-      '_sort': order === 'DESC' ? '-' : ''
-    })
-
-    return fetch(
-      `${url}?${parameters}${field}`
-    ).then( (response) => {
-      response.total = count
-      return response
-    })
   })
 }
 
 function getManyReference (url, params) {
   return fetch( `${url}/count` ).then( (response) => {
     const { no_of_rows } = response.json[0]
-    const count = parseInt( no_of_rows, 10 )
+    const count = parseInt(no_of_rows, 10)
 
     if (count < 1) {
       return {
@@ -68,21 +73,19 @@ function getManyReference (url, params) {
     const { field, order } = params.sort
 
     const parameters = buildParameters({
-      'p': page - 1,
+      '_p': page,
       '_size': perPage,
       '_sort': order === 'DESC' ? '-' : '',
       '_where': `(${params.target},eq,${params.id})`
     })
 
-    return fetch(
-      `${url}?${parameters}${field}`
-    )
+    return fetch( `${url}?${parameters}${field}` )
   })
 }
 
 const requestProxy = {
   Users: {
-    GET_LIST: 'XM_Users',
+    GET_LIST: 'users',
     GET_MANY_REFERENCE: 'XM_Users'
   }
 }
@@ -95,19 +98,19 @@ const requestHandler = CreateRestRequest( Config.api.url, {
   ),
 
   GET_MANY: (url, params) => fetch(
-    `${url}/bulk/?_ids=${params.ids.join( ',' )}`
+    `${url}/bulk/?_ids=${params.ids.join(',')}`
   ),
 
   GET_MANY_REFERENCE: getManyReference,
 
   UPDATE: (url, params) => fetch( `${url}/${params.id}`, {
     method: 'PATCH',
-    body: JSON.stringify( params.data )
+    body: JSON.stringify(params.data)
   }),
 
   CREATE: (url, params) => fetch( `${url}`, {
     method: 'POST',
-    body: JSON.stringify( params.data ),
+    body: JSON.stringify(params.data),
   }),
 
   DELETE: (url, params) => fetch( `${url}/${params.id}`, {
@@ -115,16 +118,16 @@ const requestHandler = CreateRestRequest( Config.api.url, {
   }),
 
   DELETE_MANY: (url, params) => fetch(
-    `${url}/bulk/?_ids=${params.ids.join( ',' )}`, {
-      method: 'DELETE'
-    }
+    `${url}/bulk/?_ids=${params.ids.join(',')}`, {
+    method: 'DELETE'
+  }
   )
-}, requestProxy )
+}, requestProxy)
 
 /*
  *  RESPONSE
  */
-function createOrUpdate (response, params) {
+function createOrUpdate(response, params) {
   return {
     data: {
       ...params.data,
@@ -150,4 +153,4 @@ const responseHandler = CreateRestResponse({
 /*
  *  PROVIDER
  */
-export default CreateRestProvider( requestHandler, responseHandler )
+export default CreateRestProvider(requestHandler, responseHandler)

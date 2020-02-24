@@ -3,7 +3,10 @@ const path = require( 'path' )
 const { DefinePlugin, HotModuleReplacementPlugin } = require( 'webpack' )
 const TerserPlugin = require( 'terser-webpack-plugin' )
 
-const alias = {}
+const alias = {
+  'lib': path.join(__dirname, 'lib')
+}
+
 const home = path.resolve( __dirname, 'static' )
 const optimization = {}
 const entry = {
@@ -53,7 +56,7 @@ module.exports = (env, argv) => {
 
     tools.devServer = {
       contentBase: home,
-      port: 1339
+      port: 1340
     }
 
     tools.devtool = 'source-map'

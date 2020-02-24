@@ -16,7 +16,7 @@ export function useDataLoader ({
       dataProvider.getList( resource, {
         filter: {},
         pagination: {
-          page,
+          page:1,
           perPage: 100
         },
         sort: {

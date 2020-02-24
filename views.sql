@@ -1,5 +1,13 @@
 USE `ivconfigdb`;
 
+DROP VIEW IF EXISTS `XM_Languages`;
+CREATE ALGORITHM=MERGE VIEW `XM_Languages` AS SELECT
+	`language`
+FROM
+	`Users`
+GROUP BY
+	`language`;
+
 DROP VIEW IF EXISTS `XM_Users`;
 CREATE ALGORITHM=MERGE VIEW `XM_Users` AS SELECT
 	U.`id` AS `id`,

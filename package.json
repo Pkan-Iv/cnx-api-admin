@@ -40,7 +40,7 @@
   "main": "main.js",
   "scripts": {
     "build": "webpack --mode=production --progress",
-    "start": "webpack-dev-server --compress --open --progress --watch --hot",
-    "test": "mocha --require @babel/register --check-leaks --inspect --watch test/index.js"
+    "test": "mocha --require @babel/register --check-leaks --inspect --watch test/index.js",
+    "watch": "webpack-dev-server --compress --open --progress --watch --hot"
   }
 }
