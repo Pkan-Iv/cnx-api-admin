@@ -71,6 +71,19 @@ function getOne (url , params) {
 
 }
 
+function update (url, params) {
+  const { data, id } = params
+
+  return fetch (`${url}/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data)
+  }).then((response) => {
+    return {
+      json: data
+    }
+  })
+}
+
 /*
 const requestProxy = {
   Users: {
@@ -88,7 +101,7 @@ const requestHandler = CreateRestRequest( Config.api.url, {
 
   GET_MANY_REFERENCE: (url, params) => console.log( 'GET_MANY_REFERENCE', params ),
 
-  UPDATE: (url, params) => console.log( 'UPDATE', params ),
+  UPDATE: update,
 
   CREATE: (url, params) => console.log( 'CREATE', params ),
 
@@ -116,7 +129,7 @@ const responseHandler = CreateRestResponse({
   }),
 
   CREATE: createOrUpdate,
-  UPDATE: createOrUpdate,
+  UPDATE: (response) => console.log('update response:', response.json),
 
   GET_ONE: (response) => ({
     data: response
