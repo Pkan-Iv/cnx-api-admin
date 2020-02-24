@@ -2,17 +2,14 @@ import React from 'react'
 
 import {
   Datagrid,
-  DateField,
   Edit,
   Error,
   Filter,
   List,
   Loading,
-  NumberField,
   SelectInput,
   Show,
   SimpleForm,
-  SimpleShowLayout,
   TextField,
   TextInput
 } from 'react-admin'
@@ -81,7 +78,7 @@ export const UserEdit = props => (
 
 export const UserList = props => (
   <List filters={<UserFilter />} {...props}>
-    <Datagrid rowClick="show">
+    <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="whitelabel" />
       <TextField source="project" />
@@ -91,17 +88,3 @@ export const UserList = props => (
     </Datagrid>
   </List>
 )
-
-export const UserShow = props => (
-  <Show title={<UserDisplayName />} {...props}>
-    <SimpleShowLayout>
-      <TextField source="id" />
-      <TextField source="whitelabel" />
-      <TextField source="project" />
-      <TextField source="type" />
-      <TextField source="user" />
-      <TextField source="language" />
-    </SimpleShowLayout>
-  </Show>
-)
-
