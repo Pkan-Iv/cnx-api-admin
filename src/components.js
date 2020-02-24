@@ -19,7 +19,7 @@ export default function MainComponent () {
   return (
     <Provider store={ Store }>
       <Admin authProvider={ AuthProvider } dataProvider={ DataProvider } history={ History }>
-        <Resource name='Users' list={ UserList } show={ UserShow } edit={ UserEdit }/>
+        <Resource name='users' list={ UserList } show={ UserShow } edit={ UserEdit }/>
       </Admin>
     </Provider>
   )
