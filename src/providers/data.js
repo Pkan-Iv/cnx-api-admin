@@ -59,6 +59,18 @@ function getList (url, params) {
   })
 }
 
+function getOne (url , params) {
+
+  const {id} = params
+
+  return fetch(`${url}/${id}`).then((response) => {
+    const {json} = response,
+    {rows} = json
+    return rows[0]
+  })
+
+}
+
 /*
 const requestProxy = {
   Users: {
@@ -70,7 +82,7 @@ const requestProxy = {
 const requestHandler = CreateRestRequest( Config.api.url, {
   GET_LIST: getList,
 
-  GET_ONE: (url, params) => console.log( 'GET_ONE', params ),
+  GET_ONE: getOne,
 
   GET_MANY: (url, params) => console.log( 'GET_MANY', params ),
 
@@ -107,7 +119,7 @@ const responseHandler = CreateRestResponse({
   UPDATE: createOrUpdate,
 
   GET_ONE: (response) => ({
-    data: response.json[0]
+    data: response
   })
 })
 
