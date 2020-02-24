@@ -96,15 +96,11 @@ export const UserShow = props => (
   <Show title={<UserDisplayName />} {...props}>
     <SimpleShowLayout>
       <TextField source="id" />
-      <NumberField source="project_ref" />
+      <TextField source="whitelabel" />
+      <TextField source="project" />
       <TextField source="type" />
-      <TextField source="login" />
-      <TextField source="display_name" />
+      <TextField source="user" />
       <TextField source="language" />
-      <TextField source="password.type" />
-      <NumberField source="folder_ref" />
-      <DateField source="created_at" />
-      <DateField source="updated_at" />
     </SimpleShowLayout>
   </Show>
 )
