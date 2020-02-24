@@ -14,7 +14,9 @@ const fetch = fetchUtils.fetchJson
  *  UTILS
  */
 function buildParameters (parameters) {
-  return Object.keys(parameters).map(
+  return Object.keys(parameters).filter(
+    (key) => parameters[key] !== null
+  ).map(
     (key) => `${key}=${parameters[key]}`
   ).join('&')
 }
