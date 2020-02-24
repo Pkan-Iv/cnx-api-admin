@@ -57,72 +57,31 @@ function getList (url, params) {
   })
 }
 
-function getManyReference (url, params) {
-  return fetch( `${url}/count` ).then( (response) => {
-    const { no_of_rows } = response.json[0]
-    const count = parseInt(no_of_rows, 10)
-
-    if (count < 1) {
-      return {
-        data: [],
-        total: 0
-      }
-    }
-
-    const { page, perPage } = params.pagination
-    const { field, order } = params.sort
-
-    const parameters = buildParameters({
-      '_p': page,
-      '_size': perPage,
-      '_sort': order === 'DESC' ? '-' : '',
-      '_where': `(${params.target},eq,${params.id})`
-    })
-
-    return fetch( `${url}?${parameters}${field}` )
-  })
-}
-
+/*
 const requestProxy = {
   Users: {
-    GET_LIST: 'users',
-    GET_MANY_REFERENCE: 'XM_Users'
+    GET_LIST: 'users'
   }
 }
+*/
 
 const requestHandler = CreateRestRequest( Config.api.url, {
   GET_LIST: getList,
 
-  GET_ONE: (url, params) => fetch(
-    `${url}/${params.id}`
-  ),
+  GET_ONE: (url, params) => console.log( 'GET_ONE', params ),
 
-  GET_MANY: (url, params) => fetch(
-    `${url}/bulk/?_ids=${params.ids.join(',')}`
-  ),
+  GET_MANY: (url, params) => console.log( 'GET_MANY', params ),
 
-  GET_MANY_REFERENCE: getManyReference,
+  GET_MANY_REFERENCE: (url, params) => console.log( 'GET_MANY_REFERENCE', params ),
 
-  UPDATE: (url, params) => fetch( `${url}/${params.id}`, {
-    method: 'PATCH',
-    body: JSON.stringify(params.data)
-  }),
+  UPDATE: (url, params) => console.log( 'UPDATE', params ),
 
-  CREATE: (url, params) => fetch( `${url}`, {
-    method: 'POST',
-    body: JSON.stringify(params.data),
-  }),
+  CREATE: (url, params) => console.log( 'CREATE', params ),
 
-  DELETE: (url, params) => fetch( `${url}/${params.id}`, {
-    method: 'DELETE'
-  }),
+  DELETE: (url, params) => console.log( 'DELETE', params ),
 
-  DELETE_MANY: (url, params) => fetch(
-    `${url}/bulk/?_ids=${params.ids.join(',')}`, {
-    method: 'DELETE'
-  }
-  )
-}, requestProxy)
+  DELETE_MANY: (url, params) => console.log( 'DELETE_MANY', params ),
+}, /* requestProxy */ )
 
 /*
  *  RESPONSE
