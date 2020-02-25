@@ -41,19 +41,14 @@ const ProjectSelector = (props) => {
   return <CustomSelector { ...{ error, loading, props, values }} />
 }
 
-/*
 const TypeSelector = (props) => {
   const [error, loading, values] = useDataLoader({
-    mapper: (row) => (row),
-    resource: 'users'
+    mapper: (row) => ({ id: row.id, name: row.type }),
+    resource: 'types'
   })
-
-  console.log(values)
-
 
   return <CustomSelector { ...{ error, loading, props, values }} />
 }
- */
 
 const WhitelabelSelector = (props) => {
   const [error, loading, values] = useDataLoader({
@@ -73,7 +68,7 @@ export const UserCreate = props => (
     <SimpleForm>
       <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn />
       <ProjectSelector label="Search by Project" source="project" alwaysOn />
-      <TextInput source="type" />
+      <TypeSelector label="Search by Type" source="type" alwaysOn resettable />
       <TextInput source="user" />
       <LanguageSelector label="Search by Language" source="language" alwaysOn />
     </SimpleForm>
@@ -86,7 +81,7 @@ export const UserEdit = props => (
       <TextInput source="id" />
       <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn />
       <ProjectSelector label="Search by Project" source="project" alwaysOn />
-      <TextInput source="type" />
+      <TypeSelector label="Search by Type" source="type" alwaysOn resettable />
       <TextInput source="user" />
       <LanguageSelector label="Search by Language" source="language" alwaysOn />
     </SimpleForm>
@@ -97,23 +92,12 @@ const UserFilter = (props) => (
   <Filter {...props}>
     <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn resettable />
     <ProjectSelector label="Search by Project" source="project" alwaysOn resettable />
-    <TextInput label="Search by Type" source="type" alwaysOn resettable />
-    <TextInput label="Search by User name" source="user" alwaysOn resettable />
-    <LanguageSelector label="Search by Language" source="language" alwaysOn resettable />
-  </Filter>
-)
-
-/*
-const UserFilter = (props) => (
-  <Filter {...props}>
-    <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn resettable />
-    <ProjectSelector label="Search by Project" source="project" alwaysOn resettable />
     <TypeSelector label="Search by Type" source="type" alwaysOn resettable />
     <TextInput label="Search by User name" source="user" alwaysOn resettable />
     <LanguageSelector label="Search by Language" source="language" alwaysOn resettable />
   </Filter>
 )
- */
+
 
 export const UserList = props => (
   <List filters={<UserFilter />} {...props}>
