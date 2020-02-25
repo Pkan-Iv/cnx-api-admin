@@ -8,7 +8,6 @@ import {
   List,
   Loading,
   SelectInput,
-  Show,
   SimpleForm,
   TextField,
   TextInput
@@ -17,8 +16,8 @@ import {
 import { useDataLoader } from './hooks'
 
 const CustomSelector = ({ error, loading, props, values }) => (
-  error ? <Error /> : (
-    loading ? <Loading /> : <SelectInput {...props} choices={values} />
+  loading ? <Loading /> : (
+    error ? <Error /> : <SelectInput {...props} choices={values} />
   )
 )
 
@@ -37,6 +36,7 @@ const ProjectSelector = (props) => {
     resource: 'projects'
   })
 
+
   return <CustomSelector { ...{ error, loading, props, values }} />
 }
 
@@ -46,11 +46,12 @@ const WhitelabelSelector = (props) => {
     resource: 'whitelabels'
   })
 
+
   return <CustomSelector { ...{ error, loading, props, values }} />
 }
 
 const UserDisplayName = ({ record }) => {
-  return <span>User {record ? `"${record.display_name}"` : ''}</span>
+  return <span>User {record ? `"${record.user}"` : ''}</span>
 }
 
 const UserFilter = (props) => (
