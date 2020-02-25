@@ -81,7 +81,7 @@ export const UserCreate = props => (
 )
 
 export const UserEdit = props => (
-  <Edit title={<UserDisplayName />} {...props}>
+  <Edit title={<span>Edit <UserDisplayName /></span>} {...props}>
     <SimpleForm>
       <TextInput source="id" />
       <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn />
