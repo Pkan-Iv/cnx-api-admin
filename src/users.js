@@ -23,7 +23,7 @@ const CustomSelector = ({ error, loading, props, values }) => (
 
 const LanguageSelector = (props) => {
   const [error, loading, values] = useDataLoader({
-    mapper: (row) => ({ id: row.language, name: row.language }),
+    mapper: (row) => ({ id: row.id, name: row.language }),
     resource: 'languages',
   })
 
@@ -32,7 +32,7 @@ const LanguageSelector = (props) => {
 
 const ProjectSelector = (props) => {
   const [error, loading, values] = useDataLoader({
-    mapper: (row) => ({ id: row.name, name: row.name }),
+    mapper: (row) => ({ id: row.id, name: row.name }),
     resource: 'projects'
   })
 
@@ -42,7 +42,7 @@ const ProjectSelector = (props) => {
 
 const WhitelabelSelector = (props) => {
   const [error, loading, values] = useDataLoader({
-    mapper: (row) => ({ id: row.name, name: row.name }),
+    mapper: (row) => ({ id: row.id, name: row.name }),
     resource: 'whitelabels'
   })
 
