@@ -26,8 +26,8 @@ export function useDataLoader ({
       }).then( (response) => {
         const { data } = response
 
-        setLoading( false )
         setValues( data.map( mapper ))
+        setLoading( false )
       }).catch( (error) => {
         setError( error )
         setLoading( false )
