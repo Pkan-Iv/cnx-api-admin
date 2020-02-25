@@ -40,6 +40,18 @@ function create (url, params) {
   })
 }
 
+function deleteOne (url, params) {
+  const { id } = params
+
+  return fetch (`${url}/${id}`, {
+    method: 'DELETE',
+  }).then((response) => {
+    return {
+      data: response
+    }
+  })
+}
+
 function getList (url, params) {
   const { filter, pagination, sort } = params
   const { page, perPage } = pagination
@@ -124,7 +136,7 @@ const requestHandler = CreateRestRequest( Config.api.url, {
 
   CREATE: create,
 
-  DELETE: (url, params) => console.log( 'DELETE', params ),
+  DELETE: deleteOne,
 
   DELETE_MANY: (url, params) => console.log( 'DELETE_MANY', params ),
 }, /* requestProxy */ )
@@ -142,17 +154,23 @@ function createOrUpdate(response, params) {
 }
 
 const responseHandler = CreateRestResponse({
+
+
+  CREATE: (response) => console.log('create response data:', response.data),
+
+  DELETE: (response) => console.log('create delete data:', response),
+
   GET_LIST: (response) => ({
     data: response.json,
     total: response.total
   }),
 
-  CREATE: (response) => console.log('create response data:', response.data),
-  UPDATE: (response) => console.log('update response:', response.json),
-
   GET_ONE: (response) => ({
     data: response
-  })
+  }),
+
+  UPDATE: (response) => console.log('update response:', response.json),
+
 })
 
 /*
