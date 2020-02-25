@@ -4,7 +4,7 @@ import { createHashHistory } from 'history'
 import { Admin, Resource } from 'react-admin'
 
 import { AuthProvider, DataProvider } from './providers'
-import { UserEdit, UserList } from './users'
+import { UserCreate, UserEdit, UserList } from './users'
 import CreateStore from './store'
 
 const History = createHashHistory()
@@ -19,7 +19,7 @@ export default function MainComponent () {
   return (
     <Provider store={ Store }>
       <Admin authProvider={ AuthProvider } dataProvider={ DataProvider } history={ History }>
-        <Resource name='users' list={ UserList } edit={ UserEdit }/>
+        <Resource name='users' create={ UserCreate }  edit={ UserEdit } list={ UserList } />
       </Admin>
     </Provider>
   )

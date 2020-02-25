@@ -24,6 +24,22 @@ function buildParameters (parameters) {
 /*
  *  REQUEST
  */
+
+function create (url, params) {
+  const { data } = params
+
+  console.log(params)
+
+  return fetch (`${url}`, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }).then((response) => {
+    return {
+      data: data
+    }
+  })
+}
+
 function getList (url, params) {
   const { filter, pagination, sort } = params
   const { page, perPage } = pagination
@@ -74,6 +90,9 @@ function getOne (url , params) {
 function update (url, params) {
   const { data, id } = params
 
+  console.log(params)
+
+
   return fetch (`${url}/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(data)
@@ -103,7 +122,7 @@ const requestHandler = CreateRestRequest( Config.api.url, {
 
   UPDATE: update,
 
-  CREATE: (url, params) => console.log( 'CREATE', params ),
+  CREATE: create,
 
   DELETE: (url, params) => console.log( 'DELETE', params ),
 
@@ -128,7 +147,7 @@ const responseHandler = CreateRestResponse({
     total: response.total
   }),
 
-  CREATE: createOrUpdate,
+  CREATE: (response) => console.log('create response data:', response.data),
   UPDATE: (response) => console.log('update response:', response.json),
 
   GET_ONE: (response) => ({
