@@ -102,9 +102,6 @@ function getOne (url , params) {
 function update (url, params) {
   const { data, id } = params
 
-  console.log(params)
-
-
   return fetch (`${url}/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(data)
