@@ -28,14 +28,14 @@ function buildParameters (parameters) {
 function create (url, params) {
   const { data } = params
 
-  console.log(params)
-
   return fetch (`${url}`, {
     method: 'POST',
     body: JSON.stringify(data)
-  }).then((response) => {
+  }).then(({ json }) => {
     return {
-      data: data
+      data: {
+        ...data
+      }
     }
   })
 }
@@ -106,9 +106,10 @@ function update (url, params) {
     method: 'PATCH',
     body: JSON.stringify(data)
   }).then((response) => {
-    return {
+    /* return {
       json: data
-    }
+    } */
+    console.log(response)
   })
 }
 
@@ -152,8 +153,9 @@ function createOrUpdate(response, params) {
 
 const responseHandler = CreateRestResponse({
 
-
-  CREATE: (response) => console.log('create response data:', response.data),
+  CREATE: (response) => ({
+    data:response.data
+  }),
 
   DELETE: (response) => console.log('create delete data:', response),
 
