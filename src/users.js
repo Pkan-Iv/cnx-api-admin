@@ -60,7 +60,7 @@ const WhitelabelSelector = (props) => {
 }
 
 const UserDisplayName = ({ record }) => {
-  return <span>User {record ? `"${record.user}"` : ''}</span>
+  return <span>User {record ? `"${record.display_name}"` : ''}</span>
 }
 
 export const UserCreate = props => (
@@ -69,7 +69,7 @@ export const UserCreate = props => (
       <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn />
       <ProjectSelector label="Search by Project" source="project" alwaysOn />
       <TypeSelector label="Search by Type" source="type" alwaysOn resettable />
-      <TextInput source="user" />
+      <TextInput source="display_name" />
       <LanguageSelector label="Search by Language" source="language" alwaysOn />
     </SimpleForm>
   </Create>
@@ -82,7 +82,7 @@ export const UserEdit = props => (
       <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn />
       <ProjectSelector label="Search by Project" source="project" alwaysOn />
       <TypeSelector label="Search by Type" source="type" alwaysOn resettable />
-      <TextInput source="user" />
+      <TextInput source="display_name" />
       <LanguageSelector label="Search by Language" source="language" alwaysOn />
     </SimpleForm>
   </Edit>
@@ -93,7 +93,7 @@ const UserFilter = (props) => (
     <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn resettable />
     <ProjectSelector label="Search by Project" source="project" alwaysOn resettable />
     <TypeSelector label="Search by Type" source="type" alwaysOn resettable />
-    <TextInput label="Search by User name" source="user" alwaysOn resettable />
+    <TextInput label="Search by User name" source="display_name" alwaysOn resettable />
     <LanguageSelector label="Search by Language" source="language" alwaysOn resettable />
   </Filter>
 )
@@ -106,7 +106,7 @@ export const UserList = props => (
       <TextField source="whitelabel" />
       <TextField source="project" />
       <TextField source="type" />
-      <TextField source="user" />
+      <TextField source="display_name" />
       <TextField source="language" />
     </Datagrid>
   </List>
