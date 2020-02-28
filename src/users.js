@@ -8,6 +8,7 @@ import {
   Filter,
   List,
   Loading,
+  ReferenceInput,
   SelectInput,
   SimpleForm,
   TextField,
@@ -18,7 +19,8 @@ import { useDataLoader } from './hooks'
 
 const CustomSelector = ({ error, loading, props, values }) => (
   loading ? <Loading /> : (
-    error ? <Error /> : <SelectInput {...props} choices={values} optionValue="name" />
+    error ? <Error /> : (
+      <SelectInput {...props} choices={values} optionValue="name" />)
   )
 )
 
@@ -69,6 +71,7 @@ export const UserCreate = props => (
       <WhitelabelSelector label="Search by Whitelabel" source="whitelabel" alwaysOn />
       <ProjectSelector label="Search by Project" source="project" alwaysOn />
       <TypeSelector label="Search by Type" source="type" alwaysOn resettable />
+      <TextInput source="login" />
       <TextInput source="display_name" />
       <LanguageSelector label="Search by Language" source="language" alwaysOn />
     </SimpleForm>
