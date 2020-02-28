@@ -32,10 +32,9 @@ function create (url, params) {
     method: 'POST',
     body: JSON.stringify(data)
   }).then(({ json }) => {
+    const { rows } = json
     return {
-      data: {
-        ...data
-      }
+      data: rows[0]
     }
   })
 }
@@ -102,14 +101,16 @@ function getOne (url , params) {
 function update (url, params) {
   const { data, id } = params
 
+  console.log(params)
+
   return fetch (`${url}/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(data)
   }).then((response) => {
-    /* return {
-      json: data
-    } */
     console.log(response)
+    return {
+      json: data
+    }
   })
 }
 
