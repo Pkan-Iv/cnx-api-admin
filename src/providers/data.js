@@ -110,6 +110,7 @@ function update(url, params) {
     method: 'PATCH',
     body: JSON.stringify(data)
   }).then((response) => {
+    console.log(response)
     return {
       json: data
     }
@@ -173,7 +174,9 @@ const responseHandler = CreateRestResponse({
     data: response
   }),
 
-  UPDATE: (response) => console.log('update response:', response.json),
+  UPDATE: (response) =>  ({
+    data:response.json
+  }),
 
 })
 
