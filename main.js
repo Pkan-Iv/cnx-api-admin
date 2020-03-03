@@ -6,10 +6,11 @@ import './src/styles.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline'
 
-import Application from './src/components'
+import Application from './src/components/'
 import Store from './src/store'
 
 const Theme = createMuiTheme({
