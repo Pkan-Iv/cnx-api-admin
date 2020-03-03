@@ -3,12 +3,13 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import {
   AppBar,
+  Box,
   Button,
   Container,
   Grid,
   Paper,
   TextField,
-  Toolbar
+  Toolbar,
 } from '@material-ui/core'
 
 import Typography from '@material-ui/core/Typography'
@@ -50,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 
 
     submit: {
-      margin: theme.spacing(3, 0, 2)
+      margin: '0 auto'
     }
   }
 }))
@@ -64,7 +65,7 @@ export function LoginComponent(props) {
 
     return [
       fields,
-      function(event) {
+      function (event) {
         setValues({
           ...fields,
           [event.target.id]: event.target.value
@@ -97,7 +98,7 @@ export function LoginComponent(props) {
   }
 
   return (
-    <form className={ classes.form } onSubmit={ handleSubmit }>
+    <form className={classes.form} onSubmit={handleSubmit}>
       <TextField
         autoFocus
         fullWidth
@@ -105,7 +106,7 @@ export function LoginComponent(props) {
         label="Username"
         margin="normal"
         name="username"
-        onChange={ handleFieldChange }
+        onChange={handleFieldChange}
         required
         variant="outlined"
       />
@@ -116,21 +117,25 @@ export function LoginComponent(props) {
         label="Password"
         margin="normal"
         name="password"
-        onChange={ handleFieldChange }
+        onChange={handleFieldChange}
         required
         type="password"
         variant="outlined"
       />
 
-      <Button
-        className={classes.submit}
-        color="primary"
-        fullWidth
-        type="submit"
-        variant="contained"
-      >
-        Sign In
-      </Button>
+
+      <Box
+        display="flex"
+        justifyContent="center">
+        <Button
+          className={classes.submit}
+          color="primary"
+          type="submit"
+          variant="contained"
+        >
+          Sign In
+        </Button>
+      </Box>
     </form>
   )
 }
