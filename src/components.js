@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import {
   AppBar,
+  Button,
   Container,
   Grid,
   Paper,
+  TextField,
   Toolbar
 } from '@material-ui/core'
 
@@ -14,6 +16,11 @@ import Typography from '@material-ui/core/Typography'
 const useStyles = makeStyles(theme => ({
   appBar: {
     position: 'relative'
+  },
+
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
   },
 
   layout: {
@@ -39,9 +46,95 @@ const useStyles = makeStyles(theme => ({
       marginTop: theme.spacing(6),
       marginBottom: theme.spacing(6),
       padding: theme.spacing(3)
+    },
+
+
+    submit: {
+      margin: theme.spacing(3, 0, 2)
     }
   }
 }))
+
+
+export function LoginComponent(props) {
+
+  // Hook that gets the credentials
+  function useFormFields(initialState) {
+    const [fields, setValues] = useState(initialState)
+
+    return [
+      fields,
+      function(event) {
+        setValues({
+          ...fields,
+          [event.target.id]: event.target.value
+        })
+      }
+    ]
+  }
+
+  const classes = useStyles()
+
+  // Input fields
+  const [fields, handleFieldChange] = useFormFields({
+    username: '',
+    password: ''
+  }),
+    { password, username } = fields
+
+
+
+  function handleSubmit(e) {
+
+    e.preventDefault()
+
+    alert('Login successful!')
+
+    // TODO authentication
+
+    console.log(username)
+    console.log(password)
+  }
+
+  return (
+    <form className={ classes.form } onSubmit={ handleSubmit }>
+      <TextField
+        autoFocus
+        fullWidth
+        id="username"
+        label="Username"
+        margin="normal"
+        name="username"
+        onChange={ handleFieldChange }
+        required
+        variant="outlined"
+      />
+
+      <TextField
+        fullWidth
+        id="password"
+        label="Password"
+        margin="normal"
+        name="password"
+        onChange={ handleFieldChange }
+        required
+        type="password"
+        variant="outlined"
+      />
+
+      <Button
+        className={classes.submit}
+        color="primary"
+        fullWidth
+        type="submit"
+        variant="contained"
+      >
+        Sign In
+      </Button>
+    </form>
+  )
+}
+
 
 export default function () {
   const classes = useStyles()
@@ -59,7 +152,9 @@ export default function () {
       <Container className={classes.layout} fixed>
         <Grid container spacing={0}>
           <Grid item xs={12}>
-            <Paper className={classes.paper}>Hello react :)</Paper>
+            <Paper className={classes.paper}>
+              <LoginComponent />
+            </Paper>
           </Grid>
         </Grid>
       </Container>
