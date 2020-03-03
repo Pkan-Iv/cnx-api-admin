@@ -11,7 +11,7 @@ import {
 
 import Typography from '@material-ui/core/Typography'
 
-const useStyles = makeStyles( theme => ({
+const useStyles = makeStyles(theme => ({
   appBar: {
     position: 'relative'
   },
@@ -48,7 +48,7 @@ export default function () {
 
   return (
     <React.Fragment>
-      <AppBar position='absolute' color='default' className={ classes.appBar }>
+      <AppBar position='absolute' color='default' className={classes.appBar}>
         <Toolbar>
           <Typography variant='h6' color='inherit' noWrap>
             Connectics API Admin
@@ -56,13 +56,13 @@ export default function () {
         </Toolbar>
       </AppBar>
 
-      <Container className={ classes.layout } fixed>
-        <Grid container spacing={ 0 }>
-          <Grid item xs={ 12 }>
-            <Paper className={ classes.paper }>Hello react :)</Paper>
+      <Container className={classes.layout} fixed>
+        <Grid container spacing={0}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>Hello react :)</Paper>
           </Grid>
         </Grid>
       </Container>
     </React.Fragment>
-  );
+  )
 }
