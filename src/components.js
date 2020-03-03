@@ -11,7 +11,6 @@ import {
 
 import Typography from '@material-ui/core/Typography'
 
-
 const useStyles = makeStyles( theme => ({
   appBar: {
     position: 'relative'
@@ -52,7 +51,7 @@ export default function () {
       <AppBar position='absolute' color='default' className={ classes.appBar }>
         <Toolbar>
           <Typography variant='h6' color='inherit' noWrap>
-            Material UI Admin
+            Connectics API Admin
           </Typography>
         </Toolbar>
       </AppBar>
