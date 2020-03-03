@@ -41,27 +41,27 @@ export default function DataTable({
         [ page, setPage ] = React.useState( 0 ),
         rowsPerPage = 25
 
-  function handleRequestSort (e, cell) {
-    setOrder( (field === cell && order === 'asc') ? 'desc' : 'asc' )
-    setField( cell )
+  function handleChange (e, value) {
+    setPage( value )
   }
 
   function handleClick (e, value) {
     // TODO
   }
 
-  function handlePageChange (e, value) {
-    setPage( value )
+  function handleSort (e, cell) {
+    setOrder( (field === cell && order === 'asc') ? 'desc' : 'asc' )
+    setField( cell )
   }
 
   function renderHead (cells) {
     return cells.map( (cell) => {
-      const { label, name } = cell
+      const { label, name } = cell,
+            clickHandler = CreateHandler( handleSort, row.name )
 
       return (
         <TableCell align='left' key={ name } padding='default' sortDirection={ field === name ? order : false }>
-          <TableSortLabel active={ field === name } direction={ field === name ? order : 'asc' }
-            onClick={ CreateHandler( handleRequestSort, name )}>
+          <TableSortLabel active={ field === name } direction={ field === name ? order : 'asc' } onClick={ clickHandler }>
             { label }
           </TableSortLabel>
         </TableCell>
@@ -69,18 +69,20 @@ export default function DataTable({
     })
   }
 
+  // FIXME: hardcoded field's names
+  // TODO: Manage align property
   function renderRows (rows) {
     return rows.map( (row, index) => {
-      const id = `enhanced-table-checkbox-${index}`
+      const id = `enhanced-table-checkbox-${index}`,
+            clickHandler = CreateHandler( handleClick, row.name )
 
       return (
-        <TableRow key={ row.name } hover tabIndex={ -1 }
-          onClick={ CreateHandler( handleClick, row.name )}>
-          <TableCell component="th" id={ id } scope="row">{ row.name }</TableCell>
-          <TableCell align="right">{ row.calories }</TableCell>
-          <TableCell align="right">{ row.fat }</TableCell>
-          <TableCell align="right">{ row.carbs }</TableCell>
-          <TableCell align="right">{ row.protein }</TableCell>
+        <TableRow key={ row.name } hover tabIndex={ -1 } onClick={ clickHandler }>
+          <TableCell component='th' id={ id } scope='row'>{ row.name }</TableCell>
+          <TableCell align='left'>{ row.calories }</TableCell>
+          <TableCell align='left'>{ row.fat }</TableCell>
+          <TableCell align='left'>{ row.carbs }</TableCell>
+          <TableCell align='left'>{ row.protein }</TableCell>
         </TableRow>
       )
     })
