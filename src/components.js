@@ -1,26 +1,69 @@
 import React from 'react'
-import { Provider } from 'react-redux'
-import { createHashHistory } from 'history'
-import { Admin, Resource } from 'react-admin'
+import { makeStyles } from '@material-ui/core/styles'
 
-import { AuthProvider, DataProvider } from './providers'
-import { UserCreate, UserEdit, UserList } from './users'
-import CreateStore from './store'
+import {
+  AppBar,
+  Container,
+  Grid,
+  Paper,
+  Toolbar
+} from '@material-ui/core'
 
-const History = createHashHistory()
+import Typography from '@material-ui/core/Typography'
 
-const Store = CreateStore({
-  authProvider: AuthProvider,
-  dataProvider: DataProvider,
-  history: History
-})
 
-export default function MainComponent () {
+const useStyles = makeStyles( theme => ({
+  appBar: {
+    position: 'relative'
+  },
+
+  layout: {
+    flexGrow: 1,
+    height: '100vh',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    width: 'auto',
+
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: 600,
+      marginLeft: 'auto',
+      marginRight: 'auto'
+    }
+  },
+
+  paper: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3)
+    }
+  }
+}))
+
+export default function () {
+  const classes = useStyles()
+
   return (
-    <Provider store={ Store }>
-      <Admin authProvider={ AuthProvider } dataProvider={ DataProvider } history={ History }>
-        <Resource name='users' create={ UserCreate }  edit={ UserEdit } list={ UserList } />
-      </Admin>
-    </Provider>
-  )
+    <React.Fragment>
+      <AppBar position='absolute' color='default' className={ classes.appBar }>
+        <Toolbar>
+          <Typography variant='h6' color='inherit' noWrap>
+            Material UI Admin
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Container className={ classes.layout } fixed>
+        <Grid container spacing={ 0 }>
+          <Grid item xs={ 12 }>
+            <Paper className={ classes.paper }>Hello react :)</Paper>
+          </Grid>
+        </Grid>
+      </Container>
+    </React.Fragment>
+  );
 }

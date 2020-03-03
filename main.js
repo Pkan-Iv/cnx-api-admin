@@ -1,11 +1,28 @@
-import './lib/style.css'
+import './src/styles.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline'
 
-import MainComponent from './src/components'
+import Application from './src/components'
+import Store from './src/store'
+
+const Theme = createMuiTheme({
+  palette: {
+    type: 'dark'
+  }
+})
 
 ReactDOM.render(
-  <MainComponent />,
+  <Provider store={ Store }>
+    <ThemeProvider theme={ Theme }>
+      <ScopedCssBaseline>
+        <Application />
+      </ScopedCssBaseline>
+    </ThemeProvider>
+  </Provider>,
+
   document.getElementById( 'root' )
 )
