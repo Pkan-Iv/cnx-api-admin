@@ -4,7 +4,7 @@ const { DefinePlugin, HotModuleReplacementPlugin } = require( 'webpack' )
 const TerserPlugin = require( 'terser-webpack-plugin' )
 
 const alias = {
-  'lib': path.join(__dirname, 'lib')
+  'lib': path.join( __dirname, 'lib' )
 }
 
 const home = path.resolve( __dirname, 'static' )
@@ -16,7 +16,6 @@ const entry = {
 const exclude = [
   path.resolve( __dirname, 'node_modules' ),
   path.resolve( __dirname, 'static' ),
-  path.resolve( __dirname, 'test' ),
   home
 ]
 
@@ -98,9 +97,12 @@ module.exports = (env, argv) => {
               {
                 loader: 'babel-loader',
                 options: {
-                  plugins: [],
+                  plugins: [ '@babel/plugin-transform-runtime' ],
                   presets: [
-                    '@babel/preset-env',
+                    [ '@babel/preset-env',{
+                      'modules': false,
+                      'corejs': 3
+                    }],
                     '@babel/preset-react'
                   ]
                 }
