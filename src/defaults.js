@@ -1,3 +1,4 @@
 export const Context = {
-  authenticated: false
+  // authenticated: false
+  authenticated: true
 }

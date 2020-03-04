@@ -8,7 +8,9 @@ import {
   TextField
 } from '@material-ui/core'
 
+import { CREDENTIALS } from '../descriptors'
 import { useFormFields } from '../hooks'
+import { useStore } from '../../lib/hooks'
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -38,14 +40,15 @@ export default function Auth () {
         [ fields, handleFieldChange ] = useFormFields({
           username: '',
           password: ''
-        })
+        }),
+        [ state, dispatch ] = useStore()
 
   function handleSubmit (e) {
     const { password, username } = fields
 
     e.preventDefault()
 
-    console.log({ username, password })
+    dispatch({ type: CREDENTIALS.POST.SUCCESS })
   }
 
   return (

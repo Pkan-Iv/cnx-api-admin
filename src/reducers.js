@@ -1,6 +1,6 @@
 import { CreateReducer, ConnectMutator } from '../lib/factories'
 import { Context } from './defaults'
-import { USERS } from './descriptors'
+import { CREDENTIALS, USERS } from './descriptors'
 
 const CreateArrayReducer = CreateReducer( [] ),
       CreateContextReducer = CreateReducer( Context ),
@@ -9,7 +9,13 @@ const CreateArrayReducer = CreateReducer( [] ),
       CreateStringReducer = CreateReducer( '' )
 
 export const ContextReducer = CreateContextReducer(
-  // TODO
+  ConnectMutator( (s, p) => ({ ...s, authenticated: true }),
+    CREDENTIALS.POST.SUCCESS
+  ),
+
+  ConnectMutator( (s, p) => ({ ...s, authenticated: false }),
+    CREDENTIALS.DELETE.SUCCESS
+  )
 )
 
 export const CountReducer = CreateNumberReducer(

@@ -16,6 +16,7 @@ import { useStore } from '../../lib/hooks'
 import Auth  from './auth'
 import Panel from './panel'
 import Views from './views'
+import { CREDENTIALS } from '../descriptors'
 
 const useStyles = makeStyles( (theme) => ({
   grow: {
@@ -57,6 +58,10 @@ export default function Application () {
     setView({ type: 'add' })
   }
 
+  function handleLogout () {
+    dispatch({ type: CREDENTIALS.DELETE.SUCCESS })
+  }
+
   function handleSelect (id) {
     setView({ type: 'edit', id })
   }
@@ -93,7 +98,7 @@ export default function Application () {
             Connectics API Admin
           </Typography>
 
-          { authenticated ? <Button color='inherit'>Logout</Button> : null }
+          { authenticated ? <Button color='inherit' onClick={ handleLogout }>Logout</Button> : null }
         </Toolbar>
       </AppBar>
 
