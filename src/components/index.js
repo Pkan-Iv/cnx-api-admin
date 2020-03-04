@@ -11,6 +11,9 @@ import {
   Typography
 } from '@material-ui/core'
 
+import { useStore } from '../../lib/hooks'
+
+import Auth  from './auth'
 import Panel from './panel'
 import Views from './views'
 
@@ -40,8 +43,10 @@ function GetTabProps (index) {
 
 export default function Application () {
   const classes = useStyles(),
+        [ { context }, dispatch ] = useStore(),
         [ tab, setTab ] = useState( 0 ),
-        [ view, setView ] = useState({ type: 'list' })
+        [ view, setView ] = useState({ type: 'list' }),
+        { authenticated } = context
 
   function handleChange (e, index) {
     setTab( index )
@@ -88,17 +93,19 @@ export default function Application () {
             Connectics API Admin
           </Typography>
 
-          <Button color='inherit'>Logout</Button>
+          { authenticated ? <Button color='inherit'>Logout</Button> : null }
         </Toolbar>
       </AppBar>
 
-      <div className={ classes.layout }>
-        <Tabs className={ classes.tabs } onChange={ handleChange } orientation='vertical' value={ tab } variant='scrollable'>
-          { renderTabs() }
-        </Tabs>
+      { !authenticated ? <Auth /> : (
+        <div className={ classes.layout }>
+          <Tabs className={ classes.tabs } onChange={ handleChange } orientation='vertical' value={ tab } variant='scrollable'>
+            { renderTabs() }
+          </Tabs>
 
-        { renderPanels() }
-      </div>
+          { renderPanels() }
+        </div>
+      )}
     </Fragment>
   )
 }
