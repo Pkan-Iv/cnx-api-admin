@@ -10,6 +10,13 @@ import {
   ActionReducer,
 } from '../lib/reducers'
 
+import {
+  CountReducer,
+  ReasonReducer,
+  RowReducer,
+  RowsReducer
+} from './reducers'
+
 const composer = WEBPACK_MODE === 'development' ? composeWithDevTools : compose
 
 const middlewares = composer( applyMiddleware(
@@ -18,7 +25,11 @@ const middlewares = composer( applyMiddleware(
 ))
 
 const reducers = combineReducers({
-  action: ActionReducer
+  action: ActionReducer,
+  count: CountReducer,
+  reason: ReasonReducer,
+  row: RowReducer,
+  rows: RowsReducer
 })
 
 export default createStore( reducers, middlewares )
