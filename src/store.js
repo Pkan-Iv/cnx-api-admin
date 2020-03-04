@@ -11,6 +11,7 @@ import {
 } from '../lib/reducers'
 
 import {
+  ContextReducer,
   CountReducer,
   ReasonReducer,
   RowReducer,
@@ -26,6 +27,7 @@ const middlewares = composer( applyMiddleware(
 
 const reducers = combineReducers({
   action: ActionReducer,
+  context: ContextReducer,
   count: CountReducer,
   reason: ReasonReducer,
   row: RowReducer,
