@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import {
   get_all_users
@@ -9,9 +9,34 @@ import { Box, TextField } from '@material-ui/core'
 
 export default {
   Users: {
-    add: () => (
-      <h3>Add a new user</h3>
-    ),
+    add: () => {
+      const input = {
+        margin: '5 auto',
+        width: '60%'
+      }
+
+      return (
+        <Fragment>
+          <Box>
+            <h3>Add a new user</h3>
+          </Box>
+          <form
+            autoComplete='off'
+            noValidate
+            width='auto'
+          >
+            <Box component='span' display='block' height='100%' >
+              <TextField id='username' label='Username' variant='outlined' margin='normal' style={input} />
+              <TextField id='login' label='Login' variant='outlined' margin='normal' style={input} />
+              <TextField id='type' label='Type' variant='outlined' margin='normal' style={input} />
+              <TextField id='language' label='Language' variant='outlined' margin='normal' style={input} />
+              <TextField id='project' label='Project' variant='outlined' margin='normal' style={input} />
+              <TextField id='whitelabel' label='Whitelabel' variant='outlined' margin='normal' style={input} />
+            </Box>
+          </form>
+        </Fragment>
+      )
+    },
 
     edit: ({ id, select }) => {
 
@@ -20,24 +45,26 @@ export default {
         width: '60%'
       }
 
-      // <h3>Edit user { id}</h3>
-
-
       return (
-        <form
-          autoComplete='off'
-          noValidate
-          width='auto'
-        >
-          <Box component='span' display='block' height='100%' >
-            <TextField id='username' label='Username' variant='outlined' margin='normal' style={ input } />
-            <TextField id='login' label='Login' variant='outlined' margin='normal' style={ input } />
-            <TextField id='type' label='Type' variant='outlined' margin='normal' style={ input } />
-            <TextField id='language' label='Language' variant='outlined' margin='normal' style={ input } />
-            <TextField id='project' label='Project' variant='outlined' margin='normal' style={ input } />
-            <TextField id='whitelabel' label='Whitelabel' variant='outlined' margin='normal' style={ input } />
+        <Fragment>
+          <Box>
+            <h3>Edit user {id}</h3>
           </Box>
-        </form>
+          <form
+            autoComplete='off'
+            noValidate
+            width='auto'
+          >
+            <Box component='span' display='block' height='100%' >
+              <TextField id='username' label='Username' variant='outlined' margin='normal' style={input} />
+              <TextField id='login' label='Login' variant='outlined' margin='normal' style={input} />
+              <TextField id='type' label='Type' variant='outlined' margin='normal' style={input} />
+              <TextField id='language' label='Language' variant='outlined' margin='normal' style={input} />
+              <TextField id='project' label='Project' variant='outlined' margin='normal' style={input} />
+              <TextField id='whitelabel' label='Whitelabel' variant='outlined' margin='normal' style={input} />
+            </Box>
+          </form>
+        </Fragment>
       )
     },
 
