@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
+
 import {
   AppBar,
   Button,
@@ -12,6 +13,10 @@ import {
 
 import Panel from './panel'
 import DataTable from './datatable'
+
+import {
+  get_all_users
+} from '../actions'
 
 const useStyles = makeStyles( (theme) => ({
   grow: {
@@ -30,6 +35,33 @@ const useStyles = makeStyles( (theme) => ({
   }
 }))
 
+const Views = {
+  Users: {
+    add: () => (
+      <h3>Add a new user</h3>
+    ),
+
+    edit: ({ id }) => (
+      <h3>Edit user { id }</h3>
+    ),
+
+    list: ({ create, select }) => (
+      <DataTable cells={[
+        { name: 'display_name', label: 'Username', align: 'left' },
+        { name: 'login', label: 'Login', align: 'left' },
+        { name: 'type', label: 'Type', align: 'left' },
+        { name: 'language', label: 'Language', align: 'left' },
+        { name: 'project', label: 'Project', align: 'left' },
+        { name: 'whitelabel', label: 'Whitelabel', align: 'left' }
+      ]} actions={{
+        get: get_all_users,
+        create,
+        select
+      }} />
+    )
+  }
+}
+
 function GetTabProps (index) {
   return {
     id: `vertical-tab-${index}`,
@@ -38,11 +70,45 @@ function GetTabProps (index) {
 }
 
 export default function Application () {
-  const [value, setValue] = React.useState( 0 ),
-        classes = useStyles()
+  const classes = useStyles(),
+        [ tab, setTab ] = useState( 0 ),
+        [ view, setView ] = useState({ type: 'list' })
 
-  function handleChange (e, v) {
-    setValue( v )
+  function handleChange (e, index) {
+    setTab( index )
+    setView({ type: 'list' })
+  }
+
+  function handleCreate () {
+    setView({ type: 'add' })
+  }
+
+  function handleSelect (id) {
+    setView({ type: 'edit', id })
+  }
+
+  function renderPanel (label) {
+    const { id, type } = view
+
+    return Views[ label ][ type ]({
+      create: handleCreate,
+      select: handleSelect,
+      id
+    })
+  }
+
+  function renderPanels () {
+    return Object.keys( Views ).map( (label, index) => (
+      <Panel key={ label } value={ tab } index={ index }>
+        { renderPanel( label ) }
+      </Panel>
+    ))
+  }
+
+  function renderTabs () {
+    return Object.keys( Views ).map( (label, index) => (
+      <Tab key={ label } label={ label } { ...GetTabProps( index ) } />
+    ))
   }
 
   return (
@@ -58,33 +124,11 @@ export default function Application () {
       </AppBar>
 
       <div className={ classes.layout }>
-        <Tabs className={ classes.tabs }
-          onChange={ handleChange }
-          orientation='vertical'
-          value={ value }
-          variant='scrollable'>
-          <Tab label='Users' { ...GetTabProps( 0 ) } />
-          <Tab label='Queues' { ...GetTabProps( 1 ) } />
-          <Tab label='Profiles' { ...GetTabProps( 2 ) } />
+        <Tabs className={ classes.tabs } onChange={ handleChange } orientation='vertical' value={ tab } variant='scrollable'>
+          { renderTabs() }
         </Tabs>
 
-        <Panel value={ value } index={ 0 }>
-          <DataTable cells={[
-            { name: 'display_name', label: 'Username' },
-            { name: 'login', label: 'Login' },
-            { name: 'language', label: 'Language' },
-            { name: 'project', label: 'Project' },
-            { name: 'whitelabel', label: 'Whitelabel' }
-          ]} rows={[]} />
-        </Panel>
-
-        <Panel value={ value } index={ 1 }>
-          <h3>Queues</h3>
-        </Panel>
-
-        <Panel value={ value } index={ 2 }>
-          <h3>Profiles</h3>
-        </Panel>
+        { renderPanels() }
       </div>
     </Fragment>
   )
