@@ -12,11 +12,7 @@ import {
 } from '@material-ui/core'
 
 import Panel from './panel'
-import DataTable from './datatable'
-
-import {
-  get_all_users
-} from '../actions'
+import Views from './views'
 
 const useStyles = makeStyles( (theme) => ({
   grow: {
@@ -34,33 +30,6 @@ const useStyles = makeStyles( (theme) => ({
     borderRight: `1px solid ${theme.palette.divider}`
   }
 }))
-
-const Views = {
-  Users: {
-    add: () => (
-      <h3>Add a new user</h3>
-    ),
-
-    edit: ({ id }) => (
-      <h3>Edit user { id }</h3>
-    ),
-
-    list: ({ create, select }) => (
-      <DataTable cells={[
-        { name: 'display_name', label: 'Username', align: 'left' },
-        { name: 'login', label: 'Login', align: 'left' },
-        { name: 'type', label: 'Type', align: 'left' },
-        { name: 'language', label: 'Language', align: 'left' },
-        { name: 'project', label: 'Project', align: 'left' },
-        { name: 'whitelabel', label: 'Whitelabel', align: 'left' }
-      ]} actions={{
-        get: get_all_users,
-        create,
-        select
-      }} />
-    )
-  }
-}
 
 function GetTabProps (index) {
   return {
