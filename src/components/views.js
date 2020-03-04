@@ -21,7 +21,7 @@ export default {
         { name: 'display_name', label: 'Username', align: 'left' },
         { name: 'login', label: 'Login', align: 'left' },
         { name: 'type', label: 'Type', align: 'left' },
-        { name: 'language', label: 'Language', align: 'left' },
+        { name: 'language', label: 'Language', align: 'center' },
         { name: 'project', label: 'Project', align: 'left' },
         { name: 'whitelabel', label: 'Whitelabel', align: 'left' }
       ]} actions={{

@@ -143,12 +143,12 @@ export default function DataTable({
         <Table className={ classes.table } size='small' stickyHeader>
           <TableHead>
             <TableRow>
-              { renderHead( cells )}
+              { renderHead( cells ) }
             </TableRow>
           </TableHead>
 
           <TableBody>
-            { renderRows( rows )}
+            { renderRows( rows ) }
           </TableBody>
         </Table>
       </TableContainer>

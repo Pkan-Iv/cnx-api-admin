@@ -15,7 +15,7 @@ import Store from './src/store'
 
 const Theme = createMuiTheme({
   palette: {
-    type: 'dark'
+    type: 'light'
   }
 })
 

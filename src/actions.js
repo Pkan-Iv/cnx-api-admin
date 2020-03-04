@@ -38,11 +38,10 @@ function get_one_users_failure (reason) {
   }
 }
 
-function get_one_users_success ({ count, rows }) {
+function get_one_users_success ({ rows }) {
   return {
     type: USERS.GET.ONE.SUCCESS,
-    count,
-    rows
+    row: rows[0]
   }
 }
 

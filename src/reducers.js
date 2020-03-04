@@ -20,7 +20,7 @@ export const ReasonReducer = StringReducer(
 )
 
 export const RowReducer = ObjectReducer(
-  ConnectMutator( (s, p) => p.rows[0],
+  ConnectMutator( (s, p) => p.row,
     USERS.GET.ONE.SUCCESS
   )
 )
