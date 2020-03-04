@@ -15,7 +15,7 @@ import { useStore } from '../../lib/hooks'
 
 import Auth  from './auth'
 import Panel from './panel'
-import Views from './views'
+import Panels from './panels'
 import { CREDENTIALS } from '../descriptors'
 
 const useStyles = makeStyles( (theme) => ({
@@ -69,7 +69,7 @@ export default function Application () {
   function renderPanel (label) {
     const { id, type } = view
 
-    return Views[ label ][ type ]({
+    return Panels[ label ][ type ]({
       create: handleCreate,
       select: handleSelect,
       id
@@ -77,7 +77,7 @@ export default function Application () {
   }
 
   function renderPanels () {
-    return Object.keys( Views ).map( (label, index) => (
+    return Object.keys( Panels ).map( (label, index) => (
       <Panel key={ label } value={ tab } index={ index }>
         { renderPanel( label ) }
       </Panel>
@@ -85,7 +85,7 @@ export default function Application () {
   }
 
   function renderTabs () {
-    return Object.keys( Views ).map( (label, index) => (
+    return Object.keys( Panels ).map( (label, index) => (
       <Tab key={ label } label={ label } { ...GetTabProps( index ) } />
     ))
   }
