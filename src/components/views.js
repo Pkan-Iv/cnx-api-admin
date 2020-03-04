@@ -5,6 +5,7 @@ import {
 } from '../actions'
 
 import DataTable from './datatable'
+import { Box, TextField } from '@material-ui/core'
 
 export default {
   Users: {
@@ -12,9 +13,33 @@ export default {
       <h3>Add a new user</h3>
     ),
 
-    edit: ({ id }) => (
-      <h3>Edit user { id }</h3>
-    ),
+    edit: ({ id, select }) => {
+
+      const input = {
+        margin: '5 auto',
+        width: '60%'
+      }
+
+      // <h3>Edit user { id}</h3>
+
+
+      return (
+        <form
+          autoComplete='off'
+          noValidate
+          width='auto'
+        >
+          <Box component='span' display='block' height='100%' >
+            <TextField id='username' label='Username' variant='outlined' margin='normal' style={ input } />
+            <TextField id='login' label='Login' variant='outlined' margin='normal' style={ input } />
+            <TextField id='type' label='Type' variant='outlined' margin='normal' style={ input } />
+            <TextField id='language' label='Language' variant='outlined' margin='normal' style={ input } />
+            <TextField id='project' label='Project' variant='outlined' margin='normal' style={ input } />
+            <TextField id='whitelabel' label='Whitelabel' variant='outlined' margin='normal' style={ input } />
+          </Box>
+        </form>
+      )
+    },
 
     list: ({ create, select }) => (
       <DataTable cells={[
