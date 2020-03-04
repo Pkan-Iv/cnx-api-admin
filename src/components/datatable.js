@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { useStore } from '../../lib/hooks'
+
 import {
+  Box,
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -32,32 +37,51 @@ function CreateHandler (handler, property) {
 }
 
 export default function DataTable({
+  actions = {
+    create: null,
+    get: null,
+    select: null,
+  },
   cells = [],
-  rows = []
 } = {}) {
-  const classes = useStyles(),
-        [ order, setOrder ] = React.useState( 'asc' ),
-        [ field, setField ] = React.useState( 'calories' ),
-        [ page, setPage ] = React.useState( 0 ),
+  const [ { count, rows }, dispatch ] = useStore(),
+        classes = useStyles(),
+        [ sort, setSort ] = useState({ field: cells[0].name, order: 'asc' }),
+        [ page, setPage ] = useState( 0 ),
         rowsPerPage = 25
 
   function handleChange (e, value) {
     setPage( value )
   }
 
-  function handleClick (e, value) {
-    // TODO
+  function HandleButtonClick () {
+    const { create } = actions
+
+    if (typeof create === 'function') {
+      create()
+    }
   }
 
-  function handleSort (e, cell) {
-    setOrder( (field === cell && order === 'asc') ? 'desc' : 'asc' )
-    setField( cell )
+  function handleRowClick (e, id) {
+    const { select } = actions
+
+    if (typeof select === 'function') {
+      select( id )
+    }
+  }
+
+  function handleSort (e, field) {
+    setSort({
+      field,
+      order: (sort.field === field && sort.order === 'asc') ? 'desc' : 'asc'
+    })
   }
 
   function renderHead (cells) {
     return cells.map( (cell) => {
       const { label, name } = cell,
-            clickHandler = CreateHandler( handleSort, row.name )
+            { field, order } = sort,
+            clickHandler = CreateHandler( handleSort, name )
 
       return (
         <TableCell align='left' key={ name } padding='default' sortDirection={ field === name ? order : false }>
@@ -69,28 +93,53 @@ export default function DataTable({
     })
   }
 
-  // FIXME: hardcoded field's names
-  // TODO: Manage align property
-  function renderRows (rows) {
-    return rows.map( (row, index) => {
-      const id = `enhanced-table-checkbox-${index}`,
-            clickHandler = CreateHandler( handleClick, row.name )
+  function renderRow (row) {
+    return cells.map( (cell) => {
+      const { align, name } = cell
 
       return (
-        <TableRow key={ row.name } hover tabIndex={ -1 } onClick={ clickHandler }>
-          <TableCell component='th' id={ id } scope='row'>{ row.name }</TableCell>
-          <TableCell align='left'>{ row.calories }</TableCell>
-          <TableCell align='left'>{ row.fat }</TableCell>
-          <TableCell align='left'>{ row.carbs }</TableCell>
-          <TableCell align='left'>{ row.protein }</TableCell>
+        <TableCell key={ name } align={ align ? align : 'left' }>
+          { row[name] }
+        </TableCell>
+      )
+    })
+  }
+
+  function renderRows (rows) {
+    return rows.map( (row) => {
+      const { id } = row,
+            clickHandler = CreateHandler( handleRowClick, id )
+
+      return (
+        <TableRow key={ id } hover tabIndex={ -1 } onClick={ clickHandler }>
+          { renderRow( row ) }
         </TableRow>
       )
     })
   }
 
+  useEffect( () => {
+    const { get } = actions
+
+    if (typeof get === 'function') {
+      const { field, order } = sort
+      dispatch( get({
+        _p: page + 1,
+        _n: rowsPerPage,
+        _s: `${(order === 'desc' ? '-' : '' )}${field}`
+      }))
+    }
+  }, [ page, sort ])
+
   return (
     <div className={ classes.root }>
       <TableContainer>
+        <Box component='div' m={ 1 }>
+          <Button variant='contained' onClick={ HandleButtonClick }>
+            Create
+          </Button>
+        </Box>
+
         <Table className={ classes.table } size='small' stickyHeader>
           <TableHead>
             <TableRow>
@@ -107,11 +156,15 @@ export default function DataTable({
       <TablePagination
         rowsPerPageOptions={[ rowsPerPage ]}
         component='div'
-        count={ rows.length }
+        count={ count }
         rowsPerPage={ rowsPerPage }
         page={ page }
-        onChangePage={ handlePageChange }
+        onChangePage={ handleChange }
       />
     </div>
   )
+}
+
+DataTable.propTypes = {
+  // TODO
 }
