@@ -48,13 +48,13 @@ export default function DataTable({
         classes = useStyles(),
         [ sort, setSort ] = useState({ field: cells[0].name, order: 'asc' }),
         [ page, setPage ] = useState( 0 ),
-        rowsPerPage = 25
+        rowsPerPage = 15
 
   function handleChange (e, value) {
     setPage( value )
   }
 
-  function HandleButtonClick () {
+  function handleButtonClick () {
     const { create } = actions
 
     if (typeof create === 'function') {
@@ -135,7 +135,7 @@ export default function DataTable({
     <div className={ classes.root }>
       <TableContainer>
         <Box component='div' m={ 1 }>
-          <Button variant='contained' onClick={ HandleButtonClick }>
+          <Button variant='contained' onClick={ handleButtonClick }>
             Create
           </Button>
         </Box>
