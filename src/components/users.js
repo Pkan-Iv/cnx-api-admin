@@ -40,22 +40,20 @@ export const Add = () => {
 export const Edit = ({ actions = { get: null }, id }) => {
   const [{ rows }, dispatch] = useStore()
   const classes = useStyles()
-  // {
-  //   whitelabel_ref,
-  //   whitelabel,
-  //   project_ref,
-  //   project,
-  //   type,
-  //   login,
-  //   display_name,
-  //   language
-  // } = row
   const field = rows.map((item) => {
-    if (id === item.id) {
-      console.log(item)
-      return  item
-    }
+    if (id === item.id) return  item
   }).filter((data) => data != undefined)
+  .reduce((a, v) => ({...a}, v), {})
+  const {
+    whitelabel_ref,
+    whitelabel,
+    project_ref,
+    project,
+    type,
+    login,
+    display_name,
+    language
+  } = field
 
   useEffect(() => {
     const { get } = actions
