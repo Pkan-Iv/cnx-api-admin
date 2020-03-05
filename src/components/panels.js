@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react'
 
 import {
-  get_all_users
+  get_all_users,
+  get_one_users
 } from '../actions'
 
 import DataTable from './datatable'
@@ -11,7 +12,9 @@ export default {
   Users: {
     add: () => <Add />,
 
-    edit: ({ id }) => <Edit id={ id } />,
+    edit: ({ id }) => {
+      return <Edit id={ id } actions={{get: get_one_users}} />
+    },
 
     list: ({ create, select }) => (
       <DataTable cells={[
