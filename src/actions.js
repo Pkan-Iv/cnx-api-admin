@@ -21,13 +21,13 @@ function create_users_success ({ count, rows }) {
 }
 
 
-export function create_users ({ id }) {
+export function create_users () {
   const request = Users(
     create_users_success,
     create_users_failure
   )
 
-  request.addPath([ id ])
+  request.addPath()
   return request.post()
 }
 
