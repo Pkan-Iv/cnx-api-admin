@@ -13,33 +13,24 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export const Add = ({ actions = { create: null }, id }) => {
+export const Add = ({ actions = { create: null } }) => {
   const classes = useStyles(),
-  [ fields, handleFieldChange ] = useFormFields({
-    login: '',
-    display_name: '',
-    type: '',
-    language: '',
-    project_ref: ''
-  })
-
-  function handleSubmit (e) {
-    const { display_name, language, login, project_ref, type } = fields
-    const { create } = actions
+    [fields, handleFieldChange] = useFormFields({
+      login: '',
+      display_name: '',
+      type: '',
+      language: '',
+      project_ref: ''
+    })
+  const { create } = actions
   const { display_name, language, login, project, type } = fields
-    const [dispatch] = useStore()
+  const [dispatch] = useStore()
 
   function handleSubmit(e) {
 
     e.preventDefault()
     dispatch(create(fields))
 
-    dispatch(create())
-    console.log(display_name)
-    console.log(language)
-    console.log(login)
-    console.log(project_ref)
-    console.log(type)
   }
 
   return (
@@ -50,36 +41,37 @@ export const Add = ({ actions = { create: null }, id }) => {
       <form
         autoComplete='off'
         noValidate
-        onSubmit={ handleSubmit }
+        onSubmit={handleSubmit}
       >
         <Box component='span' display='block' height='100%' >
-        <TextField className={classes.input} id='login' label='Login' onChange={ handleFieldChange } variant='outlined' margin='normal' />
-          <TextField className={classes.input} id='display_name' label='Username' onChange={ handleFieldChange } variant='outlined' margin='normal' />
-          <TextField className={classes.input} id='type' label='Type' onChange={ handleFieldChange } variant='outlined' margin='normal' />
-          <TextField className={classes.input} id='language' label='Language' onChange={ handleFieldChange } variant='outlined' margin='normal' />
-          <TextField className={classes.input} id='project_ref' label='Project' onChange={ handleFieldChange } variant='outlined' margin='normal' />
+          <TextField className={classes.input} id='login' label='Login' onChange={handleFieldChange} variant='outlined' margin='normal' />
+          <TextField className={classes.input} id='display_name' label='Username' onChange={handleFieldChange} variant='outlined' margin='normal' />
+          <TextField className={classes.input} id='type' label='Type' onChange={handleFieldChange} variant='outlined' margin='normal' />
+          <TextField className={classes.input} id='language' label='Language' onChange={handleFieldChange} variant='outlined' margin='normal' />
+          <TextField className={classes.input} id='project' label='Project' onChange={handleFieldChange} variant='outlined' margin='normal' />
         </Box>
 
         <Button
-            className={ classes.submit }
-            color="primary"
-            type="submit"
-            variant="contained"
-          >
-            SAVE
+          className={classes.submit}
+          color="primary"
+          type="submit"
+          variant="contained"
+        >
+          SAVE
           </Button>
       </form>
     </Fragment>
   )
 }
 
-export const Edit = ({ actions = { get: null }, id }) => {
+export const Edit = ({ actions = { edit: null, get: null }, id }) => {
   const [{ rows }, dispatch] = useStore()
   const classes = useStyles()
-  const field = rows.map((item) => {
+  const row = rows.map((item) => {
     if (id === item.id) return item
   }).filter((data) => data != undefined)
     .reduce((a, v) => ({ ...a }, v), {})
+
   const {
     whitelabel_ref,
     whitelabel,
@@ -89,10 +81,19 @@ export const Edit = ({ actions = { get: null }, id }) => {
     login,
     display_name,
     language
-  } = field
+  } = row
+
+  const [fields, handleFieldChange] = useFormFields({
+    display_name: display_name,
+    login: login,
+    type: type,
+    language: language,
+    project: project,
+    whitelabel: whitelabel
+  })
+  const { edit, get } = actions
 
   useEffect(() => {
-    const { get } = actions
     dispatch(get(id))
   }, [])
 
@@ -117,12 +118,12 @@ export const Edit = ({ actions = { get: null }, id }) => {
           onSubmit={handleSubmit}
         >
           <Box component='span' display='block' height='100%' >
-            <TextField className={classes.input} defaultValue={display_name} variant='outlined' margin='normal' />
-            <TextField className={classes.input} defaultValue={login} variant='outlined' margin='normal' />
-            <TextField className={classes.input} defaultValue={type} variant='outlined' margin='normal' />
-            <TextField className={classes.input} defaultValue={language} variant='outlined' margin='normal' />
-            <TextField className={classes.input} defaultValue={project} variant='outlined' margin='normal' />
-            <TextField className={classes.input} defaultValue={whitelabel} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='display_name' defaultValue={display_name} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='login' defaultValue={login} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='type' defaultValue={type} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='language' defaultValue={language} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='project' defaultValue={project} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='whitelabel' defaultValue={whitelabel} onChange={handleFieldChange} variant='outlined' margin='normal' />
           </Box>
 
           <Button
