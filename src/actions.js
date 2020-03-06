@@ -103,3 +103,52 @@ export function get_one_users ({ id }) {
   request.addPath([ id ])
   return request.get()
 }
+
+function update_all_users_failure (reason) {
+  return {
+    type: USERS.UPDATE.ALL.FAILURE,
+    reason
+  }
+}
+
+function update_all_users_success ({ count, rows }) {
+  return {
+    type: USERS.UPDATE.ALL.SUCCESS,
+    count,
+    rows
+  }
+}
+
+export function update_all_users (params) {
+  const request = Users(
+    update_all_users_success,
+    update_all_users_failure
+  )
+
+  request.setParams( params )
+  return request.patch()
+}
+
+function update_one_users_failure (reason) {
+  return {
+    type: USERS.UPDATE.ONE.FAILURE,
+    reason
+  }
+}
+
+function update_one_users_success ({ rows }) {
+  return {
+    type: USERS.UPDATE.ONE.SUCCESS,
+    row: rows[0]
+  }
+}
+
+export function update_one_users ({ id }) {
+  const request = Users(
+    update_one_users_success,
+    update_one_users_failure
+  )
+
+  request.addPath([ id ])
+  return request.patch()
+}
