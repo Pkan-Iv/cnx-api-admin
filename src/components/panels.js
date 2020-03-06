@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 
 import {
+  create_users,
   get_all_users,
   get_one_users
 } from '../actions'
@@ -10,7 +11,7 @@ import { Add, Edit } from './users'
 
 export default {
   Users: {
-    add: () => <Add />,
+    add: () => <Add actions={{create: create_users}} />,
 
     edit: ({ id }) => {
       return <Edit id={ id } actions={{get: get_one_users}} />
