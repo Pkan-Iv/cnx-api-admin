@@ -102,6 +102,7 @@ export const Edit = ({ actions = { edit: null, get: null }, id }) => {
     e.preventDefault()
 
     console.log(fields)
+    dispatch(edit(id, fields))
 
   }
 
