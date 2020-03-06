@@ -28,7 +28,10 @@ export const Add = ({ actions = { create: null }, id }) => {
     const { create } = actions
     const [dispatch] = useStore()
 
+  function handleSubmit(e) {
+
     e.preventDefault()
+    dispatch(create(fields))
 
     dispatch(create())
     console.log(display_name)
