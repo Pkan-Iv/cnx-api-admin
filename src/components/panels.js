@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react'
 
 import {
-  create_users,
+  create_user,
   get_all_users,
-  get_one_users
+  get_user,
+  update_user
 } from '../actions'
 
 import DataTable from './datatable'
@@ -11,10 +12,10 @@ import { Add, Edit } from './users'
 
 export default {
   Users: {
-    add: () => <Add actions={{create: create_users}} />,
+    add: () => <Add actions={{create: create_user}} />,
 
     edit: ({ id }) => {
-      return <Edit id={ id } actions={{get: get_one_users}} />
+      return <Edit id={ id } actions={{ edit: update_user, get: get_user }} />
     },
 
     list: ({ create, select }) => (
