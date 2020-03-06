@@ -113,6 +113,7 @@ export const Edit = ({ actions = { get: null }, id }) => {
         <form
           autoComplete='off'
           noValidate
+          onSubmit={handleSubmit}
         >
           <Box component='span' display='block' height='100%' >
             <TextField className={classes.input} defaultValue={display_name} variant='outlined' margin='normal' />
@@ -122,6 +123,16 @@ export const Edit = ({ actions = { get: null }, id }) => {
             <TextField className={classes.input} defaultValue={project} variant='outlined' margin='normal' />
             <TextField className={classes.input} defaultValue={whitelabel} variant='outlined' margin='normal' />
           </Box>
+
+          <Button
+            className={classes.submit}
+            color="primary"
+            type="submit"
+            variant="contained"
+          >
+            EDIT
+          </Button>
+
         </form>
       </div>
     </Fragment>
