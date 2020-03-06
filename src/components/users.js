@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export const Add = () => {
+export const Add = ({ actions = { create: null }, id }) => {
   const classes = useStyles()
 
   return (
