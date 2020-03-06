@@ -20,25 +20,35 @@ export const ContextReducer = CreateContextReducer(
 
 export const CountReducer = CreateNumberReducer(
   ConnectMutator( (s, p) => p.count,
-    USERS.GET.ALL.SUCCESS
+    USERS.DELETE.ALL.SUCCESS,
+    USERS.GET.ALL.SUCCESS,
+    USERS.UPDATE.ALL.SUCCESS
   )
 )
 
 export const ReasonReducer = CreateStringReducer(
   ConnectMutator( (s, p) => p.reason,
+    USERS.DELETE.ALL.FAILURE,
+    USERS.DELETE.ONE.FAILURE,
     USERS.GET.ALL.FAILURE,
-    USERS.GET.ONE.FAILURE
+    USERS.GET.ONE.FAILURE,
+    USERS.UPDATE.ALL.FAILURE,
+    USERS.UPDATE.ONE.FAILURE
   )
 )
 
 export const RowReducer = CreateObjectReducer(
   ConnectMutator( (s, p) => p.row,
-    USERS.GET.ONE.SUCCESS
+    USERS.DELETE.ONE.SUCCESS,
+    USERS.GET.ONE.SUCCESS,
+    USERS.UPDATE.ONE.SUCCESS
   )
 )
 
 export const RowsReducer = CreateArrayReducer(
   ConnectMutator( (s, p) => p.rows,
-    USERS.GET.ALL.SUCCESS
+    USERS.DELETE.ALL.SUCCESS,
+    USERS.GET.ALL.SUCCESS,
+    USERS.UPDATE.ALL.SUCCESS
   )
 )
