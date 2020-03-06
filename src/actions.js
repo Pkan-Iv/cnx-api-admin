@@ -152,28 +152,28 @@ export function update_all_users (params) {
   request.setParams( params )
   return request.patch()
 }
+*/
 
-function update_one_users_failure (reason) {
+function update_user_failure (reason) {
   return {
     type: USERS.UPDATE.ONE.FAILURE,
     reason
   }
 }
 
-function update_one_users_success ({ rows }) {
+function update_user_success ({ rows }) {
   return {
     type: USERS.UPDATE.ONE.SUCCESS,
     row: rows[0]
   }
 }
 
-export function update_one_users ({ id }) {
+export function update_user ({ id }) {
   const request = Users(
-    update_one_users_success,
-    update_one_users_failure
+    update_user_success,
+    update_user_failure
   )
 
   request.addPath([ id ])
   return request.patch()
 }
- */
