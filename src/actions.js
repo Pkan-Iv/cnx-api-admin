@@ -6,6 +6,55 @@ import { api } from '../config.json'
 const Api = FetchInterface( api.url ),
       Users = Api( 'users' )
 
+function delete_all_users_failure (reason) {
+  return {
+    type: USERS.DELETE.ALL.FAILURE,
+    reason
+  }
+}
+
+function delete_all_users_success ({ count, rows }) {
+  return {
+    type: USERS.DELETE.ALL.SUCCESS,
+    count,
+    rows
+  }
+}
+
+export function delete_all_users (params) {
+  const request = Users(
+    delete_all_users_success,
+    delete_all_users_failure
+  )
+
+  request.setParams( params )
+  return request.delete()
+}
+
+function delete_one_users_failure (reason) {
+  return {
+    type: USERS.DELETE.ONE.FAILURE,
+    reason
+  }
+}
+
+function delete_one_users_success ({ rows }) {
+  return {
+    type: USERS.DELETE.ONE.SUCCESS,
+    row: rows[0]
+  }
+}
+
+export function delete_one_users ({ id }) {
+  const request = Users(
+    delete_one_users_success,
+    delete_one_users_failure
+  )
+
+  request.addPath([ id ])
+  return request.delete()
+}
+
 function get_all_users_failure (reason) {
   return {
     type: USERS.GET.ALL.FAILURE,
