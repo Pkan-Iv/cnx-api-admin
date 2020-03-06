@@ -6,14 +6,14 @@ import { api } from '../config.json'
 const Api = FetchInterface( api.url ),
       Users = Api( 'users' )
 
-function create_users_failure (reason) {
+function create_user_failure (reason) {
   return {
     type: USERS.CREATE.FAILURE,
     reason
   }
 }
 
-export function create_users_success ({ rows }) {
+export function create_user_success ({ rows }) {
   return {
     type: USERS.CREATE.SUCCESS,
     row: rows[0]
@@ -21,10 +21,10 @@ export function create_users_success ({ rows }) {
 }
 
 
-export function create_users (body) {
+export function create_user (body) {
   const request = Users(
-    create_users_success,
-    create_users_failure
+    create_user_success,
+    create_user_failure
   )
   request.setBody(body)
   return request.post()
@@ -104,24 +104,24 @@ export function get_all_users (params) {
   return request.get()
 }
 
-function get_one_users_failure (reason) {
+function get_one_user_failure (reason) {
   return {
     type: USERS.GET.ONE.FAILURE,
     reason
   }
 }
 
-function get_one_users_success ({ rows }) {
+function get_one_user_success ({ rows }) {
   return {
     type: USERS.GET.ONE.SUCCESS,
     row: rows[0]
   }
 }
 
-export function get_one_users ({ id }) {
+export function get_user ({ id }) {
   const request = Users(
-    get_one_users_success,
-    get_one_users_failure
+    get_one_user_success,
+    get_one_user_failure
   )
 
   request.addPath([ id ])
