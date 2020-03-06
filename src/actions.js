@@ -7,15 +7,13 @@ const Api = FetchInterface( api.url ),
       Users = Api( 'users' )
 
 function create_users_failure (reason) {
-  console.log(`Failure`)
   return {
     type: USERS.CREATE.FAILURE,
     reason
   }
 }
 
-function create_users_success ({ count, rows }) {
-  console.log(`Success`)
+export function create_users_success ({ rows }) {
   return {
     type: USERS.CREATE.SUCCESS,
     row: rows[0]
@@ -23,16 +21,15 @@ function create_users_success ({ count, rows }) {
 }
 
 
-export function create_users () {
+export function create_users (body) {
   const request = Users(
     create_users_success,
     create_users_failure
   )
-
-  request.addPath()
+  request.setBody(body)
   return request.post()
 }
-
+/*
 function delete_all_users_failure (reason) {
   return {
     type: USERS.DELETE.ALL.FAILURE,
@@ -81,7 +78,7 @@ export function delete_one_users ({ id }) {
   request.addPath([ id ])
   return request.delete()
 }
-
+ */
 function get_all_users_failure (reason) {
   return {
     type: USERS.GET.ALL.FAILURE,
@@ -130,7 +127,7 @@ export function get_one_users ({ id }) {
   request.addPath([ id ])
   return request.get()
 }
-
+/*
 function update_all_users_failure (reason) {
   return {
     type: USERS.UPDATE.ALL.FAILURE,
@@ -179,3 +176,4 @@ export function update_one_users ({ id }) {
   request.addPath([ id ])
   return request.patch()
 }
+ */
