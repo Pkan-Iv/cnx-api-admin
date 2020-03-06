@@ -95,6 +95,15 @@ export const Edit = ({ actions = { get: null }, id }) => {
     dispatch(get(id))
   }, [])
 
+  function handleSubmit(e) {
+
+    e.preventDefault()
+
+    console.log(fields)
+
+  }
+
+
   return (
     <Fragment>
       <Box>
