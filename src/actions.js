@@ -6,6 +6,31 @@ import { api } from '../config.json'
 const Api = FetchInterface( api.url ),
       Users = Api( 'users' )
 
+function create_users_failure (reason) {
+  return {
+    type: USERS.CREATE.FAILURE,
+    reason
+  }
+}
+
+function create_users_success ({ count, rows }) {
+  return {
+    type: USERS.CREATE.SUCCESS,
+    row: rows[0]
+  }
+}
+
+
+export function create_users ({ id }) {
+  const request = Users(
+    create_users_success,
+    create_users_failure
+  )
+
+  request.addPath([ id ])
+  return request.post()
+}
+
 function delete_all_users_failure (reason) {
   return {
     type: USERS.DELETE.ALL.FAILURE,
