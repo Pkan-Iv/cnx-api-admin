@@ -11,6 +11,18 @@ export const CREDENTIALS = {
 }
 
 export const USERS = {
+  DELETE: {
+    ALL: {
+      FAILURE: 'USERS.DELETE.ALL.FAILURE',
+      SUCCESS: 'USERS.DELETE.ALL.SUCCESS'
+    },
+
+    ONE: {
+      FAILURE: 'USERS.DELETE.ONE.FAILURE',
+      SUCCESS: 'USERS.DELETE.ONE.SUCCESS'
+    }
+  },
+
   GET: {
     ALL: {
       FAILURE: 'USERS.GET.ALL.FAILURE',
