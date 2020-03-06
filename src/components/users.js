@@ -26,6 +26,7 @@ export const Add = ({ actions = { create: null }, id }) => {
   function handleSubmit (e) {
     const { display_name, language, login, project_ref, type } = fields
     const { create } = actions
+  const { display_name, language, login, project, type } = fields
     const [dispatch] = useStore()
 
   function handleSubmit(e) {
