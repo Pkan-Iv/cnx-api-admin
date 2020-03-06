@@ -33,7 +33,7 @@ export const Add = () => {
           <TextField className={classes.input} id='whitelabel' label='Whitelabel' variant='outlined' margin='normal' />
         </Box>
       </form>
-    </Fragment >
+    </Fragment>
   )
 }
 
@@ -80,6 +80,6 @@ export const Edit = ({ actions = { get: null }, id }) => {
           </Box>
         </form>
       </div>
-    </Fragment >
+    </Fragment>
   )
 }
