@@ -28,6 +28,7 @@ export const CountReducer = CreateNumberReducer(
 
 export const ReasonReducer = CreateStringReducer(
   ConnectMutator( (s, p) => p.reason,
+    USERS.CREATE.FAILURE,
     USERS.DELETE.ALL.FAILURE,
     USERS.DELETE.ONE.FAILURE,
     USERS.GET.ALL.FAILURE,
@@ -39,6 +40,7 @@ export const ReasonReducer = CreateStringReducer(
 
 export const RowReducer = CreateObjectReducer(
   ConnectMutator( (s, p) => p.row,
+    USERS.CREATE.SUCCESS,
     USERS.DELETE.ONE.SUCCESS,
     USERS.GET.ONE.SUCCESS,
     USERS.UPDATE.ONE.SUCCESS
