@@ -7,6 +7,7 @@ const Api = FetchInterface( api.url ),
       Users = Api( 'users' )
 
 function create_users_failure (reason) {
+  console.log(`Failure`)
   return {
     type: USERS.CREATE.FAILURE,
     reason
@@ -14,6 +15,7 @@ function create_users_failure (reason) {
 }
 
 function create_users_success ({ count, rows }) {
+  console.log(`Success`)
   return {
     type: USERS.CREATE.SUCCESS,
     row: rows[0]
