@@ -44,5 +44,6 @@ export const USERS = {
     ONE: {
       FAILURE: 'USERS.UPDATE.ONE.FAILURE',
       SUCCESS: 'USERS.UPDATE.ONE.SUCCESS'
+    }
   }
 }
