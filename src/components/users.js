@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Add = ({ actions = { create: null } }) => {
+  const [open, setOpen] = useState(false)
+  const [options, setOptions] = useState([])
   const [state, dispatch] = useStore()
   const classes = useStyles()
   const [fields, handleFieldChange] = useFormFields({
