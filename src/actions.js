@@ -29,32 +29,6 @@ export function create_user (body) {
   request.setBody(body)
   return request.post()
 }
-/*
-function delete_all_users_failure (reason) {
-  return {
-    type: USERS.DELETE.ALL.FAILURE,
-    reason
-  }
-}
-
-function delete_all_users_success ({ count, rows }) {
-  return {
-    type: USERS.DELETE.ALL.SUCCESS,
-    count,
-    rows
-  }
-}
-
-export function delete_all_users (params) {
-  const request = Users(
-    delete_all_users_success,
-    delete_all_users_failure
-  )
-
-  request.setParams( params )
-  return request.delete()
-}
-*/
 
 function delete_one_users_failure (reason) {
   return {
@@ -127,32 +101,6 @@ export function get_user (id) {
   request.addPath([ id ])
   return request.get()
 }
-/*
-function update_all_users_failure (reason) {
-  return {
-    type: USERS.UPDATE.ALL.FAILURE,
-    reason
-  }
-}
-
-function update_all_users_success ({ count, rows }) {
-  return {
-    type: USERS.UPDATE.ALL.SUCCESS,
-    count,
-    rows
-  }
-}
-
-export function update_all_users (params) {
-  const request = Users(
-    update_all_users_success,
-    update_all_users_failure
-  )
-
-  request.setParams( params )
-  return request.patch()
-}
-*/
 
 function update_user_failure (reason) {
   return {
