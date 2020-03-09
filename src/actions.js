@@ -168,13 +168,13 @@ function update_user_success ({ rows }) {
   }
 }
 
-export function update_user ({ id }, body) {
+export function update_user (id, body) {
   const request = Users(
     update_user_success,
     update_user_failure
   )
 
-  request.setBody(body)
   request.addPath([ id ])
+  request.setBody(body)
   return request.patch()
 }

@@ -14,7 +14,7 @@ export default {
   Users: {
     add: () => <Add actions={{create: create_user}} />,
 
-    edit: ({ id }, body) => {
+    edit: ({ id }) => {
       return <Edit id={ id } actions={{ edit: update_user, get: get_user }} />
     },
 
