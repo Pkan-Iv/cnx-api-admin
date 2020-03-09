@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react'
 
 import { Box, Button, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { Delete, Edit, Save } from '@material-ui/icons'
 
 import { useFormFields } from '../hooks'
 import { useStore } from '../../lib/hooks'
@@ -14,15 +15,15 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Add = ({ actions = { create: null } }) => {
-  const [state,dispatch] = useStore()
+  const [state, dispatch] = useStore()
   const classes = useStyles()
-  const  [fields, handleFieldChange] = useFormFields({
-      login: '',
-      display_name: '',
-      type: '',
-      language: '',
-      project_ref: ''
-    })
+  const [fields, handleFieldChange] = useFormFields({
+    login: '',
+    display_name: '',
+    type: '',
+    language: '',
+    project_ref: ''
+  })
 
   const { create } = actions
   const { display_name, language, login, project, type } = fields
@@ -56,6 +57,7 @@ export const Add = ({ actions = { create: null } }) => {
           className={classes.submit}
           color="primary"
           type="submit"
+          startIcon={<Save />}
           variant="contained"
         >
           SAVE
@@ -65,7 +67,7 @@ export const Add = ({ actions = { create: null } }) => {
   )
 }
 
-export const Edit = ({ actions = { edit: null, get: null }, id }) => {
+export const Update = ({ actions = { edit: null, get: null, remove: null }, id }) => {
   const [{ rows }, dispatch] = useStore()
   const classes = useStyles()
   const row = rows.map((item) => {
@@ -92,11 +94,20 @@ export const Edit = ({ actions = { edit: null, get: null }, id }) => {
     project: project,
     whitelabel: whitelabel
   })
-  const { edit, get } = actions
+  const { edit, get, remove } = actions
 
   useEffect(() => {
     dispatch(get(id))
   }, [])
+
+
+  function handleRemove(e) {
+
+    e.preventDefault()
+
+    dispatch(remove(id))
+    console.log('Remove this user')
+  }
 
   function handleSubmit(e) {
 
@@ -131,9 +142,19 @@ export const Edit = ({ actions = { edit: null, get: null }, id }) => {
             className={classes.submit}
             color="primary"
             type="submit"
+            startIcon={<Edit />}
             variant="contained"
           >
             EDIT
+          </Button>
+          <Button
+            className={classes.submit}
+            color="secondary"
+            onClick={handleRemove}
+            startIcon={<Delete />}
+            variant="contained"
+          >
+            REMOVE
           </Button>
 
         </form>

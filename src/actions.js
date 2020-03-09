@@ -54,6 +54,7 @@ export function delete_all_users (params) {
   request.setParams( params )
   return request.delete()
 }
+*/
 
 function delete_one_users_failure (reason) {
   return {
@@ -69,7 +70,7 @@ function delete_one_users_success ({ rows }) {
   }
 }
 
-export function delete_one_users ({ id }) {
+export function delete_one_users (id) {
   const request = Users(
     delete_one_users_success,
     delete_one_users_failure
@@ -78,7 +79,6 @@ export function delete_one_users ({ id }) {
   request.addPath([ id ])
   return request.delete()
 }
- */
 function get_all_users_failure (reason) {
   return {
     type: USERS.GET.ALL.FAILURE,
@@ -118,7 +118,7 @@ function get_one_user_success ({ rows }) {
   }
 }
 
-export function get_user ({ id }) {
+export function get_user (id) {
   const request = Users(
     get_one_user_success,
     get_one_user_failure

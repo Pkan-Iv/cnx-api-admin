@@ -2,20 +2,21 @@ import React, { Fragment } from 'react'
 
 import {
   create_user,
+  delete_one_users,
   get_all_users,
   get_user,
   update_user
 } from '../actions'
 
 import DataTable from './datatable'
-import { Add, Edit } from './users'
+import { Add, Update } from './users'
 
 export default {
   Users: {
     add: () => <Add actions={{create: create_user}} />,
 
     edit: ({ id }) => {
-      return <Edit id={ id } actions={{ edit: update_user, get: get_user }} />
+      return <Update id={ id } actions={{ edit: update_user, get: get_user, remove: delete_one_users }} />
     },
 
     list: ({ create, select }) => (
