@@ -42,3 +42,12 @@ export const USERS = {
     }
   }
 }
+
+export const PROJECTS = {
+  GET: {
+    ALL: {
+      FAILURE: 'PROJECTS.GET.ALL.FAILURE',
+      SUCCESS: 'PROJECTS.GET.ALL.SUCCESS',
+    }
+  }
+}
