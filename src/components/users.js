@@ -106,7 +106,6 @@ export const Update = ({ actions = { edit: null, get: null, remove: null }, id }
     e.preventDefault()
 
     dispatch(remove(id))
-    console.log('Remove this user')
   }
 
   function handleSubmit(e) {
