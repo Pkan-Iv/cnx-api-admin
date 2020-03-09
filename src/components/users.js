@@ -14,25 +14,24 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Add = ({ actions = { create: null } }) => {
-  const classes = useStyles(),
-    [fields, handleFieldChange] = useFormFields({
+  const {dispatch} = useStore()
+  const classes = useStyles()
+  const  [fields, handleFieldChange] = useFormFields({
       login: '',
       display_name: '',
       type: '',
       language: '',
       project_ref: ''
     })
+
   const { create } = actions
   const { display_name, language, login, project, type } = fields
-  const [ dispatch, state ] = useStore()
 
   function handleSubmit(e) {
 
     e.preventDefault()
-    useEffect(() => {
-      dispatch(create(fields))
-    }, [])
 
+    console.log(dispatch(create(fields)))
   }
 
   return (
@@ -103,7 +102,6 @@ export const Edit = ({ actions = { edit: null, get: null }, id }) => {
 
     e.preventDefault()
 
-    console.log(fields)
     dispatch(edit(id, fields))
 
   }
