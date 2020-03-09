@@ -24,12 +24,14 @@ export const Add = ({ actions = { create: null } }) => {
     })
   const { create } = actions
   const { display_name, language, login, project, type } = fields
-  const [dispatch] = useStore()
+  const [ dispatch, state ] = useStore()
 
   function handleSubmit(e) {
 
     e.preventDefault()
-    dispatch(create(fields))
+    useEffect(() => {
+      dispatch(create(fields))
+    }, [])
 
   }
 
