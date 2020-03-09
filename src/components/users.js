@@ -121,12 +121,12 @@ export const Edit = ({ actions = { edit: null, get: null }, id }) => {
           onSubmit={handleSubmit}
         >
           <Box component='span' display='block' height='100%' >
-            <TextField className={classes.input} id='display_name' defaultValue={display_name} onChange={handleFieldChange} variant='outlined' margin='normal' />
-            <TextField className={classes.input} id='login' defaultValue={login} onChange={handleFieldChange} variant='outlined' margin='normal' />
-            <TextField className={classes.input} id='type' defaultValue={type} onChange={handleFieldChange} variant='outlined' margin='normal' />
-            <TextField className={classes.input} id='language' defaultValue={language} onChange={handleFieldChange} variant='outlined' margin='normal' />
-            <TextField className={classes.input} id='project' defaultValue={project} onChange={handleFieldChange} variant='outlined' margin='normal' />
-            <TextField className={classes.input} id='whitelabel' defaultValue={whitelabel} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='display_name' label='Username' defaultValue={display_name} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='login' label='Login' defaultValue={login} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='type' label='Type' defaultValue={type} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='language' label='Language' defaultValue={language} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='project' label='Project' defaultValue={project} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input} id='whitelabel' label='Whitelabel' defaultValue={whitelabel} onChange={handleFieldChange} variant='outlined' margin='normal' />
           </Box>
 
           <Button
