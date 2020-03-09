@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Add = ({ actions = { create: null } }) => {
-  const {dispatch} = useStore()
+  const [state,dispatch] = useStore()
   const classes = useStyles()
   const  [fields, handleFieldChange] = useFormFields({
       login: '',
@@ -31,7 +31,7 @@ export const Add = ({ actions = { create: null } }) => {
 
     e.preventDefault()
 
-    console.log(dispatch(create(fields)))
+    dispatch(create(fields))
   }
 
   return (
