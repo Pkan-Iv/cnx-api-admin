@@ -3,6 +3,7 @@ import React, { Fragment } from 'react'
 import {
   create_user,
   delete_one_users,
+  get_all_projects,
   get_all_users,
   get_user,
   update_user
@@ -13,7 +14,7 @@ import { Add, Update } from './users'
 
 export default {
   Users: {
-    add: () => <Add actions={{create: create_user}} />,
+    add: () => <Add actions={{ create: create_user, get: get_all_projects}} />,
 
     edit: ({ id }) => {
       return <Update id={ id } actions={{ edit: update_user, get: get_user, remove: delete_one_users }} />
