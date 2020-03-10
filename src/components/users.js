@@ -112,7 +112,7 @@ export const Add = ({ actions = { create: null, get: null } }) => {
           >
             {rows.map(({ id, name }) => {
               return (
-                <MenuItem key={id} id={id} value={name}>
+                <MenuItem key={id} value={name}>
                   {name}
                 </MenuItem>
               )
