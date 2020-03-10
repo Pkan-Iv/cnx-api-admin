@@ -14,7 +14,12 @@ import { Add, Update } from './users'
 
 export default {
   Users: {
-    add: () => <Add actions={{ create: create_user, get: get_all_projects}} />,
+    add: () => <Add actions={{
+      create: create_user,
+      getLanguages:get_all_languages ,
+      getProjects: get_all_projects,
+      getTypes: get_all_types
+    }} />,
 
     edit: ({ id }) => {
       return <Update id={ id } actions={{ edit: update_user, get: get_user, remove: delete_one_users }} />
