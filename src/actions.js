@@ -1,12 +1,39 @@
 import { FetchInterface } from '../lib/interfaces'
-import { PROJECTS, USERS, WHITELABELS } from './descriptors'
+import { PROJECTS, USERS, TYPES } from './descriptors'
 
 import { api } from '../config.json'
 
 const Api = FetchInterface(api.url),
+  Languages = Api('languages'),
   Projects = Api('projects'),
+  Types = Api('types'),
   Users = Api('users'),
   Whitelabels = Api('whitelabels')
+
+function get_all_languages_failure(reason) {
+  return {
+    type: LANGUAGES.GET.ALL.FAILURE,
+    reason
+  }
+}
+
+function get_all_languages_success({ count, rows }) {
+  return {
+    type: LANGUAGES.GET.ALL.SUCCESS,
+    count,
+    rows
+  }
+}
+
+export function get_all_languages(params) {
+  const request = Languages(
+    get_all_languages_success,
+    get_all_languages_failure
+  )
+
+  request.setParams(params)
+  return request.get()
+}
 
 function get_all_projects_failure(reason) {
   return {
@@ -27,6 +54,31 @@ export function get_all_projects(params) {
   const request = Projects(
     get_all_projects_success,
     get_all_projects_failure
+  )
+
+  request.setParams(params)
+  return request.get()
+}
+
+function get_all_types_failure(reason) {
+  return {
+    type: TYPES.GET.ALL.FAILURE,
+    reason
+  }
+}
+
+function get_all_types_success({ count, rows }) {
+  return {
+    type: TYPES.GET.ALL.SUCCESS,
+    count,
+    rows
+  }
+}
+
+export function get_all_types(params) {
+  const request = Types(
+    get_all_types_success,
+    get_all_types_failure
   )
 
   request.setParams(params)
