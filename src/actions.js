@@ -1,11 +1,12 @@
 import { FetchInterface } from '../lib/interfaces'
-import { PROJECTS, USERS } from './descriptors'
+import { PROJECTS, USERS, WHITELABELS } from './descriptors'
 
 import { api } from '../config.json'
 
 const Api = FetchInterface(api.url),
   Projects = Api('projects'),
-  Users = Api('users')
+  Users = Api('users'),
+  Whitelabels = Api('whitelabels')
 
 function get_all_projects_failure(reason) {
   return {
@@ -152,4 +153,29 @@ export function update_user(id, body) {
   request.addPath([id])
   request.setBody(body)
   return request.patch()
+}
+
+function get_all_whitelabels_failure(reason) {
+  return {
+    type: WHITELABELS.GET.ALL.FAILURE,
+    reason
+  }
+}
+
+function get_all_whitelabels_success({ count, rows }) {
+  return {
+    type: WHITELABELS.GET.ALL.SUCCESS,
+    count,
+    rows
+  }
+}
+
+export function get_all_whitelabels(params) {
+  const request = Whitelabels(
+    get_all_whitelabels_success,
+    get_all_whitelabels_failure
+  )
+
+  request.setParams(params)
+  return request.get()
 }
