@@ -3,7 +3,9 @@ import React, { Fragment } from 'react'
 import {
   create_user,
   delete_one_users,
+  get_all_languages,
   get_all_projects,
+  get_all_types,
   get_all_users,
   get_user,
   update_user
