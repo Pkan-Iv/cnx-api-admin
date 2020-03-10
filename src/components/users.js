@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 
-import { Box, Button, TextField } from '@material-ui/core'
+import { Box, Button, MenuItem, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Delete, Edit, Save } from '@material-ui/icons'
 
@@ -14,27 +14,51 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export const Add = ({ actions = { create: null } }) => {
-  const [open, setOpen] = useState(false)
-  const [options, setOptions] = useState([])
-  const [state, dispatch] = useStore()
-  const classes = useStyles()
-  const [fields, handleFieldChange] = useFormFields({
-    login: '',
-    display_name: '',
-    type: '',
-    language: '',
-    project_ref: ''
-  })
+export const Add = ({ actions = { create: null, get: null } }) => {
 
-  const { create } = actions
+  const [state, dispatch] = useStore()
+  const [fields, setFields] = useState({
+    display_name: '',
+    language: '',
+    login: '',
+    project: '',
+    type: ''
+  })
   const { display_name, language, login, project, type } = fields
+  const { create, get } = actions
+  const { rows, count } = state
+  const classes = useStyles()
+
+  useEffect(() => {
+    dispatch(get())
+  }, [])
+
+  function handleDisplayNameChange(e) {
+    setFields({ ...fields, display_name: e.target.value })
+  }
+
+  function handleLoginChange(e) {
+    setFields({ ...fields, login: e.target.value })
+  }
+
+  function handleLanguageChange(e) {
+    setFields({ ...fields, language: e.target.value })
+  }
+
+  function handleProjectChange(e) {
+    setFields({ ...fields, project: e.target.value })
+  }
+
+  function handleTypeChange(e) {
+    setFields({ ...fields, type: e.target.value })
+  }
 
   function handleSubmit(e) {
 
     e.preventDefault()
 
     dispatch(create(fields))
+    console.log(fields)
   }
 
   return (
@@ -48,11 +72,51 @@ export const Add = ({ actions = { create: null } }) => {
         onSubmit={handleSubmit}
       >
         <Box component='span' display='block' height='100%' >
-          <TextField className={classes.input} id='login' label='Login' onChange={handleFieldChange} variant='outlined' margin='normal' />
-          <TextField className={classes.input} id='display_name' label='Username' onChange={handleFieldChange} variant='outlined' margin='normal' />
-          <TextField className={classes.input} id='type' label='Type' onChange={handleFieldChange} variant='outlined' margin='normal' />
-          <TextField className={classes.input} id='language' label='Language' onChange={handleFieldChange} variant='outlined' margin='normal' />
-          <TextField className={classes.input} id='project' label='Project' onChange={handleFieldChange} variant='outlined' margin='normal' />
+          <TextField className={classes.input}
+            id='login'
+            label='Login'
+            onChange={handleLoginChange}
+            variant='outlined'
+            margin='normal'
+          />
+          <TextField className={classes.input}
+            id='display_name'
+            label='Username'
+            onChange={handleDisplayNameChange}
+            variant='outlined'
+            margin='normal'
+          />
+          <TextField className={classes.input}
+            id='type'
+            label='Type'
+            onChange={handleTypeChange}
+            variant='outlined'
+            margin='normal'
+          />
+          <TextField className={classes.input}
+            id='language'
+            label='Language'
+            onChange={handleLanguageChange}
+            variant='outlined'
+            margin='normal'
+          />
+          <TextField className={classes.input}
+            id='project_ref'
+            label='Project'
+            onChange={handleProjectChange}
+            select
+            value={project}
+            variant='outlined'
+            margin='normal'
+          >
+            {rows.map(({ id, name }) => {
+              return (
+                <MenuItem key={id} id={id} value={name}>
+                  {name}
+                </MenuItem>
+              )
+            })}
+          </TextField>
         </Box>
 
         <Button
@@ -131,12 +195,54 @@ export const Update = ({ actions = { edit: null, get: null, remove: null }, id }
           onSubmit={handleSubmit}
         >
           <Box component='span' display='block' height='100%' >
-            <TextField className={classes.input} id='display_name' label='Username' defaultValue={display_name} onChange={handleFieldChange} variant='outlined' margin='normal' />
-            <TextField className={classes.input} id='login' label='Login' defaultValue={login} onChange={handleFieldChange} variant='outlined' margin='normal' />
-            <TextField className={classes.input} id='type' label='Type' defaultValue={type} onChange={handleFieldChange} variant='outlined' margin='normal' />
-            <TextField className={classes.input} id='language' label='Language' defaultValue={language} onChange={handleFieldChange} variant='outlined' margin='normal' />
-            <TextField className={classes.input} id='project' label='Project' defaultValue={project} onChange={handleFieldChange} variant='outlined' margin='normal' />
-            <TextField className={classes.input} id='whitelabel' label='Whitelabel' defaultValue={whitelabel} onChange={handleFieldChange} variant='outlined' margin='normal' />
+            <TextField className={classes.input}
+              id='display_name'
+              label='Username'
+              defaultValue={display_name}
+              onChange={handleFieldChange}
+              variant='outlined'
+              margin='normal'
+            />
+            <TextField className={classes.input}
+              id='login'
+              label='Login'
+              defaultValue={login}
+              onChange={handleFieldChange}
+              variant='outlined'
+              margin='normal'
+            />
+            <TextField className={classes.input}
+              id='type'
+              label='Type'
+              defaultValue={type}
+              onChange={handleFieldChange}
+              variant='outlined'
+              margin='normal'
+            />
+            <TextField className={classes.input}
+              id='language'
+              label='Language'
+              defaultValue={language}
+              onChange={handleFieldChange}
+              variant='outlined'
+              margin='normal'
+            />
+            <TextField className={classes.input}
+              id='project'
+              label='Project'
+              defaultValue={project}
+              onChange={handleFieldChange}
+              variant='outlined'
+              margin='normal'
+            />
+            <TextField className={classes.input}
+              id='whitelabel'
+              label='Whitelabel'
+              defaultValue={whitelabel}
+              onChange={handleFieldChange}
+              variant='outlined'
+              margin='normal'
+            />
           </Box>
 
           <Button

@@ -24,8 +24,8 @@ function get_all_projects_success({ count, rows }) {
 
 export function get_all_projects(params) {
   const request = Projects(
-    get_all_projects_failure,
-    get_all_projects_success
+    get_all_projects_success,
+    get_all_projects_failure
   )
 
   request.setParams(params)
