@@ -97,11 +97,12 @@ module.exports = (env, argv) => {
               {
                 loader: 'babel-loader',
                 options: {
-                  plugins: [ '@babel/plugin-transform-runtime' ],
+                  plugins: [],
                   presets: [
-                    [ '@babel/preset-env',{
-                      'modules': false,
-                      'corejs': 3
+                    [ '@babel/preset-env', {
+                      corejs: 3,
+                      modules: false,
+                      useBuiltIns: 'entry'
                     }],
                     '@babel/preset-react'
                   ]

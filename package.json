@@ -6,7 +6,6 @@
   "devDependencies": {
     "@babel/core": "^7.8.7",
     "@babel/node": "^7.8.7",
-    "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-react": "^7.8.3",
     "@babel/register": "^7.8.6",
@@ -37,5 +36,6 @@
   "scripts": {
     "build": "webpack --mode=production --progress",
     "watch": "webpack-dev-server --compress --open --progress --watch --hot"
-  }
+  },
+  "browserslist": "> 0.25%, not dead"
 }
