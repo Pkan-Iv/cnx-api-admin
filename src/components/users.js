@@ -21,11 +21,10 @@ export const Add = ({ actions = { create: null, get: null } }) => {
     display_name: '',
     language: '',
     login: '',
-    project_ref: '',
-    type: '',
-    whitelabel_ref: ''
+    project: '',
+    type: ''
   })
-  const { display_name, language, login, project_ref, type } = fields
+  const { display_name, language, login, project, type } = fields
   const { create, get } = actions
   const { rows, count } = state
   const classes = useStyles()
@@ -47,7 +46,7 @@ export const Add = ({ actions = { create: null, get: null } }) => {
   }
 
   function handleProjectRefChange(e) {
-    setFields({ ...fields, project_ref: e.target.value })
+    setFields({ ...fields, project: e.target.value })
   }
 
   function handleTypeChange(e) {
@@ -102,11 +101,11 @@ export const Add = ({ actions = { create: null, get: null } }) => {
             margin='normal'
           />
           <TextField className={classes.input}
-            id='project_ref'
+            id='project'
             label='Project'
             onChange={handleProjectRefChange}
             select
-            value={project_ref}
+            value={project}
             variant='outlined'
             margin='normal'
           >
