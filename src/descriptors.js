@@ -43,11 +43,29 @@ export const USERS = {
   }
 }
 
+export const LANGUAGES = {
+  GET: {
+    ALL: {
+      FAILURE: 'LANGUAGES.GET.ALL.FAILURE',
+      SUCCESS: 'LANGUAGES.GET.ALL.SUCCESS',
+    }
+  }
+}
+
 export const PROJECTS = {
   GET: {
     ALL: {
       FAILURE: 'PROJECTS.GET.ALL.FAILURE',
       SUCCESS: 'PROJECTS.GET.ALL.SUCCESS',
+    }
+  }
+}
+
+export const TYPES = {
+  GET: {
+    ALL: {
+      FAILURE: 'TYPES.GET.ALL.FAILURE',
+      SUCCESS: 'TYPES.GET.ALL.SUCCESS',
     }
   }
 }

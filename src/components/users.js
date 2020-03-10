@@ -14,7 +14,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export const Add = ({ actions = { create: null, get: null } }) => {
+export const Add = ({ actions = {
+  create: null,
+  getLanguages: null,
+  getProjects: null,
+  getTypes: null,
+} }) => {
 
   const [state, dispatch] = useStore()
   const [fields, setFields] = useState({
@@ -25,12 +30,12 @@ export const Add = ({ actions = { create: null, get: null } }) => {
     type: ''
   })
   const { display_name, language, login, project, type } = fields
-  const { create, get } = actions
+  const { create, getLanguages, getProjects, getTypes } = actions
   const { rows, count } = state
   const classes = useStyles()
 
   useEffect(() => {
-    dispatch(get())
+    dispatch(getProjects())
   }, [])
 
   function handleDisplayNameChange(e) {
