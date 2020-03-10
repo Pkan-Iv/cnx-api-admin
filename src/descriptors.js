@@ -10,71 +10,26 @@ export const CREDENTIALS = {
   }
 }
 
-export const USERS = {
+export const USER = {
   CREATE: {
-      FAILURE: 'USERS.CREATE.FAILURE',
-      SUCCESS: 'USERS.CREATE.SUCCESS'
+    FAILURE: 'USER.CREATE.FAILURE',
+    SUCCESS: 'USER.CREATE.SUCCESS'
   },
 
   DELETE: {
-    ONE: {
-      FAILURE: 'USERS.DELETE.ONE.FAILURE',
-      SUCCESS: 'USERS.DELETE.ONE.SUCCESS'
-    }
-  },
-
-  GET: {
-    ALL: {
-      FAILURE: 'USERS.GET.ALL.FAILURE',
-      SUCCESS: 'USERS.GET.ALL.SUCCESS'
-    },
-
-    ONE: {
-      FAILURE: 'USERS.GET.ONE.FAILURE',
-      SUCCESS: 'USERS.GET.ONE.SUCCESS'
-    }
+    FAILURE: 'USER.DELETE.FAILURE',
+    SUCCESS: 'USER.DELETE.SUCCESS'
   },
 
   UPDATE: {
-    ONE: {
-      FAILURE: 'USERS.UPDATE.ONE.FAILURE',
-      SUCCESS: 'USERS.UPDATE.ONE.SUCCESS'
-    }
+    FAILURE: 'USER.UPDATE.FAILURE',
+    SUCCESS: 'USER.UPDATE.SUCCESS'
   }
 }
 
-export const LANGUAGES = {
+export const USERS = {
   GET: {
-    ALL: {
-      FAILURE: 'LANGUAGES.GET.ALL.FAILURE',
-      SUCCESS: 'LANGUAGES.GET.ALL.SUCCESS',
-    }
-  }
-}
-
-export const PROJECTS = {
-  GET: {
-    ALL: {
-      FAILURE: 'PROJECTS.GET.ALL.FAILURE',
-      SUCCESS: 'PROJECTS.GET.ALL.SUCCESS',
-    }
-  }
-}
-
-export const TYPES = {
-  GET: {
-    ALL: {
-      FAILURE: 'TYPES.GET.ALL.FAILURE',
-      SUCCESS: 'TYPES.GET.ALL.SUCCESS',
-    }
-  }
-}
-
-export const WHITELABELS = {
-  GET: {
-    ALL: {
-      FAILURE: 'WHITELABELS.GET.ALL.FAILURE',
-      SUCCESS: 'WHITELABELS.GET.ALL.SUCCESS',
-    }
+    FAILURE: 'USERS.GET.FAILURE',
+    SUCCESS: 'USERS.GET.SUCCESS'
   }
 }

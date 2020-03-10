@@ -14,7 +14,6 @@ import {
   ContextReducer,
   CountReducer,
   ReasonReducer,
-  RowReducer,
   RowsReducer
 } from './reducers'
 
@@ -30,7 +29,6 @@ const reducers = combineReducers({
   context: ContextReducer,
   count: CountReducer,
   reason: ReasonReducer,
-  row: RowReducer,
   rows: RowsReducer
 })
 

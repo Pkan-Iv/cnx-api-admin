@@ -1,207 +1,105 @@
 import { FetchInterface } from '../lib/interfaces'
-import { LANGUAGES, PROJECTS, USERS, TYPES } from './descriptors'
+import { USER, USERS } from './descriptors'
 
 import { api } from '../config.json'
 
 const Api = FetchInterface(api.url),
-  Languages = Api('languages'),
-  Projects = Api('projects'),
-  Types = Api('types'),
-  Users = Api('users')
+      Users = Api('users')
 
-function get_all_languages_failure(reason) {
+function create_user_failure (reason) {
   return {
-    type: LANGUAGES.GET.ALL.FAILURE,
+    type: USER.CREATE.FAILURE,
     reason
   }
 }
 
-function get_all_languages_success({ count, rows }) {
+function create_user_success ({ rows }) {
   return {
-    type: LANGUAGES.GET.ALL.SUCCESS,
-    count,
+    type: USER.CREATE.SUCCESS,
     rows
   }
 }
 
-export function get_all_languages(params) {
-  const request = Languages(
-    get_all_languages_success,
-    get_all_languages_failure
-  )
-
-  request.setParams(params)
-  return request.get()
-}
-
-function get_all_projects_failure(reason) {
-  return {
-    type: PROJECTS.GET.ALL.FAILURE,
-    reason
-  }
-}
-
-function get_all_projects_success({ count, rows }) {
-  return {
-    type: PROJECTS.GET.ALL.SUCCESS,
-    count,
-    rows
-  }
-}
-
-export function get_all_projects(params) {
-  const request = Projects(
-    get_all_projects_success,
-    get_all_projects_failure
-  )
-
-  request.setParams(params)
-  return request.get()
-}
-
-function get_all_types_failure(reason) {
-  return {
-    type: TYPES.GET.ALL.FAILURE,
-    reason
-  }
-}
-
-function get_all_types_success({ count, rows }) {
-  return {
-    type: TYPES.GET.ALL.SUCCESS,
-    count,
-    rows
-  }
-}
-
-export function get_all_types(params) {
-  const request = Types(
-    get_all_types_success,
-    get_all_types_failure
-  )
-
-  request.setParams(params)
-  return request.get()
-}
-
-function create_user_failure(reason) {
-  return {
-    type: USERS.CREATE.FAILURE,
-    reason
-  }
-}
-
-export function create_user_success({ rows }) {
-  return {
-    type: USERS.CREATE.SUCCESS,
-    row: rows[0]
-  }
-}
-
-
-export function create_user(body) {
+export function create_user (body) {
   const request = Users(
     create_user_success,
     create_user_failure
   )
+
   request.setBody(body)
   return request.post()
 }
 
-function delete_one_users_failure(reason) {
+function delete_user_failure (reason) {
   return {
-    type: USERS.DELETE.ONE.FAILURE,
+    type: USER.DELETE.FAILURE,
     reason
   }
 }
 
-function delete_one_users_success({ rows }) {
+function delete_user_success ({ rows }) {
   return {
-    type: USERS.DELETE.ONE.SUCCESS,
-    row: rows[0]
+    type: USER.DELETE.SUCCESS,
+    rows
   }
 }
 
-export function delete_one_users(id) {
+export function delete_user (id) {
   const request = Users(
-    delete_one_users_success,
-    delete_one_users_failure
+    delete_user_success,
+    delete_user_failure
   )
 
   request.addPath([id])
   return request.delete()
 }
 
-function get_all_users_failure(reason) {
+function get_users_failure (reason) {
   return {
-    type: USERS.GET.ALL.FAILURE,
+    type: USERS.GET.FAILURE,
     reason
   }
 }
 
-function get_all_users_success({ count, rows }) {
+function get_users_success ({ count, rows }) {
   return {
-    type: USERS.GET.ALL.SUCCESS,
+    type: USERS.GET.SUCCESS,
     count,
     rows
   }
 }
 
-export function get_all_users(params) {
+export function get_users(params) {
   const request = Users(
-    get_all_users_success,
-    get_all_users_failure
+    get_users_success,
+    get_users_failure
   )
 
   request.setParams(params)
   return request.get()
 }
 
-function get_one_user_failure(reason) {
+function update_user_failure (reason) {
   return {
-    type: USERS.GET.ONE.FAILURE,
+    type: USER.UPDATE.FAILURE,
     reason
   }
 }
 
-function get_one_user_success({ rows }) {
+function update_user_success ({ rows }) {
   return {
-    type: USERS.GET.ONE.SUCCESS,
-    row: rows[0]
+    type: USER.UPDATE.SUCCESS,
+    rows
   }
 }
 
-export function get_user(id) {
-  const request = Users(
-    get_one_user_success,
-    get_one_user_failure
-  )
-
-  request.addPath([id])
-  return request.get()
-}
-
-function update_user_failure(reason) {
-  return {
-    type: USERS.UPDATE.ONE.FAILURE,
-    reason
-  }
-}
-
-function update_user_success({ rows }) {
-  return {
-    type: USERS.UPDATE.ONE.SUCCESS,
-    row: rows[0]
-  }
-}
-
-export function update_user(id, body) {
+export function update_user (id, fields) {
   const request = Users(
     update_user_success,
     update_user_failure
   )
 
-  request.addPath([id])
-  request.setBody(body)
+  request.addPath([ id ])
+  request.setBody(fields)
   return request.patch()
 }

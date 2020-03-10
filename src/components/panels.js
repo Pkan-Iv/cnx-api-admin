@@ -1,32 +1,17 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import {
   create_user,
-  delete_one_users,
-  get_all_languages,
-  get_all_projects,
-  get_all_types,
-  get_all_users,
-  get_user,
+  delete_user,
+  get_users,
   update_user
 } from '../actions'
 
 import DataTable from './datatable'
-import { Add, Update } from './users'
+import { User } from './views'
 
 export default {
   Users: {
-    add: () => <Add actions={{
-      create: create_user,
-      getLanguages:get_all_languages ,
-      getProjects: get_all_projects,
-      getTypes: get_all_types
-    }} />,
-
-    edit: ({ id }) => {
-      return <Update id={ id } actions={{ edit: update_user, get: get_user, remove: delete_one_users }} />
-    },
-
     list: ({ create, select }) => (
       <DataTable cells={[
         { name: 'display_name', label: 'Username', align: 'left' },
@@ -36,10 +21,14 @@ export default {
         { name: 'project', label: 'Project', align: 'left' },
         { name: 'whitelabel', label: 'Whitelabel', align: 'left' }
       ]} actions={{
-        get: get_all_users,
+        get: get_users,
         create,
         select
       }} />
+    ),
+
+    show: ({ id }) => (
+      <User create={ create_user } id={ id } remove={ delete_user } update={ update_user } />
     )
   }
 }

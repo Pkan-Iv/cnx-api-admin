@@ -44,7 +44,7 @@ function GetTabProps (index) {
 
 export default function Application () {
   const classes = useStyles(),
-        [ { context }, dispatch ] = useStore(),
+        [{ context }, dispatch ] = useStore(),
         [ tab, setTab ] = useState( 0 ),
         [ view, setView ] = useState({ type: 'list' }),
         { authenticated } = context
@@ -55,7 +55,7 @@ export default function Application () {
   }
 
   function handleCreate () {
-    setView({ type: 'add' })
+    setView({ type: 'show' })
   }
 
   function handleLogout () {
@@ -63,11 +63,13 @@ export default function Application () {
   }
 
   function handleSelect (id) {
-    setView({ type: 'edit', id })
+    setView({ type: 'show', id })
   }
 
   function renderPanel (label) {
     const { id, type } = view
+
+    console.log( label, type )
 
     return Panels[ label ][ type ]({
       create: handleCreate,
