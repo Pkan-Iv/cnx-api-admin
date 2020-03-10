@@ -104,7 +104,7 @@ export const Add = ({ actions = { create: null, get: null } }) => {
           <TextField className={classes.input}
             id='project_ref'
             label='Project'
-            onChange={handleProjectChange}
+            onChange={handleProjectRefChange}
             select
             value={project_ref}
             variant='outlined'
