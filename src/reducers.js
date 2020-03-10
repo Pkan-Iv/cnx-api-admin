@@ -1,6 +1,6 @@
 import { CreateReducer, ConnectMutator } from '../lib/factories'
 import { Context } from './defaults'
-import { CREDENTIALS, PROJECTS, USERS } from './descriptors'
+import { CREDENTIALS, LANGUAGES, PROJECTS, USERS, TYPES } from './descriptors'
 
 const CreateArrayReducer = CreateReducer([]),
   CreateContextReducer = CreateReducer(Context),
@@ -27,7 +27,9 @@ export const CountReducer = CreateNumberReducer(
 
 export const ReasonReducer = CreateStringReducer(
   ConnectMutator((s, p) => p.reason,
+    LANGUAGES.GET.ALL.FAILURE,
     PROJECTS.GET.ALL.FAILURE,
+    TYPES.GET.ALL.FAILURE,
     USERS.CREATE.FAILURE,
     USERS.DELETE.ONE.FAILURE,
     USERS.GET.ALL.FAILURE,
@@ -47,7 +49,9 @@ export const RowReducer = CreateObjectReducer(
 
 export const RowsReducer = CreateArrayReducer(
   ConnectMutator((s, p) => p.rows,
+    LANGUAGES.GET.ALL.SUCCESS,
     PROJECTS.GET.ALL.SUCCESS,
+    TYPES.GET.ALL.SUCCESS,
     USERS.GET.ALL.SUCCESS,
   )
 )

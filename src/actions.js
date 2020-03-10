@@ -1,5 +1,5 @@
 import { FetchInterface } from '../lib/interfaces'
-import { PROJECTS, USERS, TYPES } from './descriptors'
+import { LANGUAGES, PROJECTS, USERS, TYPES } from './descriptors'
 
 import { api } from '../config.json'
 
@@ -7,8 +7,7 @@ const Api = FetchInterface(api.url),
   Languages = Api('languages'),
   Projects = Api('projects'),
   Types = Api('types'),
-  Users = Api('users'),
-  Whitelabels = Api('whitelabels')
+  Users = Api('users')
 
 function get_all_languages_failure(reason) {
   return {

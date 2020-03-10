@@ -38,6 +38,8 @@ export const Add = ({ actions = {
     dispatch(getProjects())
   }, [])
 
+  console.log(rows)
+
   function handleDisplayNameChange(e) {
     setFields({ ...fields, display_name: e.target.value })
   }
