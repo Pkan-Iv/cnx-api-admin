@@ -51,3 +51,12 @@ export const PROJECTS = {
     }
   }
 }
+
+export const WHITELABELS = {
+  GET: {
+    ALL: {
+      FAILURE: 'WHITELABELS.GET.ALL.FAILURE',
+      SUCCESS: 'WHITELABELS.GET.ALL.SUCCESS',
+    }
+  }
+}
