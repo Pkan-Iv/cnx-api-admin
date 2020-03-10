@@ -21,10 +21,11 @@ export const Add = ({ actions = { create: null, get: null } }) => {
     display_name: '',
     language: '',
     login: '',
-    project: '',
-    type: ''
+    project_ref: '',
+    type: '',
+    whitelabel_ref: ''
   })
-  const { display_name, language, login, project, type } = fields
+  const { display_name, language, login, project_ref, type } = fields
   const { create, get } = actions
   const { rows, count } = state
   const classes = useStyles()
@@ -45,8 +46,8 @@ export const Add = ({ actions = { create: null, get: null } }) => {
     setFields({ ...fields, language: e.target.value })
   }
 
-  function handleProjectChange(e) {
-    setFields({ ...fields, project: e.target.value })
+  function handleProjectRefChange(e) {
+    setFields({ ...fields, project_ref: e.target.value })
   }
 
   function handleTypeChange(e) {
@@ -105,7 +106,7 @@ export const Add = ({ actions = { create: null, get: null } }) => {
             label='Project'
             onChange={handleProjectChange}
             select
-            value={project}
+            value={project_ref}
             variant='outlined'
             margin='normal'
           >
