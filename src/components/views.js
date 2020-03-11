@@ -31,7 +31,11 @@ export function User({
       type: ''
     }
   ),
-  [values, setValues] = useState(''),
+  [values, setValues] = useState('' || { language: '' } || { type: ''} || {
+    id: '',
+    name: ''
+  }
+  ),
   languages = useLanguages(),
   projects = useProjects(),
   types = useTypes()
@@ -44,8 +48,10 @@ export function User({
     }
   }
 
-  function handleChange(e) {
-    setValues(e.target.value)
+  function handleChange(field) {
+    return e => {
+    setValues({...values, [field]: e.target.value})
+    }
   }
 
   function handleRemove(e) {
@@ -100,7 +106,7 @@ export function User({
           id='language'
           label='Language'
           margin='normal'
-          onClick={ handleChange }
+          onClick={ handleChange('language') }
           onChange={ createChangeHandler('language') }
           select
           value={ values }
@@ -108,6 +114,62 @@ export function User({
             { languages.map(({ language }) =>(
               <MenuItem key={ language } value={ language }>
                 { language }
+              </MenuItem>
+            )) }
+        </TextField>
+      )
+    }
+  }
+  function projectSelector() {
+    let loaded =false
+
+    if ((projects === undefined)) {
+      loaded = false
+      return <CircularProgress />
+    }
+    if(projects !== undefined) {
+      loaded = true
+      return (
+        <TextField className={classes.input}
+          id='project'
+          label='Project'
+          margin='normal'
+          onClick={ handleChange('project') }
+          onChange={ createChangeHandler('project') }
+          select
+          value={ values }
+          variant='outlined' >
+            { projects.map(({ id, name }) =>(
+              <MenuItem key={ id } value={ name }>
+                { name }
+              </MenuItem>
+            )) }
+        </TextField>
+      )
+    }
+  }
+  function typeSelector() {
+    let loaded =false
+
+    if ((types === undefined)) {
+      loaded = false
+      return <CircularProgress />
+    }
+    if(types !== undefined) {
+      loaded = true
+      return (
+        <TextField className={classes.input}
+          id='type'
+          label='type'
+          margin='normal'
+          onClick={ handleChange('type') }
+          onChange={ createChangeHandler('type') }
+          select
+          value={ values }
+          variant='outlined' >
+            { types.map(({ type }) =>(
+              <MenuItem key={ type } value={ type }>
+                { type }
               </MenuItem>
             )) }
         </TextField>
@@ -171,26 +233,12 @@ export function User({
             margin='normal'
           />
 
-          <TextField className={classes.input}
-            id='type'
-            label='Type'
-            defaultValue={fields.type}
-            onChange={createChangeHandler('type')}
-            variant='outlined'
-            margin='normal'
-          />
-
           { languageSelector() }
 
+          { projectSelector() }
 
-          <TextField className={classes.input}
-            id='project'
-            label='Project'
-            defaultValue={fields.project}
-            onChange={createChangeHandler('project')}
-            variant='outlined'
-            margin='normal'
-          />
+          { typeSelector() }
+
         </Box>
 
         {renderCreateButton()}
