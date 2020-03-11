@@ -6,6 +6,7 @@ import { Delete, Edit, Save } from '@material-ui/icons'
 
 import { useStore } from '../../lib/hooks'
 import { useLanguages, useProjects, useTypes } from '../hooks'
+import { USER } from '../descriptors'
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -48,111 +49,17 @@ function Selector ({ label = '', onChange, value = '', values } = {}) {
   )
 }
 
-/*
-function LanguagesSelector ({ onChange, value = '' } = {}) {
-  const classes = useStyles(),
-        values = useLanguages()
-
-  function renderValues () {
-    return values.map( ({ language }) => (
-      <MenuItem key={ language } value={ language }>
-        { language }
-      </MenuItem>
-    ))
-  }
-
-  if (values === undefined) {
-    return <CircularProgress />
-  }
-
-  return (
-    <TextField className={classes.input}
-      id='language'
-      label='Language'
-      margin='normal'
-      onChange={ onChange }
-      placeholder='Language'
-      select
-      value={ value }
-      variant='outlined' >
-      { renderValues() }
-    </TextField>
-  )
-}
-
-function ProjectsSelector ({ onChange, value = '' } = {}) {
-  const classes = useStyles(),
-        values = useProjects()
-
-  function renderValues () {
-    return values.map( (project) => (
-      <MenuItem key={ project.id } value={ project.id }>
-        { project.name }
-      </MenuItem>
-    ))
-  }
-
-  if (values === undefined) {
-    return <CircularProgress />
-  }
-
-  return (
-    <TextField className={classes.input}
-      id='project'
-      label='Project'
-      margin='normal'
-      onChange={ onChange }
-      placeholder='Project'
-      select
-      value={ value }
-      variant='outlined' >
-      { renderValues() }
-    </TextField>
-  )
-}
-
-function TypesSelector ({ onChange, value = '' } = {}) {
-  const classes = useStyles(),
-        values = useTypes()
-
-  function renderValues () {
-    return values.map( ({ type }) => (
-      <MenuItem key={ type } value={ type }>
-        { type }
-      </MenuItem>
-    ))
-  }
-
-  if (values === undefined) {
-    return <CircularProgress />
-  }
-
-  return (
-    <TextField className={classes.input}
-      id='type'
-      label='Type'
-      margin='normal'
-      onChange={ onChange }
-      placeholder='Type'
-      select
-      value={ value }
-      variant='outlined' >
-      { renderValues() }
-    </TextField>
-  )
-}
-*/
-
 export function User({
   create = null,
   id = null,
+  leave = null,
   remove = null,
   update = null
 } = {}) {
   const classes = useStyles(),
-        [{ rows }, dispatch] = useStore(),
-        [fields, setFields] = useState(
-          rows.filter((row) => row.id === id)[0] || {
+        [{ action, rows }, dispatch] = useStore(),
+        [ fields, setFields ] = useState(
+          rows.filter( (row) => row.id === id)[0] || {
             display_name: '',
             language: '',
             login: '',
@@ -237,6 +144,17 @@ export function User({
       </Button>
     )
   }
+
+  useEffect( () => {
+    if (typeof leave === 'function') {
+      switch (action) {
+        case USER.CREATE.SUCCESS:
+        case USER.DELETE.SUCCESS:
+        case USER.UPDATE.SUCCESS:
+          leave()
+      }
+    }
+  }, [ action ])
 
   return (
     <Fragment>

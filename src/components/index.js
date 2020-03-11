@@ -58,6 +58,10 @@ export default function Application () {
     setView({ type: 'show' })
   }
 
+  function handleLeave () {
+    setView({ type: 'list' })
+  }
+
   function handleLogout () {
     dispatch({ type: CREDENTIALS.DELETE.SUCCESS })
   }
@@ -71,6 +75,7 @@ export default function Application () {
 
     return Panels[ label ][ type ]({
       create: handleCreate,
+      leave: handleLeave,
       select: handleSelect,
       id
     })

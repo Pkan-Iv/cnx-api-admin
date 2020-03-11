@@ -27,8 +27,8 @@ export default {
       }} />
     ),
 
-    show: ({ id }) => (
-      <User create={ create_user } id={ id } remove={ delete_user } update={ update_user } />
+    show: ({ id, leave }) => (
+      <User create={ create_user } id={ id } leave={ leave } remove={ delete_user } update={ update_user } />
     )
   }
 }
