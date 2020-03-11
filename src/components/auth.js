@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import {
@@ -9,7 +9,6 @@ import {
 } from '@material-ui/core'
 
 import { CREDENTIALS } from '../descriptors'
-import { useFormFields } from '../hooks'
 import { useStore } from '../../lib/hooks'
 
 const useStyles = makeStyles(theme => ({
@@ -37,18 +36,23 @@ const useStyles = makeStyles(theme => ({
 
 export default function Auth () {
   const classes = useStyles(),
-        [ fields, handleFieldChange ] = useFormFields({
+        [ fields, setFields ] = useState({
           username: '',
           password: ''
         }),
         [ state, dispatch ] = useStore()
 
+  function createChangeHandler (field) {
+    return (e) => {
+      setFields({ ...fields, [ field ]: e.target.value })
+    }
+  }
+
   function handleSubmit (e) {
     const { password, username } = fields
 
     e.preventDefault()
-
-    dispatch({ type: CREDENTIALS.POST.SUCCESS })
+    dispatch({ type: CREDENTIALS.POST.SUCCESS, password, username })
   }
 
   return (
@@ -61,7 +65,7 @@ export default function Auth () {
           label="Username"
           margin="normal"
           name="username"
-          onChange={ handleFieldChange }
+          onChange={ createChangeHandler('username') }
           required
           variant="outlined"
         />
@@ -72,21 +76,18 @@ export default function Auth () {
           label="Password"
           margin="normal"
           name="password"
-          onChange={ handleFieldChange }
+          onChange={ createChangeHandler('password') }
           required
           type="password"
           variant="outlined"
         />
 
-        <Box
-          display="flex"
-          justifyContent="center">
+        <Box display="flex" justifyContent="center">
           <Button
             className={ classes.submit }
             color="primary"
             type="submit"
-            variant="contained"
-          >
+            variant="contained">
             Sign In
           </Button>
         </Box>
