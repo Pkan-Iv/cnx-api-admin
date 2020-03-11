@@ -111,6 +111,12 @@ export default function Application () {
     ))
   }
 
+  function renderTabs () {
+    return Object.keys( Panels ).map( (label, index) => (
+      <Tab key={ label } label={ label } { ...GetTabProps( index ) } />
+    ))
+  }
+
   useEffect( () => {
     if (reason !== '')
       return setFailure( true )
@@ -122,12 +128,6 @@ export default function Application () {
         return setSuccess( true )
     }
   }, [ action, reason ])
-
-  function renderTabs () {
-    return Object.keys( Panels ).map( (label, index) => (
-      <Tab key={ label } label={ label } { ...GetTabProps( index ) } />
-    ))
-  }
 
   return (
     <Fragment>
