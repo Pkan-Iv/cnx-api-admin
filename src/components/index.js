@@ -1,22 +1,25 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
 import {
   AppBar,
   Button,
+  Snackbar,
   Tab,
   Tabs,
   Toolbar,
   Typography
 } from '@material-ui/core'
 
+import MuiAlert from '@material-ui/lab/Alert'
+
 import { useStore } from '../../lib/hooks'
 
 import Auth  from './auth'
 import Panel from './panel'
 import Panels from './panels'
-import { CREDENTIALS } from '../descriptors'
+import { CREDENTIALS, USER } from '../descriptors'
 
 const useStyles = makeStyles( (theme) => ({
   grow: {
@@ -44,7 +47,9 @@ function GetTabProps (index) {
 
 export default function Application () {
   const classes = useStyles(),
-        [{ context }, dispatch ] = useStore(),
+        [ { action, context, reason }, dispatch ] = useStore(),
+        [ failure, setFailure ] = useState( false ),
+        [ success, setSuccess ] = useState( false ),
         [ tab, setTab ] = useState( 0 ),
         [ view, setView ] = useState({ type: 'list' }),
         { authenticated } = context
@@ -55,10 +60,23 @@ export default function Application () {
   }
 
   function handleCreate () {
+    setFailure( false )
+    setSuccess( false )
     setView({ type: 'show' })
   }
 
+  function handleClose (event, reason) {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setFailure( false )
+    setSuccess( false )
+  }
+
   function handleLeave () {
+    setFailure( false )
+    setSuccess( false )
     setView({ type: 'list' })
   }
 
@@ -67,6 +85,8 @@ export default function Application () {
   }
 
   function handleSelect (id) {
+    setFailure( false )
+    setSuccess( false )
     setView({ type: 'show', id })
   }
 
@@ -89,6 +109,18 @@ export default function Application () {
     ))
   }
 
+  useEffect( () => {
+    if (reason !== '')
+      return setFailure( true )
+
+    switch (action) {
+      case USER.CREATE.SUCCESS:
+      case USER.DELETE.SUCCESS:
+      case USER.UPDATE.SUCCESS:
+        return setSuccess( true )
+    }
+  }, [ action, reason ])
+
   function renderTabs () {
     return Object.keys( Panels ).map( (label, index) => (
       <Tab key={ label } label={ label } { ...GetTabProps( index ) } />
@@ -108,13 +140,27 @@ export default function Application () {
       </AppBar>
 
       { !authenticated ? <Auth /> : (
-        <div className={ classes.layout }>
-          <Tabs className={ classes.tabs } onChange={ handleChange } orientation='vertical' value={ tab } variant='scrollable'>
-            { renderTabs() }
-          </Tabs>
+        <Fragment>
+          <div className={ classes.layout }>
+            <Tabs className={ classes.tabs } onChange={ handleChange } orientation='vertical' value={ tab } variant='scrollable'>
+              { renderTabs() }
+            </Tabs>
 
-          { renderPanels() }
-        </div>
+            { renderPanels() }
+          </div>
+
+          <Snackbar autoHideDuration={ 5000 } open={ success } onClose={ handleClose }>
+            <MuiAlert elevation={6} variant="filled" severity="success" onClose={ handleClose }>
+              Opération réussie avec succès !
+            </MuiAlert>
+          </Snackbar>
+
+          <Snackbar autoHideDuration={ 5000 } open={ failure } onClose={ handleClose }>
+            <MuiAlert elevation={6} variant="filled" severity="error" onClose={ handleClose }>
+              { reason }
+            </MuiAlert>
+          </Snackbar>
+        </Fragment>
       )}
     </Fragment>
   )

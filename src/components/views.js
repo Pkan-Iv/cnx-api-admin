@@ -57,7 +57,7 @@ export function User({
   update = null
 } = {}) {
   const classes = useStyles(),
-        [{ action, reason, rows }, dispatch] = useStore(),
+        [{ action, rows }, dispatch] = useStore(),
         [ fields, setFields ] = useState(
           rows.filter( (row) => row.id === id)[0] || {
             display_name: '',
@@ -113,10 +113,6 @@ export function User({
         CREATE
       </Button>
     )
-  }
-
-  function renderReason () {
-    return reason
   }
 
   function renderRemoveButton () {
