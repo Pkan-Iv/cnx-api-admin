@@ -57,7 +57,7 @@ export function User({
   update = null
 } = {}) {
   const classes = useStyles(),
-        [{ action, rows }, dispatch] = useStore(),
+        [{ action, reason, rows }, dispatch] = useStore(),
         [ fields, setFields ] = useState(
           rows.filter( (row) => row.id === id)[0] || {
             display_name: '',
@@ -71,13 +71,13 @@ export function User({
         projects = useProjects(),
         types = useTypes()
 
-  function createChangeHandler(field) {
+  function createChangeHandler (field) {
     return (e) => {
       setFields({ ...fields, [field]: e.target.value })
     }
   }
 
-  function handleRemove(e) {
+  function handleRemove (e) {
     e.preventDefault()
 
     if (remove !== null && typeof remove === 'function') {
@@ -85,7 +85,7 @@ export function User({
     }
   }
 
-  function handleSubmit(e) {
+  function handleSubmit (e) {
     e.preventDefault()
 
     if (id === null) {
@@ -100,7 +100,7 @@ export function User({
     }
   }
 
-  function renderCreateButton() {
+  function renderCreateButton () {
     if (id !== null)
       return null
 
@@ -115,7 +115,11 @@ export function User({
     )
   }
 
-  function renderRemoveButton() {
+  function renderReason () {
+    return reason
+  }
+
+  function renderRemoveButton () {
     if (id === null)
       return null
 
@@ -130,7 +134,7 @@ export function User({
     )
   }
 
-  function renderUpdateButton() {
+  function renderUpdateButton () {
     if (id === null)
       return null
 
