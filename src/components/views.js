@@ -108,6 +108,7 @@ export function User({
           margin='normal'
           onClick={ handleChange('language') }
           onChange={ createChangeHandler('language') }
+          placeholder='Language'
           select
           value={ values }
           variant='outlined' >
@@ -136,6 +137,7 @@ export function User({
           margin='normal'
           onClick={ handleChange('project') }
           onChange={ createChangeHandler('project') }
+          placeholder='Project'
           select
           value={ values }
           variant='outlined' >
@@ -164,6 +166,7 @@ export function User({
           margin='normal'
           onClick={ handleChange('type') }
           onChange={ createChangeHandler('type') }
+          placeholder='Type'
           select
           value={ values }
           variant='outlined' >
