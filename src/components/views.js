@@ -8,11 +8,140 @@ import { useStore } from '../../lib/hooks'
 import { useLanguages, useProjects, useTypes } from '../hooks'
 
 const useStyles = makeStyles((theme) => ({
+  box: {
+    display: 'block',
+    width: '100%'
+  },
+
   input: {
     margin: '5 auto',
     width: '60%'
   }
 }))
+
+function Selector ({ label = '', onChange, value = '', values } = {}) {
+  const classes = useStyles()
+
+  function renderValues () {
+    return values.map( ({ id, name }) => (
+      <MenuItem key={ id } value={ id }>
+        { name }
+      </MenuItem>
+    ))
+  }
+
+  if (values === undefined) {
+    return <CircularProgress />
+  }
+
+  return (
+    <TextField className={ classes.input }
+      id={ label.toLowerCase() }
+      label={ label }
+      margin='normal'
+      onChange={ onChange }
+      select
+      value={ value }
+      variant='outlined' >
+      { renderValues() }
+    </TextField>
+  )
+}
+
+/*
+function LanguagesSelector ({ onChange, value = '' } = {}) {
+  const classes = useStyles(),
+        values = useLanguages()
+
+  function renderValues () {
+    return values.map( ({ language }) => (
+      <MenuItem key={ language } value={ language }>
+        { language }
+      </MenuItem>
+    ))
+  }
+
+  if (values === undefined) {
+    return <CircularProgress />
+  }
+
+  return (
+    <TextField className={classes.input}
+      id='language'
+      label='Language'
+      margin='normal'
+      onChange={ onChange }
+      placeholder='Language'
+      select
+      value={ value }
+      variant='outlined' >
+      { renderValues() }
+    </TextField>
+  )
+}
+
+function ProjectsSelector ({ onChange, value = '' } = {}) {
+  const classes = useStyles(),
+        values = useProjects()
+
+  function renderValues () {
+    return values.map( (project) => (
+      <MenuItem key={ project.id } value={ project.id }>
+        { project.name }
+      </MenuItem>
+    ))
+  }
+
+  if (values === undefined) {
+    return <CircularProgress />
+  }
+
+  return (
+    <TextField className={classes.input}
+      id='project'
+      label='Project'
+      margin='normal'
+      onChange={ onChange }
+      placeholder='Project'
+      select
+      value={ value }
+      variant='outlined' >
+      { renderValues() }
+    </TextField>
+  )
+}
+
+function TypesSelector ({ onChange, value = '' } = {}) {
+  const classes = useStyles(),
+        values = useTypes()
+
+  function renderValues () {
+    return values.map( ({ type }) => (
+      <MenuItem key={ type } value={ type }>
+        { type }
+      </MenuItem>
+    ))
+  }
+
+  if (values === undefined) {
+    return <CircularProgress />
+  }
+
+  return (
+    <TextField className={classes.input}
+      id='type'
+      label='Type'
+      margin='normal'
+      onChange={ onChange }
+      placeholder='Type'
+      select
+      value={ value }
+      variant='outlined' >
+      { renderValues() }
+    </TextField>
+  )
+}
+*/
 
 export function User({
   create = null,
@@ -21,36 +150,23 @@ export function User({
   update = null
 } = {}) {
   const classes = useStyles(),
-  [{ rows }, dispatch] = useStore(),
-  [fields, setFields] = useState(
-    rows.filter((row) => row.id === id)[0] || {
-      display_name: '',
-      language: '',
-      login: '',
-      project: '',
-      type: ''
-    }
-  ),
-  [values, setValues] = useState('' || { language: '' } || { type: ''} || {
-    id: '',
-    name: ''
-  }
-  ),
-  languages = useLanguages(),
-  projects = useProjects(),
-  types = useTypes()
-
-
+        [{ rows }, dispatch] = useStore(),
+        [fields, setFields] = useState(
+          rows.filter((row) => row.id === id)[0] || {
+            display_name: '',
+            language: '',
+            login: '',
+            project_ref: '',
+            type: ''
+          }
+        ),
+        languages = useLanguages(),
+        projects = useProjects(),
+        types = useTypes()
 
   function createChangeHandler(field) {
     return (e) => {
       setFields({ ...fields, [field]: e.target.value })
-    }
-  }
-
-  function handleChange(field) {
-    return e => {
-    setValues({...values, [field]: e.target.value})
     }
   }
 
@@ -92,94 +208,6 @@ export function User({
     )
   }
 
-  function languageSelector() {
-    let loaded =false
-
-    if ((languages === undefined)) {
-      loaded = false
-      return <CircularProgress />
-    }
-    if(languages !== undefined) {
-      loaded = true
-      return (
-        <TextField className={classes.input}
-          id='language'
-          label='Language'
-          margin='normal'
-          onClick={ handleChange('language') }
-          onChange={ createChangeHandler('language') }
-          placeholder='Language'
-          select
-          value={ values }
-          variant='outlined' >
-            { languages.map(({ language }) =>(
-              <MenuItem key={ language } value={ language }>
-                { language }
-              </MenuItem>
-            )) }
-        </TextField>
-      )
-    }
-  }
-  function projectSelector() {
-    let loaded =false
-
-    if ((projects === undefined)) {
-      loaded = false
-      return <CircularProgress />
-    }
-    if(projects !== undefined) {
-      loaded = true
-      return (
-        <TextField className={classes.input}
-          id='project'
-          label='Project'
-          margin='normal'
-          onClick={ handleChange('project') }
-          onChange={ createChangeHandler('project') }
-          placeholder='Project'
-          select
-          value={ values }
-          variant='outlined' >
-            { projects.map(({ id, name }) =>(
-              <MenuItem key={ id } value={ name }>
-                { name }
-              </MenuItem>
-            )) }
-        </TextField>
-      )
-    }
-  }
-  function typeSelector() {
-    let loaded =false
-
-    if ((types === undefined)) {
-      loaded = false
-      return <CircularProgress />
-    }
-    if(types !== undefined) {
-      loaded = true
-      return (
-        <TextField className={classes.input}
-          id='type'
-          label='type'
-          margin='normal'
-          onClick={ handleChange('type') }
-          onChange={ createChangeHandler('type') }
-          placeholder='Type'
-          select
-          value={ values }
-          variant='outlined' >
-            { types.map(({ type }) =>(
-              <MenuItem key={ type } value={ type }>
-                { type }
-              </MenuItem>
-            )) }
-        </TextField>
-      )
-    }
-  }
-
   function renderRemoveButton() {
     if (id === null)
       return null
@@ -212,7 +240,7 @@ export function User({
 
   return (
     <Fragment>
-      <Box>
+      <Box className={ classes.box }>
         <h3>{id !== null ? `Edit user ${id}` : 'Create an user'}</h3>
       </Box>
 
@@ -236,12 +264,20 @@ export function User({
             margin='normal'
           />
 
-          { languageSelector() }
+          <Selector label='Language' onChange={ createChangeHandler('language') }
+            value={ fields.language }
+            values={ languages }
+          />
 
-          { projectSelector() }
+          <Selector label='Project' onChange={ createChangeHandler('project_ref') }
+            value={ fields.project_ref }
+            values={ projects }
+          />
 
-          { typeSelector() }
-
+          <Selector label='Type' onChange={ createChangeHandler('type') }
+            value={ fields.type }
+            values={ types }
+          />
         </Box>
 
         {renderCreateButton()}
