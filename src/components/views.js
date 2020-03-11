@@ -64,7 +64,8 @@ export function User({
             language: '',
             login: '',
             project_ref: '',
-            type: ''
+            type: '',
+            password: ''
           }
         ),
         languages = useLanguages(),
@@ -178,6 +179,16 @@ export function User({
             label='Login'
             defaultValue={fields.login}
             onChange={createChangeHandler('login')}
+            variant='outlined'
+            margin='normal'
+          />
+
+          <TextField className={classes.input}
+            id='password'
+            label='Password'
+            defaultValue={fields.paswword}
+            onChange={createChangeHandler('password')}
+            type='password'
             variant='outlined'
             margin='normal'
           />
