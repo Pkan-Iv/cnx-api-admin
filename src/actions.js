@@ -10,7 +10,22 @@ import {
 
 import { api } from '../config.json'
 
-const Api = FetchInterface(api.url),
+const validStatus = [ 200, 201, 204 ]
+
+function ApiFetchHandler () {
+  return async (response) => {
+    const { status } = response
+
+    if (validStatus.indexOf( status ) === -1) {
+      throw new Error( status )
+    }
+
+    const result = status === 204 ? {} : await response.json()
+    return result
+  }
+}
+
+const Api = FetchInterface(api.url, ApiFetchHandler),
       Languages = Api('languages'),
       Projects = Api('projects'),
       Types = Api('types'),
