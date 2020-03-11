@@ -54,14 +54,18 @@ export default function Application () {
         [ view, setView ] = useState({ type: 'list' }),
         { authenticated } = context
 
+  function closeSnackBar () {
+    setFailure( false )
+    setSuccess( false )
+  }
+
   function handleChange (e, index) {
     setTab( index )
     setView({ type: 'list' })
   }
 
   function handleCreate () {
-    setFailure( false )
-    setSuccess( false )
+    closeSnackBar()
     setView({ type: 'show' })
   }
 
@@ -70,23 +74,21 @@ export default function Application () {
       return;
     }
 
-    setFailure( false )
-    setSuccess( false )
+    closeSnackBar()
   }
 
   function handleLeave () {
-    setFailure( false )
-    setSuccess( false )
+    closeSnackBar()
     setView({ type: 'list' })
   }
 
   function handleLogout () {
+    closeSnackBar()
     dispatch({ type: CREDENTIALS.DELETE.SUCCESS })
   }
 
   function handleSelect (id) {
-    setFailure( false )
-    setSuccess( false )
+    closeSnackBar()
     setView({ type: 'show', id })
   }
 
