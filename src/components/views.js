@@ -1,70 +1,77 @@
 import React, { Fragment, useEffect, useState } from 'react'
 
-import { Box, Button, MenuItem, TextField } from '@material-ui/core'
+import { Box, Button, CircularProgress, MenuItem, Select, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Delete, Edit, Save } from '@material-ui/icons'
 
 import { useStore } from '../../lib/hooks'
 import { useLanguages, useProjects, useTypes } from '../hooks'
 
-const useStyles = makeStyles( (theme) => ({
+const useStyles = makeStyles((theme) => ({
   input: {
     margin: '5 auto',
     width: '60%'
   }
 }))
 
-export function User ({
+export function User({
   create = null,
   id = null,
   remove = null,
   update = null
 } = {}) {
   const classes = useStyles(),
-        [{ rows }, dispatch ] = useStore(),
-        [ fields, setFields ] = useState(
-          rows.filter( (row) => row.id === id )[0] || {
-            display_name: '',
-            language: '',
-            login: '',
-            project: '',
-            type: ''
-          }
-        ),
-        languages = useLanguages(),
-        projects = useProjects(),
-        types = useTypes()
+  [{ rows }, dispatch] = useStore(),
+  [fields, setFields] = useState(
+    rows.filter((row) => row.id === id)[0] || {
+      display_name: '',
+      language: '',
+      login: '',
+      project: '',
+      type: ''
+    }
+  ),
+  [values, setValues] = useState(''),
+  languages = useLanguages(),
+  projects = useProjects(),
+  types = useTypes()
 
-  function createChangeHandler (field) {
+
+
+  function createChangeHandler(field) {
     return (e) => {
-      setFields({ ...fields, [ field ]: e.target.value })
+      setFields({ ...fields, [field]: e.target.value })
     }
   }
 
-  function handleRemove (e) {
+  function handleChange(e) {
+    setValues(e.target.value)
+  }
+
+  function handleRemove(e) {
     e.preventDefault()
 
     if (remove !== null && typeof remove === 'function') {
-      dispatch(remove( id ))
+      dispatch(remove(id))
     }
   }
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
     e.preventDefault()
 
     if (id === null) {
       if (create !== null && typeof create === 'function') {
-        dispatch(create( fields ))
+        dispatch(create(fields))
       }
     }
     else {
       if (update !== null && typeof update === 'function') {
-        dispatch(update( id, fields ))
+        dispatch(update(id, fields))
       }
     }
   }
 
-  function renderCreateButton () {
+  function renderCreateButton() {
     if (id !== null)
       return null
 
@@ -72,29 +79,58 @@ export function User ({
       <Button className={classes.submit}
         color="primary"
         type="submit"
-        startIcon={ <Save /> }
+        startIcon={<Save />}
         variant="contained">
         CREATE
       </Button>
     )
   }
 
-  function renderRemoveButton () {
+  function languageSelector() {
+    let loaded =false
+
+    if ((languages === undefined)) {
+      loaded = false
+      return <CircularProgress />
+    }
+    if(languages !== undefined) {
+      loaded = true
+      return (
+        <TextField className={classes.input}
+          id='language'
+          label='Language'
+          margin='normal'
+          onClick={ handleChange }
+          onChange={ createChangeHandler('language') }
+          select
+          value={ values }
+          variant='outlined' >
+            { languages.map(({ language }) =>(
+              <MenuItem key={ language } value={ language }>
+                { language }
+              </MenuItem>
+            )) }
+        </TextField>
+      )
+    }
+  }
+
+  function renderRemoveButton() {
     if (id === null)
       return null
 
     return (
       <Button className={classes.submit}
         color="secondary"
-        onClick={ handleRemove }
-        startIcon={ <Delete /> }
+        onClick={handleRemove}
+        startIcon={<Delete />}
         variant="contained">
         REMOVE
       </Button>
     )
   }
 
-  function renderUpdateButton () {
+  function renderUpdateButton() {
     if (id === null)
       return null
 
@@ -102,7 +138,7 @@ export function User ({
       <Button className={classes.submit}
         color="primary"
         type="submit"
-        startIcon={ <Edit /> }
+        startIcon={<Edit />}
         variant="contained">
         UPDATE
       </Button>
@@ -112,16 +148,16 @@ export function User ({
   return (
     <Fragment>
       <Box>
-        <h3>{ id !== null ? `Edit user ${id}` : 'Create an user' }</h3>
+        <h3>{id !== null ? `Edit user ${id}` : 'Create an user'}</h3>
       </Box>
 
-      <form autoComplete='off' noValidate onSubmit={ handleSubmit }>
+      <form autoComplete='off' noValidate onSubmit={handleSubmit}>
         <Box component='span' display='block' height='100%' >
           <TextField className={classes.input}
             id='display_name'
             label='Username'
-            defaultValue={ fields.display_name }
-            onChange={ createChangeHandler('display_name') }
+            defaultValue={fields.display_name}
+            onChange={createChangeHandler('display_name')}
             variant='outlined'
             margin='normal'
           />
@@ -129,8 +165,8 @@ export function User ({
           <TextField className={classes.input}
             id='login'
             label='Login'
-            defaultValue={ fields.login }
-            onChange={ createChangeHandler('login') }
+            defaultValue={fields.login}
+            onChange={createChangeHandler('login')}
             variant='outlined'
             margin='normal'
           />
@@ -138,34 +174,28 @@ export function User ({
           <TextField className={classes.input}
             id='type'
             label='Type'
-            defaultValue={ fields.type }
-            onChange={ createChangeHandler('type') }
+            defaultValue={fields.type}
+            onChange={createChangeHandler('type')}
             variant='outlined'
             margin='normal'
           />
 
-          <TextField className={classes.input}
-            id='language'
-            label='Language'
-            defaultValue={ fields.language }
-            onChange={ createChangeHandler('language') }
-            variant='outlined'
-            margin='normal'
-          />
+          { languageSelector() }
+
 
           <TextField className={classes.input}
             id='project'
             label='Project'
-            defaultValue={ fields.project }
-            onChange={ createChangeHandler('project') }
+            defaultValue={fields.project}
+            onChange={createChangeHandler('project')}
             variant='outlined'
             margin='normal'
           />
         </Box>
 
-        { renderCreateButton() }
-        { renderUpdateButton() }
-        { renderRemoveButton() }
+        {renderCreateButton()}
+        {renderUpdateButton()}
+        {renderRemoveButton()}
       </form>
     </Fragment>
   )
