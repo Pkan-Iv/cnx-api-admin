@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { useStore } from '../../lib/hooks'
 
 import {
   Box,
-  Button,
+  Fab,
   Table,
   TableBody,
   TableCell,
@@ -17,14 +16,22 @@ import {
   TableSortLabel
 } from '@material-ui/core'
 
+import AddIcon from '@material-ui/icons/Add'
+
 const useStyles = makeStyles( (theme) => ({
-  root: {
-    width: '100%',
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2)
   },
 
   paper: {
     width: '100%',
     marginBottom: theme.spacing(2)
+  },
+
+  root: {
+    width: '100%',
   },
 
   table: {
@@ -48,7 +55,7 @@ export default function DataTable({
         classes = useStyles(),
         [ sort, setSort ] = useState({ field: cells[0].name, order: 'asc' }),
         [ page, setPage ] = useState( 0 ),
-        rowsPerPage = 15
+        rowsPerPage = 20
 
   function handleChange (e, value) {
     setPage( value )
@@ -135,9 +142,7 @@ export default function DataTable({
     <div className={ classes.root }>
       <TableContainer>
         <Box component='div' m={ 1 }>
-          <Button variant='contained' onClick={ handleButtonClick }>
-            Create
-          </Button>
+
         </Box>
 
         <Table className={ classes.table } size='small' stickyHeader>
@@ -161,10 +166,11 @@ export default function DataTable({
         page={ page }
         onChangePage={ handleChange }
       />
+
+      <Fab className={ classes.fab } color="primary" onClick={ handleButtonClick }>
+        <AddIcon />
+      </Fab>
     </div>
   )
 }
 
-DataTable.propTypes = {
-  // TODO
-}
