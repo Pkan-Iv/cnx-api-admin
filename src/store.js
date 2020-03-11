@@ -13,6 +13,7 @@ import {
 import {
   ContextReducer,
   CountReducer,
+  ListReducer,
   ReasonReducer,
   RowsReducer
 } from './reducers'
@@ -28,6 +29,7 @@ const reducers = combineReducers({
   action: ActionReducer,
   context: ContextReducer,
   count: CountReducer,
+  list: ListReducer,
   reason: ReasonReducer,
   rows: RowsReducer
 })

@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Delete, Edit, Save } from '@material-ui/icons'
 
 import { useStore } from '../../lib/hooks'
+import { useLanguages, useProjects, useTypes } from '../hooks'
 
 const useStyles = makeStyles( (theme) => ({
   input: {
@@ -29,7 +30,10 @@ export function User ({
             project: '',
             type: ''
           }
-        )
+        ),
+        languages = useLanguages(),
+        projects = useProjects(),
+        types = useTypes()
 
   function createChangeHandler (field) {
     return (e) => {

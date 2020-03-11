@@ -10,6 +10,27 @@ export const CREDENTIALS = {
   }
 }
 
+export const LANGUAGES = {
+  GET: {
+    FAILURE: 'LANGUAGES.GET.FAILURE',
+    SUCCESS: 'LANGUAGES.GET.SUCCESS'
+  }
+}
+
+export const PROJECTS = {
+  GET: {
+    FAILURE: 'PROJECTS.GET.FAILURE',
+    SUCCESS: 'PROJECTS.GET.SUCCESS'
+  }
+}
+
+export const TYPES = {
+  GET: {
+    FAILURE: 'TYPES.GET.FAILURE',
+    SUCCESS: 'TYPES.GET.SUCCESS'
+  }
+}
+
 export const USER = {
   CREATE: {
     FAILURE: 'USER.CREATE.FAILURE',

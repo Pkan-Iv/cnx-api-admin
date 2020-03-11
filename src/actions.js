@@ -1,9 +1,19 @@
 import { FetchInterface } from '../lib/interfaces'
-import { USER, USERS } from './descriptors'
+
+import {
+  LANGUAGES,
+  PROJECTS,
+  TYPES,
+  USER,
+  USERS
+} from './descriptors'
 
 import { api } from '../config.json'
 
 const Api = FetchInterface(api.url),
+      Languages = Api('languages'),
+      Projects = Api('projects'),
+      Types = Api('types'),
       Users = Api('users')
 
 function create_user_failure (reason) {
@@ -52,6 +62,78 @@ export function delete_user (id) {
 
   request.addPath([id])
   return request.delete()
+}
+
+function get_languages_failure (reason) {
+  return {
+    type: LANGUAGES.GET.FAILURE,
+    reason
+  }
+}
+
+function get_languages_success ({ rows }) {
+  return {
+    type: LANGUAGES.GET.SUCCESS,
+    resource: 'languages',
+    rows
+  }
+}
+
+export function get_languages () {
+  const request = Languages(
+    get_languages_success,
+    get_languages_failure
+  )
+
+  return request.get()
+}
+
+function get_projects_failure (reason) {
+  return {
+    type: PROJECTS.GET.FAILURE,
+    reason
+  }
+}
+
+function get_projects_success ({ rows }) {
+  return {
+    type: PROJECTS.GET.SUCCESS,
+    resource: 'projects',
+    rows
+  }
+}
+
+export function get_projects () {
+  const request = Projects(
+    get_projects_success,
+    get_projects_failure
+  )
+
+  return request.get()
+}
+
+function get_types_failure (reason) {
+  return {
+    type: TYPES.GET.FAILURE,
+    reason
+  }
+}
+
+function get_types_success ({ rows }) {
+  return {
+    type: TYPES.GET.SUCCESS,
+    resource: 'types',
+    rows
+  }
+}
+
+export function get_types () {
+  const request = Types(
+    get_types_success,
+    get_types_failure
+  )
+
+  return request.get()
 }
 
 function get_users_failure (reason) {

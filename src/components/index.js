@@ -69,8 +69,6 @@ export default function Application () {
   function renderPanel (label) {
     const { id, type } = view
 
-    console.log( label, type )
-
     return Panels[ label ][ type ]({
       create: handleCreate,
       select: handleSelect,
