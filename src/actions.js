@@ -45,13 +45,13 @@ function create_user_success ({ rows }) {
   }
 }
 
-export function create_user (body) {
+export function create_user (values) {
   const request = Users(
     create_user_success,
     create_user_failure
   )
 
-  request.setBody(body)
+  request.setBody( values )
   return request.post()
 }
 
@@ -190,13 +190,13 @@ function update_user_success ({ rows }) {
   }
 }
 
-export function update_user (id, fields) {
+export function update_user (values, id) {
   const request = Users(
     update_user_success,
     update_user_failure
   )
 
   request.addPath([ id ])
-  request.setBody(fields)
+  request.setBody( values )
   return request.patch()
 }
