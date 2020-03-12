@@ -24,6 +24,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import { Add, Delete, Edit, Save } from '@material-ui/icons'
 
+import { MergeObject } from '../../lib/factories'
 import { useStore } from '../../lib/hooks'
 
 const useStyles = makeStyles( (theme) => ({
@@ -56,17 +57,15 @@ const useStyles = makeStyles( (theme) => ({
   }
 }))
 
-function CreateHandler (handler, property) {
-  return (event) => handler( event, property )
-}
-
 function FormSelect ({
+  dataHandler = null,
   label = '',
   multiple = false,
   onChange,
-  value = '',
-  values } = {}) {
-  const classes = useStyles()
+  value = ''
+} = {}) {
+  const classes = useStyles(),
+        values = dataHandler()
 
   function renderValues () {
     return values.map( ({ id, name }) => (
@@ -77,7 +76,8 @@ function FormSelect ({
   }
 
   if (values === undefined) {
-    return <CircularProgress />
+    // return <CircularProgress />
+    return null
   }
 
   return (
@@ -88,7 +88,7 @@ function FormSelect ({
       onChange={ onChange }
       select
       value={ value }
-      variant='outlined' >
+      variant='outlined'>
       { renderValues() }
     </TextField>
   )
@@ -126,26 +126,53 @@ function FormDialog ({
     delete: null,
     update: null
   },
+  data = null,
   fields = [],
   id = null
 } = {}) {
   const classes = useStyles(),
-        [ visible, setVisible ] = useState( true )
+        [ values, setValues ] = useState( data || {} ),
+        [ visible, setVisible ] = useState( true ),
+        [ {}, dispatch ] = useStore()
+
+  function createHandler (field) {
+    return (e) => {
+      setValues({ ...values, [ field ]: e.target.value })
+    }
+  }
 
   function handleClose () {
     setVisible( false )
 
     if ('close' in actions) {
       if (typeof actions.close === 'function') {
-        close()
+        actions.close()
       }
     }
   }
 
+  function handleDelete () {
+    if ('delete' in actions) {
+      if (typeof actions.delete === 'function') {
+        dispatch( actions.delete( id ))
+      }
+    }
+
+    handleClose()
+  }
+
   function handleSubmit (e) {
+    const { create, update } = actions,
+          action = id === null ? create : update
+
     e.preventDefault()
 
-    console.log( id, actions )
+    if (typeof action === 'function') {
+      dispatch( action( MergeObject( fields.map(
+        ({ name }) => ({ [ name ]: values[ name ] })
+      )), id ))
+    }
+
     handleClose()
   }
 
@@ -162,7 +189,7 @@ function FormDialog ({
   function renderButtonRemove () {
     if (id !== null) {
       return (
-        <FormButton click={ handleSubmit } color='secondary' icon={ <Delete /> }>
+        <FormButton click={ handleDelete } color='secondary' icon={ <Delete /> }>
           REMOVE
         </FormButton>
       )
@@ -180,25 +207,34 @@ function FormDialog ({
   }
 
   function renderFormFields () {
-    return fields.filter( ({ type }) => type !== undefined ).map( ({ name, label, type }) => {
-      // TODO
+    return fields.map( ({ name, label, type, source }, index) => {
+      const props = {
+        className: classes.input,
+        id: name,
+        key: index,
+        label,
+        margin: 'normal',
+        onChange: createHandler( name ),
+        type,
+        variant: 'outlined'
+      }
+
+      if (type === 'select') {
+        return (
+          <FormSelect { ...props }
+            dataHandler={ source }
+            value={ values[ name ] }
+          />
+        )
+      }
+      else {
+        return (
+          <TextField { ...props }
+            defaultValue={ values[ name ] }
+          />
+        )
+      }
     })
-
-    /*
-    <TextField className={classes.input}
-      id='display_name'
-      label='Username'
-      defaultValue={fields.display_name}
-      onChange={createChangeHandler('display_name')}
-      variant='outlined'
-      margin='normal'
-    />
-
-    <Selector label='Type' onChange={ createChangeHandler('type') }
-      value={ fields.type }
-      values={ types }
-    />
-    */
   }
 
   return (
@@ -237,9 +273,11 @@ export default function DataTable({
   fields = []
 } = {}) {
   const classes = useStyles(),
-        [ dialog, setDialog ] = useState( false ),
+        [ dialog, setDialog ] = useState({
+          selected: null,
+          visible: false
+        }),
         [ page, setPage ] = useState( 0 ),
-        [ selected, setSelected ] = useState( null ),
         [ sort, setSort ] = useState({
           field: fields[0].name,
           order: 'asc'
@@ -247,21 +285,33 @@ export default function DataTable({
         [{ count, rows }, dispatch ] = useStore(),
         rowsPerPage = 20
 
+  function createHandler (handler, property) {
+    return (event) => handler( event, property )
+  }
+
   function handleChange (e, value) {
     setPage( value )
   }
 
   function handleClose () {
-    setSelected( null )
-    setDialog( false )
+    setDialog({
+      selected: null,
+      visible: false
+    })
   }
 
   function handleCreate () {
-    setDialog( true )
+    setDialog({
+      selected: null,
+      visible: true
+    })
   }
 
   function handleSelect (e, id) {
-    setSelected( id )
+    setDialog({
+      selected: id,
+      visible: true
+    })
   }
 
   function handleSort (e, field) {
@@ -272,17 +322,28 @@ export default function DataTable({
   }
 
   function renderDialog () {
-    if (dialog) {
+    const { selected, visible } = dialog
+
+    if (visible) {
       return (
-        <FormDialog actions={ actions } close={ handleClose } fields={ fields } id={ selected } />
+        <FormDialog actions={{ ...actions, close: handleClose }}
+          data={ rows.filter( ({ id }) => id === selected )[0] }
+          fields={
+            fields.filter( ({ type }) => type !== undefined ).map( (field) => {
+              const { bind } = field
+              return bind ? { ...field, name: bind } : field
+            })
+          }
+          id={ selected }
+        />
       )
     }
   }
 
   function renderHead () {
-    return fields.filter(({ label }) => label !== undefined).map( ({ label, name }) => {
+    return fields.filter( ({ visible }) => visible !== false ).map( ({ label, name }) => {
       const { field, order } = sort,
-            clickHandler = CreateHandler( handleSort, name )
+            clickHandler = createHandler( handleSort, name )
 
       return (
         <TableCell align='left'
@@ -300,7 +361,7 @@ export default function DataTable({
   }
 
   function renderRow (row) {
-    return fields.filter( ({ label }) => label !== undefined ).map( ({ align, name }) => (
+    return fields.filter( ({ visible }) => visible !== false ).map( ({ align, name }) => (
       <TableCell key={ name } align={ align ? align : 'left' }>
         { row[name] }
       </TableCell>
@@ -310,7 +371,7 @@ export default function DataTable({
   function renderRows () {
     return rows.map( (row) => {
       const { id } = row,
-            selectHandler = CreateHandler( handleSelect, id )
+            selectHandler = createHandler( handleSelect, id )
 
       return (
         <TableRow key={ id } hover tabIndex={ -1 } onClick={ selectHandler }>
@@ -332,13 +393,7 @@ export default function DataTable({
         _s: `${(order === 'desc' ? '-' : '' )}${field}`
       }))
     }
-  }, [ page, sort ])
-
-  useEffect( () => {
-    if (selected !== null) {
-      setDialog( true )
-    }
-  }, [ selected ])
+  }, [ dialog, page, sort ])
 
   return (
     <div className={ classes.root }>

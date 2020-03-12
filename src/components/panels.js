@@ -27,9 +27,10 @@ export default {
     const fields = [
       { name: 'display_name', label: 'Username', type: 'input' },
       { name: 'login', label: 'Login', type: 'input' },
+      { name: 'password', label: 'Password', type: 'password', visible: false },
       { name: 'type', label: 'Type', type: 'select', source: useTypes },
       { name: 'language', label: 'Language', type: 'select', source: useLanguages },
-      { name: 'project', label: 'Project', type: 'select', source: useProjects },
+      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
       { name: 'whitelabel', label: 'Whitelabel' }
     ]
 
