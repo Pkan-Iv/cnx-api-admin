@@ -9,23 +9,26 @@ import {
   DialogContent,
   DialogTitle,
   MenuItem,
-  TextField
+  TextField,
+  IconButton
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Delete, Edit, Save } from '@material-ui/icons'
+import { Cancel, Delete, Edit, Save } from '@material-ui/icons'
 
 import { useStore } from '../../lib/hooks'
 import { useLanguages, useProjects, useTypes } from '../hooks'
 import { USER } from '../descriptors'
 
 const useStyles = makeStyles((theme) => ({
-  box: {
+  dialog: {
     display: 'block',
+    width: '75%'
+
   },
 
   input: {
     margin: '5 auto',
-    width: '60%'
+    width: '100%'
   }
 }))
 
@@ -88,10 +91,6 @@ export function User({
     }
   }
 
-  function handleClickOpen () {
-    setOpen(true)
-  }
-
   function handleClose () {
     setOpen(false)
   }
@@ -147,6 +146,7 @@ export function User({
         color="secondary"
         onClick={handleRemove}
         startIcon={<Delete />}
+        style={{'float': 'right'}}
         variant="contained">
         REMOVE
       </Button>
@@ -163,6 +163,7 @@ export function User({
         onClick={handleSubmit}
         type="submit"
         startIcon={<Edit />}
+        style={{'float': 'left'}}
         variant="contained">
         UPDATE
       </Button>
@@ -183,11 +184,15 @@ export function User({
   return (
     <Dialog
       disableBackdropClick={ true }
-      maxWidth='lg'
       open={ open }
       onClose={handleClose}>
-      <DialogTitle id='form-dialog-title' className={ classes.box }>
-        {id !== null ? `Edit user ${id}` : 'Create an user'}
+      <DialogTitle id='form-dialog-title'>
+        <span>
+          {id !== null ? `Edit user ${id}` : 'Create an user'}
+          <IconButton onClick={handleClose} style={{'float': 'right'}}>
+            <Cancel />
+          </IconButton>
+        </span>
       </DialogTitle>
 
       <DialogContent>
@@ -239,7 +244,9 @@ export function User({
           </Box>
         </form>
       </DialogContent>
-      <DialogActions>
+      <DialogActions
+        disableSpacing={true}
+        style={{'display':' block'}} >
         { renderCreateButton() }
         { renderUpdateButton() }
         { renderRemoveButton() }
