@@ -18,6 +18,9 @@ import {
 
 import AddIcon from '@material-ui/icons/Add'
 
+import { useStore } from '../../lib/hooks'
+import { CreateHandler, Filters } from '../utils'
+
 const useStyles = makeStyles( (theme) => ({
   fab: {
     position: 'absolute',
@@ -53,7 +56,7 @@ export default function DataTable({
   fields = []
 } = {}) {
   const classes = useStyles(),
-        [ { count, rows }, dispatch ] = useStore(),
+        [{ count, rows }, dispatch ] = useStore(),
         [ page, setPage ] = useState( 0 ),
         [ sort, setSort ] = useState({
           field: fields[0].name,
@@ -81,9 +84,8 @@ export default function DataTable({
   }
 
   function renderHead () {
-    return fields.map( (config) => {
-      const { label, name } = config,
-            { field, order } = sort,
+    return fields.filter( Filters.not.undefined ).map( ({ label, name }) => {
+      const { field, order } = sort,
             clickHandler = CreateHandler( handleSort, name )
 
       return (
@@ -97,18 +99,14 @@ export default function DataTable({
   }
 
   function renderRow (row) {
-    return fields.map( (config) => {
-      const { align, name } = config
-
-      return (
-        <TableCell key={ name } align={ align ? align : 'left' }>
-          { row[name] }
-        </TableCell>
-      )
-    })
+    return fields.filter( Filters.not.undefined ).map( ({ align, name }) => (
+      <TableCell key={ name } align={ align ? align : 'left' }>
+        { row[name] }
+      </TableCell>
+    ))
   }
 
-  function renderRows (rows) {
+  function renderRows () {
     return rows.map( (row) => {
       const { id } = row,
             selectHandler = CreateHandler( handleSelect, id )
@@ -126,6 +124,7 @@ export default function DataTable({
 
     if (typeof get === 'function') {
       const { field, order } = sort
+
       dispatch( get({
         _p: page + 1,
         _n: rowsPerPage,
@@ -149,7 +148,7 @@ export default function DataTable({
           </TableHead>
 
           <TableBody>
-            { renderRows( rows ) }
+            { renderRows() }
           </TableBody>
         </Table>
       </TableContainer>
