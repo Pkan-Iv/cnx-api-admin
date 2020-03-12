@@ -21,7 +21,6 @@ import { USER } from '../descriptors'
 const useStyles = makeStyles((theme) => ({
   box: {
     display: 'block',
-    width: '100%'
   },
 
   input: {
@@ -102,6 +101,7 @@ export function User({
 
     if (remove !== null && typeof remove === 'function') {
       dispatch(remove(id))
+      handleClose()
     }
   }
 
@@ -111,12 +111,14 @@ export function User({
     if (id === null) {
       if (create !== null && typeof create === 'function') {
         dispatch(create(fields))
-      }
+        handleClose()
+    }
     }
     else {
       if (update !== null && typeof update === 'function') {
         dispatch(update(id, fields))
-      }
+        handleClose()
+    }
     }
   }
 
@@ -127,6 +129,7 @@ export function User({
     return (
       <Button className={classes.submit}
         color="primary"
+        onClick={handleSubmit}
         type="submit"
         startIcon={<Save />}
         variant="contained">
@@ -157,6 +160,7 @@ export function User({
     return (
       <Button className={classes.submit}
         color="primary"
+        onClick={handleSubmit}
         type="submit"
         startIcon={<Edit />}
         variant="contained">
@@ -178,10 +182,10 @@ export function User({
 
   return (
     <Dialog
-      disableBackdropClick={ false }
+      disableBackdropClick={ true }
       maxWidth='lg'
-      onClose={ handleClose }
-      open={ open }>
+      open={ open }
+      onClose={handleClose}>
       <DialogTitle id='form-dialog-title' className={ classes.box }>
         {id !== null ? `Edit user ${id}` : 'Create an user'}
       </DialogTitle>
