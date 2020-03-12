@@ -106,7 +106,6 @@ module.exports = (env, argv) => {
                       },
                       'core'
                     ],
-                    */
                     [ 'babel-plugin-import', {
                         'libraryName': '@material-ui/icons',
                         'libraryDirectory': 'esm',
@@ -125,6 +124,7 @@ module.exports = (env, argv) => {
                         }
                       }
                     ]
+                    */
                   ],
                   presets: [
                     [ '@babel/preset-env', {
