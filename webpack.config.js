@@ -98,6 +98,7 @@ module.exports = (env, argv) => {
                 loader: 'babel-loader',
                 options: {
                   plugins: [
+                    /*
                     [ 'babel-plugin-import', {
                         'libraryName': '@material-ui/core',
                         'libraryDirectory': 'esm',
@@ -105,6 +106,7 @@ module.exports = (env, argv) => {
                       },
                       'core'
                     ],
+                    */
                     [ 'babel-plugin-import', {
                         'libraryName': '@material-ui/icons',
                         'libraryDirectory': 'esm',
