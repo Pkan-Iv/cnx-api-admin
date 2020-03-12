@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   Fab,
+  IconButton,
   MenuItem,
   Table,
   TableBody,
@@ -18,11 +19,22 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  TextField
+  TextField,
+  Toolbar,
+  Tooltip
 } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core/styles'
-import { Add, Delete, Edit, Save } from '@material-ui/icons'
+
+import {
+  Add,
+  Cancel,
+  Delete,
+  Edit,
+  FilterList,
+  Save,
+  Search
+} from '@material-ui/icons'
 
 import { MergeObject } from '../../lib/factories'
 import { useStore } from '../../lib/hooks'
@@ -57,43 +69,6 @@ const useStyles = makeStyles( (theme) => ({
   }
 }))
 
-function FormSelect ({
-  dataHandler = null,
-  label = '',
-  multiple = false,
-  onChange,
-  value = ''
-} = {}) {
-  const classes = useStyles(),
-        values = dataHandler()
-
-  function renderValues () {
-    return values.map( ({ id, name }) => (
-      <MenuItem key={ id } value={ id }>
-        { name }
-      </MenuItem>
-    ))
-  }
-
-  if (values === undefined) {
-    // return <CircularProgress />
-    return null
-  }
-
-  return (
-    <TextField className={ classes.input }
-      id={ label.toLowerCase() }
-      label={ label }
-      margin='normal'
-      onChange={ onChange }
-      select
-      value={ value }
-      variant='outlined'>
-      { renderValues() }
-    </TextField>
-  )
-}
-
 function FormButton ({
   children = null,
   click = () => null,
@@ -108,6 +83,9 @@ function FormButton ({
     color,
     onClick: click,
     startIcon: icon,
+    style: {
+      float: type === 'submit' ? 'right' : 'left'
+    },
     type,
     variant: 'contained'
   }
@@ -124,11 +102,14 @@ function FormDialog ({
     close: null,
     create: null,
     delete: null,
+    search: null,
     update: null
   },
   data = null,
   fields = [],
-  id = null
+  id = null,
+  title = null,
+  type = 'search'
 } = {}) {
   const classes = useStyles(),
         [ values, setValues ] = useState( data || {} ),
@@ -162,22 +143,27 @@ function FormDialog ({
   }
 
   function handleSubmit (e) {
-    const { create, update } = actions,
-          action = id === null ? create : update
+    const action = actions[ type ],
+          content = MergeObject( fields.map(
+            ({ name }) => ({ [ name ]: values[ name ] })
+          ))
 
     e.preventDefault()
 
     if (typeof action === 'function') {
-      dispatch( action( MergeObject( fields.map(
-        ({ name }) => ({ [ name ]: values[ name ] })
-      )), id ))
+      if (type !== 'search') {
+        dispatch( action( content , id ))
+      }
+      else {
+        action( content )
+      }
     }
 
     handleClose()
   }
 
   function renderButtonCreate () {
-    if (id === null) {
+    if (type === 'create') {
       return (
         <FormButton click={ handleSubmit } icon={ <Save /> } type='submit'>
           CREATE
@@ -187,7 +173,7 @@ function FormDialog ({
   }
 
   function renderButtonRemove () {
-    if (id !== null) {
+    if (type === 'update') {
       return (
         <FormButton click={ handleDelete } color='secondary' icon={ <Delete /> }>
           REMOVE
@@ -196,8 +182,18 @@ function FormDialog ({
     }
   }
 
+  function renderButtonSearch () {
+    if (type === 'search') {
+      return (
+        <FormButton click={ handleSubmit } icon={ <Search /> } type='submit'>
+          SEARCH
+        </FormButton>
+      )
+    }
+  }
+
   function renderButtonUpdate () {
-    if (id !== null) {
+    if (type === 'update') {
       return (
         <FormButton click={ handleSubmit } icon={ <Edit /> } type='submit'>
           UPDATE
@@ -243,7 +239,11 @@ function FormDialog ({
       open={ visible }
       onClose={ handleClose }>
       <DialogTitle id='form-dialog-title' className={ classes.box }>
-        UNTITLED DIALOG
+        <span>{ title }</span>
+
+        <IconButton onClick={handleClose} style={{'float': 'right'}}>
+          <Cancel />
+        </IconButton>
       </DialogTitle>
 
       <DialogContent>
@@ -254,14 +254,53 @@ function FormDialog ({
         </form>
       </DialogContent>
 
-      <DialogActions>
+      <DialogActions disableSpacing={ true } style={{ 'display':' block' }} >
         { renderButtonCreate() }
         { renderButtonUpdate() }
         { renderButtonRemove() }
+        { renderButtonSearch() }
       </DialogActions>
     </Dialog>
   )
 }
+
+function FormSelect ({
+  dataHandler = null,
+  label = '',
+  multiple = false,
+  onChange,
+  value = ''
+} = {}) {
+  const classes = useStyles(),
+        values = dataHandler()
+
+  function renderValues () {
+    return values.map( ({ id, name }) => (
+      <MenuItem key={ id } value={ id }>
+        { name }
+      </MenuItem>
+    ))
+  }
+
+  if (values === undefined) {
+    // return <CircularProgress />
+    return null
+  }
+
+  return (
+    <TextField className={ classes.input }
+      id={ label.toLowerCase() }
+      label={ label }
+      margin='normal'
+      onChange={ onChange }
+      select
+      value={ value }
+      variant='outlined'>
+      { renderValues() }
+    </TextField>
+  )
+}
+
 
 export default function DataTable({
   actions = {
@@ -275,7 +314,8 @@ export default function DataTable({
   const classes = useStyles(),
         [ dialog, setDialog ] = useState({
           selected: null,
-          visible: false
+          title: null,
+          type: null
         }),
         [ page, setPage ] = useState( 0 ),
         [ sort, setSort ] = useState({
@@ -296,21 +336,40 @@ export default function DataTable({
   function handleClose () {
     setDialog({
       selected: null,
-      visible: false
+      title: null,
+      type: null
     })
   }
 
   function handleCreate () {
     setDialog({
       selected: null,
-      visible: true
+      title: 'Create a new item',
+      type: 'create'
+    })
+  }
+
+  function handleFiltering (values) {
+    loadData( Object.keys( values ).filter(
+      (field) => values[field] !== undefined
+    ).map(
+      (field) => `(${field},eq,${values[field]})`
+    ).join( '~and' ))
+  }
+
+  function handleSearch () {
+    setDialog({
+      selected: null,
+      title: 'Search in items',
+      type: 'search'
     })
   }
 
   function handleSelect (e, id) {
     setDialog({
       selected: id,
-      visible: true
+      title: 'Edit an item',
+      type: 'update'
     })
   }
 
@@ -321,27 +380,61 @@ export default function DataTable({
     })
   }
 
-  function renderDialog () {
-    const { selected, visible } = dialog
+  function isDefined ({ type }) {
+    return type !== undefined
+  }
 
-    if (visible) {
+  function isFilter ({ filter }) {
+    return filter !== false
+  }
+
+  function isVisible ({ visible }) {
+    return visible !== false
+  }
+
+  function loadData (filters = null) {
+    const { get } = actions
+
+    if (typeof get === 'function') {
+      const { field, order } = sort
+
+      const props = {
+        _p: page + 1,
+        _n: rowsPerPage,
+        _s: `${(order === 'desc' ? '-' : '' )}${field}`
+      }
+
+      if (filters !== null)
+        props._w = filters
+
+      dispatch( get( props ))
+    }
+  }
+
+  function renderDialog () {
+    const { selected, title, type } = dialog,
+          filter = type === 'search' ? isFilter : isDefined
+
+    if (type !== null) {
       return (
-        <FormDialog actions={{ ...actions, close: handleClose }}
+        <FormDialog actions={{ ...actions, close: handleClose, search: handleFiltering }}
           data={ rows.filter( ({ id }) => id === selected )[0] }
           fields={
-            fields.filter( ({ type }) => type !== undefined ).map( (field) => {
+            fields.filter( filter ).map( (field) => {
               const { bind } = field
               return bind ? { ...field, name: bind } : field
             })
           }
           id={ selected }
+          title={ title }
+          type={ type }
         />
       )
     }
   }
 
   function renderHead () {
-    return fields.filter( ({ visible }) => visible !== false ).map( ({ label, name }) => {
+    return fields.filter( isVisible ).map( ({ label, name }) => {
       const { field, order } = sort,
             clickHandler = createHandler( handleSort, name )
 
@@ -361,7 +454,7 @@ export default function DataTable({
   }
 
   function renderRow (row) {
-    return fields.filter( ({ visible }) => visible !== false ).map( ({ align, name }) => (
+    return fields.filter( isVisible ).map( ({ align, name }) => (
       <TableCell key={ name } align={ align ? align : 'left' }>
         { row[name] }
       </TableCell>
@@ -381,24 +474,19 @@ export default function DataTable({
     })
   }
 
-  useEffect( () => {
-    const { get } = actions
-
-    if (typeof get === 'function') {
-      const { field, order } = sort
-
-      dispatch( get({
-        _p: page + 1,
-        _n: rowsPerPage,
-        _s: `${(order === 'desc' ? '-' : '' )}${field}`
-      }))
-    }
-  }, [ dialog, page, sort ])
+  useEffect( loadData, [ page, sort ])
 
   return (
     <div className={ classes.root }>
+      <Toolbar>
+        <Tooltip title="Filter list">
+          <IconButton aria-label="filter list" onClick={ handleSearch }>
+            <FilterList />
+          </IconButton>
+        </Tooltip>
+      </Toolbar>
+
       <TableContainer>
-        <Box component='div' m={ 1 } />
 
         <Table className={ classes.table } size='small' stickyHeader>
           <TableHead>
