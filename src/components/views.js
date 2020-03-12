@@ -1,6 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { Box, Button, CircularProgress, MenuItem, Select, TextField } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  MenuItem,
+  TextField
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Delete, Edit, Save } from '@material-ui/icons'
 
@@ -68,6 +78,7 @@ export function User({
             password: ''
           }
         ),
+        [open ,setOpen] = useState(true),
         languages = useLanguages(),
         projects = useProjects(),
         types = useTypes()
@@ -76,6 +87,14 @@ export function User({
     return (e) => {
       setFields({ ...fields, [field]: e.target.value })
     }
+  }
+
+  function handleClickOpen () {
+    setOpen(true)
+  }
+
+  function handleClose () {
+    setOpen(false)
   }
 
   function handleRemove (e) {
@@ -158,61 +177,69 @@ export function User({
   }, [ action ])
 
   return (
-    <Fragment>
-      <Box className={ classes.box }>
-        <h3>{id !== null ? `Edit user ${id}` : 'Create an user'}</h3>
-      </Box>
+    <Dialog
+      disableBackdropClick={ false }
+      maxWidth='lg'
+      onClose={ handleClose }
+      open={ open }>
+      <DialogTitle id='form-dialog-title' className={ classes.box }>
+        {id !== null ? `Edit user ${id}` : 'Create an user'}
+      </DialogTitle>
 
-      <form autoComplete='off' noValidate onSubmit={handleSubmit}>
-        <Box component='span' display='block' height='100%' >
-          <TextField className={classes.input}
-            id='display_name'
-            label='Username'
-            defaultValue={fields.display_name}
-            onChange={createChangeHandler('display_name')}
-            variant='outlined'
-            margin='normal'
-          />
+      <DialogContent>
+        <form autoComplete='off' noValidate onSubmit={handleSubmit}>
+          <Box component='span' display='block' height='100%' >
+            <TextField className={classes.input}
+              id='display_name'
+              label='Username'
+              defaultValue={fields.display_name}
+              onChange={createChangeHandler('display_name')}
+              variant='outlined'
+              margin='normal'
+            />
 
-          <TextField className={classes.input}
-            id='login'
-            label='Login'
-            defaultValue={fields.login}
-            onChange={createChangeHandler('login')}
-            variant='outlined'
-            margin='normal'
-          />
+            <TextField className={classes.input}
+              id='login'
+              label='Login'
+              defaultValue={fields.login}
+              onChange={createChangeHandler('login')}
+              variant='outlined'
+              margin='normal'
+            />
 
-          <TextField className={classes.input}
-            id='password'
-            label='Password'
-            defaultValue={fields.paswword}
-            onChange={createChangeHandler('password')}
-            type='password'
-            variant='outlined'
-            margin='normal'
-          />
+            <TextField className={classes.input}
+              autoComplete='off'
+              id='password'
+              label='Password'
+              defaultValue={fields.paswword}
+              onChange={createChangeHandler('password')}
+              type='password'
+              variant='outlined'
+              margin='normal'
+            />
 
-          <Selector label='Language' onChange={ createChangeHandler('language') }
-            value={ fields.language }
-            values={ languages }
-          />
+            <Selector label='Language' onChange={ createChangeHandler('language') }
+              value={ fields.language }
+              values={ languages }
+            />
 
-          <Selector label='Project' onChange={ createChangeHandler('project_ref') }
-            value={ fields.project_ref }
-            values={ projects }
-          />
+            <Selector label='Project' onChange={ createChangeHandler('project_ref') }
+              value={ fields.project_ref }
+              values={ projects }
+            />
 
-          <Selector label='Type' onChange={ createChangeHandler('type') }
-            value={ fields.type }
-            values={ types }
-          />
-        </Box>
-
-        {renderCreateButton()}
-        {renderUpdateButton()}
-        {renderRemoveButton()}
-      </form>
-    </Fragment>
+            <Selector label='Type' onChange={ createChangeHandler('type') }
+              value={ fields.type }
+              values={ types }
+            />
+          </Box>
+        </form>
+      </DialogContent>
+      <DialogActions>
+        { renderCreateButton() }
+        { renderUpdateButton() }
+        { renderRemoveButton() }
+      </DialogActions>
+    </Dialog>
   )
 }
