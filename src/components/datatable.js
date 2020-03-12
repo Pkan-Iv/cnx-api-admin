@@ -18,6 +18,9 @@ import {
 
 import AddIcon from '@material-ui/icons/Add'
 
+import { useStore } from '../../lib/hooks'
+import { CreateHandler, Filters } from '../utils'
+
 const useStyles = makeStyles( (theme) => ({
   fab: {
     position: 'absolute',
@@ -46,35 +49,31 @@ function CreateHandler (handler, property) {
 export default function DataTable({
   actions = {
     create: null,
+    delete: null,
     get: null,
-    select: null,
+    update: null
   },
-  cells = [],
+  fields = []
 } = {}) {
-  const [ { count, rows }, dispatch ] = useStore(),
-        classes = useStyles(),
-        [ sort, setSort ] = useState({ field: cells[0].name, order: 'asc' }),
+  const classes = useStyles(),
+        [{ count, rows }, dispatch ] = useStore(),
         [ page, setPage ] = useState( 0 ),
+        [ sort, setSort ] = useState({
+          field: fields[0].name,
+          order: 'asc'
+        }),
         rowsPerPage = 20
 
   function handleChange (e, value) {
     setPage( value )
   }
 
-  function handleButtonClick () {
-    const { create } = actions
-
-    if (typeof create === 'function') {
-      create()
-    }
+  function handleCreate () {
+    // TODO
   }
 
-  function handleRowClick (e, id) {
-    const { select } = actions
-
-    if (typeof select === 'function') {
-      select( id )
-    }
+  function handleSelect (e, id) {
+    // TODO
   }
 
   function handleSort (e, field) {
@@ -84,10 +83,9 @@ export default function DataTable({
     })
   }
 
-  function renderHead (cells) {
-    return cells.map( (cell) => {
-      const { label, name } = cell,
-            { field, order } = sort,
+  function renderHead () {
+    return fields.filter( Filters.not.undefined ).map( ({ label, name }) => {
+      const { field, order } = sort,
             clickHandler = CreateHandler( handleSort, name )
 
       return (
@@ -101,24 +99,20 @@ export default function DataTable({
   }
 
   function renderRow (row) {
-    return cells.map( (cell) => {
-      const { align, name } = cell
-
-      return (
-        <TableCell key={ name } align={ align ? align : 'left' }>
-          { row[name] }
-        </TableCell>
-      )
-    })
+    return fields.filter( Filters.not.undefined ).map( ({ align, name }) => (
+      <TableCell key={ name } align={ align ? align : 'left' }>
+        { row[name] }
+      </TableCell>
+    ))
   }
 
-  function renderRows (rows) {
+  function renderRows () {
     return rows.map( (row) => {
       const { id } = row,
-            clickHandler = CreateHandler( handleRowClick, id )
+            selectHandler = CreateHandler( handleSelect, id )
 
       return (
-        <TableRow key={ id } hover tabIndex={ -1 } onClick={ clickHandler }>
+        <TableRow key={ id } hover tabIndex={ -1 } onClick={ selectHandler }>
           { renderRow( row ) }
         </TableRow>
       )
@@ -130,6 +124,7 @@ export default function DataTable({
 
     if (typeof get === 'function') {
       const { field, order } = sort
+
       dispatch( get({
         _p: page + 1,
         _n: rowsPerPage,
@@ -148,12 +143,12 @@ export default function DataTable({
         <Table className={ classes.table } size='small' stickyHeader>
           <TableHead>
             <TableRow>
-              { renderHead( cells ) }
+              { renderHead() }
             </TableRow>
           </TableHead>
 
           <TableBody>
-            { renderRows( rows ) }
+            { renderRows() }
           </TableBody>
         </Table>
       </TableContainer>
@@ -167,7 +162,7 @@ export default function DataTable({
         onChangePage={ handleChange }
       />
 
-      <Fab className={ classes.fab } color="primary" onClick={ handleButtonClick }>
+      <Fab className={ classes.fab } color="primary" onClick={ handleCreate }>
         <AddIcon />
       </Fab>
     </div>
