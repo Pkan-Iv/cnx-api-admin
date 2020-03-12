@@ -51,22 +51,15 @@ export default function Application () {
         [ failure, setFailure ] = useState( false ),
         [ success, setSuccess ] = useState( false ),
         [ tab, setTab ] = useState( 0 ),
-        [ view, setView ] = useState({ type: 'list' }),
         { authenticated } = context
 
-  function closeSnackBar () {
+  function closeSnackBars () {
     setFailure( false )
     setSuccess( false )
   }
 
   function handleChange (e, index) {
     setTab( index )
-    setView({ type: 'list' })
-  }
-
-  function handleCreate () {
-    closeSnackBar()
-    setView({ type: 'show' })
   }
 
   function handleClose (event, reason) {
@@ -74,39 +67,29 @@ export default function Application () {
       return;
     }
 
-    closeSnackBar()
-  }
-
-  function handleLeave () {
-    closeSnackBar()
-    setView({ type: 'list' })
+    closeSnackBars()
   }
 
   function handleLogout () {
-    closeSnackBar()
+    closeSnackBars()
     dispatch({ type: CREDENTIALS.DELETE.SUCCESS })
   }
 
-  function handleSelect (id) {
-    closeSnackBar()
-    setView({ type: 'show', id })
-  }
+  function renderLogout () {
+    if (!authenticated)
+      return null
 
-  function renderPanel (label) {
-    const { id, type } = view
-
-    return Panels[ label ][ type ]({
-      create: handleCreate,
-      leave: handleLeave,
-      select: handleSelect,
-      id
-    })
+    return (
+      <Button color='inherit' onClick={ handleLogout }>
+        Logout
+      </Button>
+    )
   }
 
   function renderPanels () {
     return Object.keys( Panels ).map( (label, index) => (
       <Panel key={ label } value={ tab } index={ index }>
-        { renderPanel( label ) }
+        { tab === index ? Panels[ label ]() : null }
       </Panel>
     ))
   }
@@ -115,6 +98,35 @@ export default function Application () {
     return Object.keys( Panels ).map( (label, index) => (
       <Tab key={ label } label={ label } { ...GetTabProps( index ) } />
     ))
+  }
+
+  function renderView () {
+    if (!authenticated)
+      return <Auth />
+
+    return (
+      <Fragment>
+        <div className={ classes.layout }>
+          <Tabs className={ classes.tabs } onChange={ handleChange } orientation='vertical' value={ tab } variant='scrollable'>
+            { renderTabs() }
+          </Tabs>
+
+          { renderPanels() }
+        </div>
+
+        <Snackbar autoHideDuration={ 5000 } open={ success } onClose={ handleClose }>
+          <MuiAlert elevation={6} variant="filled" severity="success" onClose={ handleClose }>
+            Opération réussie avec succès !
+          </MuiAlert>
+        </Snackbar>
+
+        <Snackbar autoHideDuration={ 5000 } open={ failure } onClose={ handleClose }>
+          <MuiAlert elevation={6} variant="filled" severity="error" onClose={ handleClose }>
+            { reason }
+          </MuiAlert>
+        </Snackbar>
+      </Fragment>
+    )
   }
 
   useEffect( () => {
@@ -137,33 +149,11 @@ export default function Application () {
             Connectics API Admin
           </Typography>
 
-          { authenticated ? <Button color='inherit' onClick={ handleLogout }>Logout</Button> : null }
+          { renderLogout() }
         </Toolbar>
       </AppBar>
 
-      { !authenticated ? <Auth /> : (
-        <Fragment>
-          <div className={ classes.layout }>
-            <Tabs className={ classes.tabs } onChange={ handleChange } orientation='vertical' value={ tab } variant='scrollable'>
-              { renderTabs() }
-            </Tabs>
-
-            { renderPanels() }
-          </div>
-
-          <Snackbar autoHideDuration={ 5000 } open={ success } onClose={ handleClose }>
-            <MuiAlert elevation={6} variant="filled" severity="success" onClose={ handleClose }>
-              Opération réussie avec succès !
-            </MuiAlert>
-          </Snackbar>
-
-          <Snackbar autoHideDuration={ 5000 } open={ failure } onClose={ handleClose }>
-            <MuiAlert elevation={6} variant="filled" severity="error" onClose={ handleClose }>
-              { reason }
-            </MuiAlert>
-          </Snackbar>
-        </Fragment>
-      )}
+      { renderView() }
     </Fragment>
   )
 }
