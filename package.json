@@ -40,5 +40,9 @@
     "build": "webpack --mode=production --progress",
     "watch": "webpack-dev-server --compress --open --progress --watch --hot"
   },
-  "browserslist": "> 0.25%, not dead"
+  "browserslist": "> 0.25%, not dead",
+  "dependencies": {
+    "@auth0/auth0-spa-js": "^1.6.4",
+    "react-router-dom": "^5.1.2"
+  }
 }
