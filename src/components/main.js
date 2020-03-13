@@ -16,10 +16,6 @@ import { USER } from '../descriptors'
 import { useDimensions, useStore } from '../../lib/hooks'
 
 const useStyles = makeStyles( (theme) => ({
-  grow: {
-    flexGrow: 1
-  },
-
   layout: {
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
