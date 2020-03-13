@@ -318,6 +318,7 @@ export default function DataTable({
           title: null,
           type: null
         }),
+        [ filters, setFilters ] = useState({}),
         [ page, setPage ] = useState( 0 ),
         [ sort, setSort ] = useState({
           field: fields[0].name,
@@ -340,6 +341,8 @@ export default function DataTable({
       title: null,
       type: null
     })
+
+    loadData()
   }
 
   function handleCreate () {
