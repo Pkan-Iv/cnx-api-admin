@@ -55,6 +55,28 @@ export default function Auth () {
     dispatch({ type: CREDENTIALS.POST.SUCCESS, password, username })
   }
 
+
+  function renderGoogleLogin () {
+    if (!authenticated)
+      return null
+
+    useEffect( () => {
+      window.gapi.load('auth2', () => {
+        auth2 = gapi.auth2.init({
+          client_id: '324221266285-eerm1j5dft20l395mpcj6inq4e63j6i7.apps.googleusercontent.com',
+        })
+
+      })
+    })
+
+    return (
+      <Button color='secondary' variant='contained'>
+        Login with Google
+      </Button>
+    )
+  }
+
+
   return (
     <Paper className={ classes.paper }>
       <form className={ classes.form } onSubmit={ handleSubmit }>
@@ -90,6 +112,8 @@ export default function Auth () {
             variant="contained">
             Sign In
           </Button>
+
+          { renderGoogleLogin }
         </Box>
       </form>
     </Paper>
