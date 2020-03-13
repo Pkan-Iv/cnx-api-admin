@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import {
   Box,
   Button,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -283,7 +282,6 @@ function FormSelect ({
   }
 
   if (values === undefined) {
-    // return <CircularProgress />
     return null
   }
 
@@ -300,7 +298,6 @@ function FormSelect ({
     </TextField>
   )
 }
-
 
 export default function DataTable({
   actions = {
