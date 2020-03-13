@@ -4,6 +4,7 @@ CREATE TABLE `Accounts` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(64) NOT NULL,
   `password` BINARY(20) NOT NULL,
+  `project_id` INT NULL DEFAULT NULL,
   `role_id` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `credentials_key` (`username` ASC, `password` ASC)
@@ -12,6 +13,10 @@ CREATE TABLE `Accounts` (
 CREATE TABLE `Acls` (
   `role_id` int(10) unsigned NOT NULL,
   `resource_id` int(10) unsigned NOT NULL,
+  `create` TINYINT NOT NULL DEFAULT 0,
+  `read` TINYINT NOT NULL DEFAULT 0,
+  `update` TINYINT NOT NULL DEFAULT 0,
+  `delete` TINYINT NULL DEFAULT 0,
   PRIMARY KEY (`role_id`,`resource_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
