@@ -13,7 +13,7 @@ import MuiAlert from '@material-ui/lab/Alert'
 import Panel from './panel'
 import Panels from './panels'
 import { USER } from '../descriptors'
-import { useDimensions, useStore } from '../../lib/hooks'
+import { useDimensions, useStore } from 'lib/hooks'
 
 const useStyles = makeStyles( (theme) => ({
   layout: {

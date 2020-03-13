@@ -9,7 +9,7 @@ import {
   Typography
 } from '@material-ui/core'
 
-import { useStore } from '../../lib/hooks'
+import { useStore } from 'lib/hooks'
 
 import Auth from './auth'
 import Main from './main'

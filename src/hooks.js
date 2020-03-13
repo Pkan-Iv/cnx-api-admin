@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { useStore } from '../lib/hooks'
+import { useStore } from 'lib/hooks'
 import { get_languages, get_projects, get_types } from './actions'
 
 export function useLanguages () {

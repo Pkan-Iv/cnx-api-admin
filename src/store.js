@@ -4,11 +4,11 @@ import ThunkMiddleware from 'redux-thunk'
 
 import {
   ErrorMiddleware
-} from '../lib/middlewares'
+} from 'lib/middlewares'
 
 import {
   ActionReducer,
-} from '../lib/reducers'
+} from 'lib/reducers'
 
 import {
   ContextReducer,

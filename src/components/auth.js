@@ -10,7 +10,7 @@ import {
 
 import { post_credentials } from '../actions'
 import { Context } from '../defaults'
-import { useStore } from '../../lib/hooks'
+import { useStore } from 'lib/hooks'
 
 const useStyles = makeStyles(theme => ({
   form: {

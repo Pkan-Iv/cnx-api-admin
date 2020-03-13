@@ -1,4 +1,4 @@
-import { FetchInterface } from '../lib/interfaces'
+import { FetchInterface } from 'lib/interfaces'
 
 import {
   CREDENTIALS,

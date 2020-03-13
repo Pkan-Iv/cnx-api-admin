@@ -1,4 +1,4 @@
-import { CreateReducer, ConnectMutator } from '../lib/factories'
+import { CreateReducer, ConnectMutator } from 'lib/factories'
 import { Context } from './defaults'
 
 import {
