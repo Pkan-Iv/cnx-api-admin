@@ -1,6 +1,7 @@
 import { FetchInterface } from '../lib/interfaces'
 
 import {
+  CREDENTIALS,
   LANGUAGES,
   PROJECTS,
   TYPES,
@@ -26,6 +27,7 @@ function ApiFetchHandler () {
 }
 
 const Api = FetchInterface(api.url, ApiFetchHandler),
+      Accounts = Api('accounts'),
       Languages = Api('languages'),
       Projects = Api('projects'),
       Types = Api('types'),
@@ -166,7 +168,7 @@ function get_users_success ({ count, rows }) {
   }
 }
 
-export function get_users(params) {
+export function get_users (params) {
   const request = Users(
     get_users_success,
     get_users_failure
@@ -174,6 +176,30 @@ export function get_users(params) {
 
   request.setParams(params)
   return request.get()
+}
+
+function post_credentials_failure (reason) {
+  return {
+    type: CREDENTIALS.POST.FAILURE,
+    reason
+  }
+}
+
+function post_credentials_success (data) {
+  return {
+    type: CREDENTIALS.POST.SUCCESS,
+    data
+  }
+}
+
+export function post_credentials ({ username, password }) {
+  const request = Accounts(
+    post_credentials_success,
+    post_credentials_failure
+  )
+
+  request.setBody({ username, password })
+  return request.post()
 }
 
 function update_user_failure (reason) {

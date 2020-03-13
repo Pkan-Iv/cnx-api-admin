@@ -1,4 +1,6 @@
 export const Context = {
-  // authenticated: false
-  authenticated: true
+  authenticated: false,
+  authorizations: [],
+  project: null,
+  project_ref: null
 }

@@ -8,7 +8,7 @@ import {
   TextField
 } from '@material-ui/core'
 
-import { CREDENTIALS } from '../descriptors'
+import { post_credentials } from '../actions'
 import { useStore } from '../../lib/hooks'
 
 const useStyles = makeStyles(theme => ({
@@ -52,7 +52,7 @@ export default function Auth () {
     const { password, username } = fields
 
     e.preventDefault()
-    dispatch({ type: CREDENTIALS.POST.SUCCESS, password, username })
+    dispatch(post_credentials({ password, username }))
   }
 
 

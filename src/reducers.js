@@ -10,25 +10,25 @@ import {
   USERS
 } from './descriptors'
 
-const CreateArrayReducer = CreateReducer([]),
-      CreateContextReducer = CreateReducer(Context),
-      CreateNumberReducer = CreateReducer(0),
-      CreateObjectReducer = CreateReducer({}),
-      CreateStringReducer = CreateReducer('')
+const CreateArrayReducer = CreateReducer( [] ),
+      CreateContextReducer = CreateReducer( Context ),
+      CreateNumberReducer = CreateReducer( 0 ),
+      CreateObjectReducer = CreateReducer( {} ),
+      CreateStringReducer = CreateReducer( '' )
 
 export const ContextReducer = CreateContextReducer(
-  ConnectMutator( (s, p) => ({ ...s, authenticated: true }),
+  ConnectMutator( (s, p) => ({ ...s, authenticated: true, ...p.data }),
     CREDENTIALS.POST.SUCCESS
   ),
 
-  ConnectMutator( (s, p) => ({ ...s, authenticated: false }),
+  ConnectMutator( () => ({ ...Context, authenticated: false }),
     CREDENTIALS.DELETE.SUCCESS
   )
 )
 
 export const CountReducer = CreateNumberReducer(
   ConnectMutator( (s, p) => p.count,
-    USERS.GET.SUCCESS,
+    USERS.GET.SUCCESS
   )
 )
 
@@ -48,7 +48,7 @@ export const ReasonReducer = CreateStringReducer(
     USER.CREATE.FAILURE,
     USER.DELETE.FAILURE,
     USER.UPDATE.FAILURE,
-    USERS.GET.FAILURE,
+    USERS.GET.FAILURE
   )
 )
 
