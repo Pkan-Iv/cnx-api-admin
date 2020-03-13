@@ -36,5 +36,5 @@ export function useTypes () {
     dispatch(get_types())
   }, [])
 
-return types
+  return types
 }
