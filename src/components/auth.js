@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import {
@@ -58,15 +58,27 @@ export default function Auth () {
 
 
   function renderGoogleLogin () {
-    if (!Context.authenticated)
+    if (Context.authenticated)
       return null
 
     useEffect( () => {
+      console.log('Apparently something works')
       window.gapi.load('auth2', () => {
         auth2 = gapi.auth2.init({
           client_id: '324221266285-eerm1j5dft20l395mpcj6inq4e63j6i7.apps.googleusercontent.com',
         })
 
+      })
+
+      window.gapi.load('signin2', function() {
+        // render a sign in button
+        // using this method will show Signed In if the user is already signed in
+        var opts = {
+          width: 200,
+          height: 50,
+          onSuccess: this.onSuccess.bind(this),
+        }
+        gapi.signin2.render('loginButton', opts)
       }), []
     })
 
