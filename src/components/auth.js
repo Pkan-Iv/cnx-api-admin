@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core'
 
 import { post_credentials } from '../actions'
+import { Context } from '../defaults'
 import { useStore } from '../../lib/hooks'
 
 const useStyles = makeStyles(theme => ({
@@ -57,7 +58,7 @@ export default function Auth () {
 
 
   function renderGoogleLogin () {
-    if (!authenticated)
+    if (!Context.authenticated)
       return null
 
     useEffect( () => {
@@ -66,7 +67,7 @@ export default function Auth () {
           client_id: '324221266285-eerm1j5dft20l395mpcj6inq4e63j6i7.apps.googleusercontent.com',
         })
 
-      })
+      }), []
     })
 
     return (
@@ -113,7 +114,7 @@ export default function Auth () {
             Sign In
           </Button>
 
-          { renderGoogleLogin }
+          { renderGoogleLogin() }
         </Box>
       </form>
     </Paper>
