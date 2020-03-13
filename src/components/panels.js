@@ -16,7 +16,7 @@ import {
 import DataTable from './datatable'
 
 export default {
-  Users () {
+  Users ({ height }) {
     const actions = {
       create: create_user,
       delete: delete_user,
@@ -34,7 +34,7 @@ export default {
       { name: 'whitelabel', label: 'Whitelabel', filter: false }
     ]
 
-    const props = { actions, fields }
+    const props = { actions, fields, height }
     return <DataTable { ...props } />
   }
 }

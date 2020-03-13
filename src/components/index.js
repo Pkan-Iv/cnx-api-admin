@@ -14,7 +14,7 @@ import {
 
 import MuiAlert from '@material-ui/lab/Alert'
 
-import { useStore } from '../../lib/hooks'
+import { useDimensions, useStore } from '../../lib/hooks'
 
 import Auth  from './auth'
 import Panel from './panel'
@@ -47,6 +47,7 @@ function GetTabProps (index) {
 
 export default function Application () {
   const classes = useStyles(),
+        [ ref, dimensions ] = useDimensions(),
         [ { action, context, reason }, dispatch ] = useStore(),
         [ failure, setFailure ] = useState( false ),
         [ success, setSuccess ] = useState( false ),
@@ -89,7 +90,7 @@ export default function Application () {
   function renderPanels () {
     return Object.keys( Panels ).map( (label, index) => (
       <Panel key={ label } value={ tab } index={ index }>
-        { tab === index ? Panels[ label ]() : null }
+        { tab === index ? Panels[ label ]( dimensions ) : null }
       </Panel>
     ))
   }
@@ -111,7 +112,9 @@ export default function Application () {
             { renderTabs() }
           </Tabs>
 
-          { renderPanels() }
+          <div ref={ ref } style={{ width: '100%' }}>
+            { renderPanels() }
+          </div>
         </div>
 
         <Snackbar autoHideDuration={ 5000 } open={ success } onClose={ handleClose }>

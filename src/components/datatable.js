@@ -306,8 +306,12 @@ export default function DataTable({
     get: null,
     update: null
   },
-  fields = []
+  fields = [],
+  height
 } = {}) {
+  if (height === undefined)
+    return null
+
   const classes = useStyles(),
         [ dialog, setDialog ] = useState({
           selected: null,
@@ -320,7 +324,7 @@ export default function DataTable({
           order: 'asc'
         }),
         [{ count, rows }, dispatch ] = useStore(),
-        rowsPerPage = 20
+        rowsPerPage = 50
 
   function createHandler (handler, property) {
     return (event) => handler( event, property )
@@ -483,9 +487,8 @@ export default function DataTable({
         </Tooltip>
       </Toolbar>
 
-      <TableContainer>
-
-        <Table className={ classes.table } size='small' stickyHeader>
+      <TableContainer style={{ height: height - 256 }}>
+        <Table className={ classes.table } size='small' stickyHeader={ true }>
           <TableHead>
             <TableRow>
               { renderHead() }
@@ -515,4 +518,3 @@ export default function DataTable({
     </div>
   )
 }
-
