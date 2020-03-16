@@ -8,11 +8,9 @@ import {
   TextField
 } from '@material-ui/core'
 
-
 import { post_credentials } from '../actions'
-import { Context } from '../defaults'
 import { useStore } from 'lib/hooks'
-import GoogleLoginButton from './GoogleLoginButton'
+// import GoogleLoginButton from './google'
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -59,7 +57,6 @@ export default function Auth () {
     dispatch(post_credentials({ password, username }))
   }
 
-
   return (
     <Paper className={ classes.paper }>
       <form className={ classes.form } onSubmit={ handleSubmit }>
@@ -96,7 +93,10 @@ export default function Auth () {
             variant="contained">
             Sign In
           </Button>
-          <GoogleLoginButton className={ classes.submit } type='submit'/>
+
+          {
+            /*<GoogleLoginButton className={ classes.submit } type='submit'/>*/
+          }
         </Box>
       </form>
     </Paper>
