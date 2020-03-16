@@ -76,10 +76,17 @@ export default function Application () {
     closeSnackBars()
   }
 
+  function renderPanel (label, index) {
+    if (tab === index && typeof Panels[ label ] === 'function')
+      return Panels[ label ]( acls, dimensions )
+
+    return null
+  }
+
   function renderPanels () {
     return tabs.map( (label, index) => (
       <Panel key={ label } value={ tab } index={ index }>
-        { tab === index ? Panels[ label ]( acls, dimensions ) : null }
+        { renderPanel( label, index ) }
       </Panel>
     ))
   }
