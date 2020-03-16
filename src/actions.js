@@ -30,6 +30,10 @@ function ApiFetchHandler () {
 const Api = FetchInterface(api.url, ApiFetchHandler),
       Languages = Api('languages'),
       PraAccounts = Api('pra_accounts'),
+      PraMessages = Api('pra_messages'),
+      PraNumbers = Api('pra_numbers'),
+      PraPlans = Api('pra_plans'),
+      PraProjects = Api('pra_projects'),
       Projects = Api('projects'),
       Types = Api('types'),
       Users = Api('users')
@@ -106,6 +110,7 @@ export function get_languages () {
   return request.get()
 }
 
+/*
 function get_all_pra_failure (reason) {
   return {
     type: PRA.GET.ALL.FAILURE,
@@ -129,6 +134,7 @@ export function get_pra () {
 
   return request.get()
 }
+*/
 
 function get_pra_messages_failure (reason) {
   return {
@@ -137,16 +143,16 @@ function get_pra_messages_failure (reason) {
   }
 }
 
-function get_pra_messages_success ({ rows }) {
+function get_pra_messages_success ({ count, rows }) {
   return {
     type: PRA.GET.MESSAGES.SUCCESS,
-    resource: 'par_accounts',
+    count,
     rows
   }
 }
 
 export function get_pra_messages () {
-  const request = PraAccounts(
+  const request = PraMessages(
     get_pra_messages_success,
     get_pra_messages_failure
   )
@@ -161,16 +167,16 @@ function get_pra_numbers_failure (reason) {
   }
 }
 
-function get_pra_numbers_success ({ rows }) {
+function get_pra_numbers_success ({ count, rows }) {
   return {
     type: PRA.GET.NUMBERS.SUCCESS,
-    resource: 'par_accounts',
+    count,
     rows
   }
 }
 
 export function get_pra_numbers () {
-  const request = PraAccounts(
+  const request = PraNumbers(
     get_pra_numbers_success,
     get_pra_numbers_failure
   )
@@ -185,16 +191,16 @@ function get_pra_projects_failure (reason) {
   }
 }
 
-function get_pra_projects_success ({ rows }) {
+function get_pra_projects_success ({ count, rows }) {
   return {
     type: PRA.GET.PROJECTS.SUCCESS,
-    resource: 'par_accounts',
+    count,
     rows
   }
 }
 
 export function get_pra_projects () {
-  const request = PraAccounts(
+  const request = PraProjects(
     get_pra_projects_success,
     get_pra_projects_failure
   )
