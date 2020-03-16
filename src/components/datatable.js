@@ -56,6 +56,7 @@ export default function DataTable({
           title: null,
           type: null
         }),
+        // TODO: Manage filter's values
         [ filters, setFilters ] = useState({}),
         [ page, setPage ] = useState( 0 ),
         [ sort, setSort ] = useState({

@@ -29,6 +29,11 @@ import { useStore } from 'lib/hooks'
 const useStyles = makeStyles( (theme) => ({
   box: {
     display: 'block'
+  },
+
+  input: {
+    margin: '5 auto',
+    width: '60%'
   }
 }))
 
