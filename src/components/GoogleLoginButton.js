@@ -1,23 +1,27 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { Button } from '@material-ui/core'
 
+import { Context } from '../defaults'
+
 import * as Config from '../../config.json'
 
 const GoogleLoginButton = (props) => {
-  const [ isLoggedIn, setLoggedIn ] = useState({
-    isLoggedIn : false
+  const /* [state, dispatch] = useState(), */
+        [ authenticated, setAuthenticated ] = useState({
+    authenticated : false
   }),
         toggleLoggedIn = () => {
-          setLoggedIn(true)
-          return { isLoggedIn: !isLoggedIn}
-        }
+    setAuthenticated(!authenticated)
+    return { ...Context, authenticated: authenticated}
+  }
 
   const onSignIn = (googleUser) => {
+
     toggleLoggedIn()
     let user = googleUser.getBasicProfile()
     let id_token = googleUser.getAuthResponse().id_token
     console.log('google user obj', user)
-    console.log('google_id_token', id_token) // plus any other logic here
+    console.log('google_id_token', id_token)
   }
 
   const renderGoogleLoginButton = () => {
