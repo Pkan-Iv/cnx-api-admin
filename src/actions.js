@@ -27,8 +27,8 @@ function ApiFetchHandler () {
 }
 
 const Api = FetchInterface(api.url, ApiFetchHandler),
-      Accounts = Api('accounts'),
       Languages = Api('languages'),
+      PraAccounts = Api('pra_accounts'),
       Projects = Api('projects'),
       Types = Api('types'),
       Users = Api('users')
@@ -193,7 +193,7 @@ function post_credentials_success (data) {
 }
 
 export function post_credentials ({ username, password }) {
-  const request = Accounts(
+  const request = PraAccounts(
     post_credentials_success,
     post_credentials_failure
   )
