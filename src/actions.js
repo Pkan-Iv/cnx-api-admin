@@ -3,6 +3,7 @@ import { FetchInterface } from 'lib/interfaces'
 import {
   CREDENTIALS,
   LANGUAGES,
+  PRA,
   PROJECTS,
   TYPES,
   USER,
@@ -100,6 +101,102 @@ export function get_languages () {
   const request = Languages(
     get_languages_success,
     get_languages_failure
+  )
+
+  return request.get()
+}
+
+function get_all_pra_failure (reason) {
+  return {
+    type: PRA.GET.ALL.FAILURE,
+    reason
+  }
+}
+
+function get_all_pra_success ({ rows }) {
+  return {
+    type: PRA.GET.ALL.SUCCESS,
+    resource: 'par_accounts',
+    rows
+  }
+}
+
+export function get_all_pra () {
+  const request = PraAccounts(
+    get_all_pra_success,
+    get_all_pra_failure
+  )
+
+  return request.get()
+}
+
+function get_pra_messages_failure (reason) {
+  return {
+    type: PRA.GET.MESSAGES.FAILURE,
+    reason
+  }
+}
+
+function get_pra_messages_success ({ rows }) {
+  return {
+    type: PRA.GET.MESSAGES.SUCCESS,
+    resource: 'par_accounts',
+    rows
+  }
+}
+
+export function get_pra_messages () {
+  const request = PraAccounts(
+    get_pra_messages_success,
+    get_pra_messages_failure
+  )
+
+  return request.get()
+}
+
+function get_pra_numbers_failure (reason) {
+  return {
+    type: PRA.GET.NUMBERS.FAILURE,
+    reason
+  }
+}
+
+function get_pra_numbers_success ({ rows }) {
+  return {
+    type: PRA.GET.NUMBERS.SUCCESS,
+    resource: 'par_accounts',
+    rows
+  }
+}
+
+export function get_pra_numbers () {
+  const request = PraAccounts(
+    get_pra_numbers_success,
+    get_pra_numbers_failure
+  )
+
+  return request.get()
+}
+
+function get_pra_projects_failure (reason) {
+  return {
+    type: PRA.GET.PROJECTS.FAILURE,
+    reason
+  }
+}
+
+function get_pra_projects_success ({ rows }) {
+  return {
+    type: PRA.GET.PROJECTS.SUCCESS,
+    resource: 'par_accounts',
+    rows
+  }
+}
+
+export function get_pra_projects () {
+  const request = PraAccounts(
+    get_pra_projects_success,
+    get_pra_projects_failure
   )
 
   return request.get()
