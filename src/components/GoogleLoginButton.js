@@ -68,7 +68,9 @@ const GoogleLoginButton = (props) => {
         margin: '0 auto'
       }} ></Button>
       <br />
-      {props.isLoggedIn && <Button style={{
+      { authenticated && <Button style={{
+        display: 'flex',
+        margin: '0 auto',
         width: 200,
         height: 40,
         textAlign: 'center'
