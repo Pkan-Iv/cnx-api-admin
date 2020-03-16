@@ -16,6 +16,27 @@ export const LANGUAGES = {
   }
 }
 
+export const PRA = {
+  GET: {
+      ALL:{
+      FAILURE: 'PRA.GET.ALL.FAILURE',
+      SUCCESS: 'PRA.GET.ALL.SUCCESS'
+    },
+      MESSAGES:{
+      FAILURE: 'PRA.GET.MESSAGES.FAILURE',
+      SUCCESS: 'PRA.GET.MESSAGES.SUCCESS'
+    },
+      NUMBERS:{
+      FAILURE: 'PRA.GET.NUMBERS.FAILURE',
+      SUCCESS: 'PRA.GET.NUMBERS.SUCCESS'
+    },
+      PROJECTS:{
+      FAILURE: 'PRA.GET.PROJECTS.FAILURE',
+      SUCCESS: 'PRA.GET.PROJECTS.SUCCESS'
+    }
+  }
+}
+
 export const PROJECTS = {
   GET: {
     FAILURE: 'PROJECTS.GET.FAILURE',
