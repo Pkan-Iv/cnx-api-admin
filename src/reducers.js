@@ -40,10 +40,6 @@ export const CountReducer = CreateNumberReducer(
 export const ListReducer = CreateObjectReducer(
   ConnectMutator( (s, p) => ({ ...s, [ p.resource ]: p.rows }),
     LANGUAGES.GET.SUCCESS,
-    PRA.GET.ALL.SUCCESS,
-    PRA.GET.MESSAGES.SUCCESS,
-    PRA.GET.NUMBERS.SUCCESS,
-    PRA.GET.PROJECTS.SUCCESS,
     PROJECTS.GET.SUCCESS,
     TYPES.GET.SUCCESS
   )
