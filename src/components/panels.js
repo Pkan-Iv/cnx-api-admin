@@ -16,6 +16,26 @@ import {
 import DataTable from './datatable'
 
 export default {
+  Accounts () {
+    // TODO
+  },
+
+  Messages () {
+    // TODO
+  },
+
+  Numbers () {
+    // TODO
+  },
+
+  Pra () {
+    // TODO
+  },
+
+  Projects () {
+    // TODO
+  },
+
   Users ({ height }) {
     const actions = {
       create: create_user,
