@@ -46,29 +46,47 @@ export default {
     const actions = {
       create: null,
       delete: null,
-      get: get_pra_messages,
+      read: get_pra_messages,
       update: null
     }
 
     const fields = [
-      // TODO
+      { name: 'project', label: 'Project', type: 'input' },
+      { name: 'name', label: 'Message', type: 'input' },
+      { name: 'path', label: 'Path', type: 'input' }
     ]
 
     const props = { acls, actions, fields, height }
-    return null // <DataTable { ...props } />
+    return <DataTable { ...props } />
   },
 
   Numbers (acls, { height }) {
     const actions = {
       create: null,
       delete: null,
-      get: get_pra_numbers,
+      read: get_pra_numbers,
       update: null
     }
 
     const fields = [
-      // TODO
+      { name: 'project', label: 'Project', type: 'input' },
+      { name: 'label', label: 'Label', type: 'input' },
+      { name: 'number', label: 'Number', type: 'input' }
     ]
+
+    const props = { acls, actions, fields, height }
+    return <DataTable { ...props } />
+  },
+
+  Plans (acls, { height }) {
+    const actions = {
+      create: null,
+      delete: null,
+      read: get_pra,
+      update: null
+    }
+
+    const fields = []
 
     const props = { acls, actions, fields, height }
     return null // <DataTable { ...props } />
@@ -78,13 +96,11 @@ export default {
     const actions = {
       create: null,
       delete: null,
-      get: get_pra,
+      read: get_pra,
       update: null
     }
 
-    const fields = [
-      // TODO
-    ]
+    const fields = []
 
     const props = { acls, actions, fields, height }
     return null // <DataTable { ...props } />
@@ -94,15 +110,18 @@ export default {
     const actions = {
       create: null,
       delete: null,
-      get: get_pra_projects,
+      read: get_pra_projects,
       update: null
     }
 
     const fields = [
-      // TODO
+      { name: 'name', label: 'Project', type: 'input' },
+      { name: 'plan', label: 'Plan', type: 'input' },
+      { name: 'country', label: 'Country', type: 'input' },
+      { name: 'whitelabel', label: 'Whitelabel', type: 'input' }
     ]
 
     const props = { acls, actions, fields, height }
-    return null // <DataTable { ...props } />
+    return <DataTable { ...props } />
   }
 }
