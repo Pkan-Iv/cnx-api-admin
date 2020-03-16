@@ -68,7 +68,7 @@ export default function Application () {
     setTab( index )
   }
 
-  function handleClose (event, reason) {
+  function handleClose (e, reason) {
     if (reason === 'clickaway') {
       return;
     }
