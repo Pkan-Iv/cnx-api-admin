@@ -38,10 +38,16 @@ const useStyles = makeStyles( (theme) => ({
 }))
 
 export default function DataTable({
+  acls = {
+    create: false,
+    delete: false,
+    read: false,
+    update: false
+  },
   actions = {
     create: null,
     delete: null,
-    get: null,
+    read: null,
     update: null
   },
   fields = [],
@@ -136,9 +142,9 @@ export default function DataTable({
   }
 
   function loadData (filters = null) {
-    const { get } = actions
+    const { read } = actions
 
-    if (typeof get === 'function') {
+    if (typeof read === 'function') {
       const { field, order } = sort
 
       const props = {
@@ -150,7 +156,7 @@ export default function DataTable({
       if (filters !== null)
         props._w = filters
 
-      dispatch( get( props ))
+      dispatch( read( props ))
     }
   }
 

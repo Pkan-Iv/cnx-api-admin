@@ -13,6 +13,7 @@ import MuiAlert from '@material-ui/lab/Alert'
 import Panel from './panel'
 import Panels from './panels'
 import { USER } from '../descriptors'
+import { MergeObject } from 'lib/factories'
 import { useDimensions, useStore } from 'lib/hooks'
 
 const useStyles = makeStyles( (theme) => ({
@@ -38,10 +39,25 @@ function GetTabProps (index) {
 export default function Application () {
   const classes = useStyles(),
         [ ref, dimensions ] = useDimensions(),
-        [{ action, reason }] = useStore(),
+        [{ action, context, reason }] = useStore(),
         [ failure, setFailure ] = useState( false ),
         [ success, setSuccess ] = useState( false ),
-        [ tab, setTab ] = useState( 0 )
+        [ tab, setTab ] = useState( 0 ),
+        { authorizations } = context
+
+  const acls = { ...MergeObject( authorizations.map( (item) => ({
+    [ item.resource ]: MergeObject( Object.keys( item ).filter(
+      (key) => key !== 'resource'
+    ).map( (key) => ({
+      [ key ]: item[ key ] === 1
+    })))
+  }))), Demo: { create: true, read: true, update: true, delete: true }}
+
+  const tabs = [ ...authorizations.filter(
+    (item) => item.read === 1
+  ).map(
+    (item) => item.resource
+  ), 'Demo' ]
 
   function closeSnackBars () {
     setFailure( false )
@@ -61,15 +77,15 @@ export default function Application () {
   }
 
   function renderPanels () {
-    return Object.keys( Panels ).map( (label, index) => (
+    return tabs.map( (label, index) => (
       <Panel key={ label } value={ tab } index={ index }>
-        { tab === index ? Panels[ label ]( dimensions ) : null }
+        { tab === index ? Panels[ label ]( acls, dimensions ) : null }
       </Panel>
     ))
   }
 
   function renderTabs () {
-    return Object.keys( Panels ).map( (label, index) => (
+    return tabs.map( (label, index) => (
       <Tab key={ label } label={ label } { ...GetTabProps( index ) } />
     ))
   }

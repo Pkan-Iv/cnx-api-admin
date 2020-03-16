@@ -16,33 +16,95 @@ import {
 import DataTable from './datatable'
 
 export default {
-  Accounts () {
-    // TODO
+  Accounts (acls, { height }) {
+    const actions = {
+      create: null,
+      delete: null,
+      get: null,
+      update: null
+    }
+
+    const fields = [
+      // TODO
+    ]
+
+    const props = { acls, actions, fields, height }
+    return null // <DataTable { ...props } />
   },
 
-  Messages () {
-    // TODO
+  Messages (acls, { height }) {
+    const actions = {
+      create: null,
+      delete: null,
+      get: null,
+      update: null
+    }
+
+    const fields = [
+      // TODO
+    ]
+
+    const props = { acls, actions, fields, height }
+    return null // <DataTable { ...props } />
   },
 
-  Numbers () {
-    // TODO
+  Numbers (acls, { height }) {
+    const actions = {
+      create: null,
+      delete: null,
+      get: null,
+      update: null
+    }
+
+    const fields = [
+      // TODO
+    ]
+
+    const props = { acls, actions, fields, height }
+    return null // <DataTable { ...props } />
   },
 
-  Pra () {
-    // TODO
+  Pra (acls, { height }) {
+    const actions = {
+      create: null,
+      delete: null,
+      get: null,
+      update: null
+    }
+
+    const fields = [
+      // TODO
+    ]
+
+    const props = { acls, actions, fields, height }
+    return null // <DataTable { ...props } />
   },
 
-  Projects () {
-    // TODO
+  Projects (acls, { height }) {
+    const actions = {
+      create: null,
+      delete: null,
+      get: null,
+      update: null
+    }
+
+    const fields = [
+      // TODO
+    ]
+
+    const props = { acls, actions, fields, height }
+    return null // <DataTable { ...props } />
   },
 
-  Users ({ height }) {
+  Demo (acls, { height }) {
     const actions = {
       create: create_user,
-      delete: delete_user,
-      get: get_users,
-      update: update_user
+      read: get_users,
+      update: update_user,
+      delete: delete_user
     }
+
+    console.log( 'Projects' )
 
     const fields = [
       { name: 'display_name', label: 'Username', type: 'input' },
@@ -54,7 +116,7 @@ export default {
       { name: 'whitelabel', label: 'Whitelabel', filter: false }
     ]
 
-    const props = { actions, fields, height }
+    const props = { acls, actions, fields, height }
     return <DataTable { ...props } />
   }
 }
