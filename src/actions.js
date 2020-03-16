@@ -121,7 +121,7 @@ function get_all_pra_success ({ rows }) {
   }
 }
 
-export function get_all_pra () {
+export function get_pra () {
   const request = PraAccounts(
     get_all_pra_success,
     get_all_pra_failure
