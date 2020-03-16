@@ -9,10 +9,7 @@ export default function FormButton ({
   icon = null,
   type = 'button'
 } = {}) {
-  const classes = useStyles()
-
   const props = {
-    className: classes.submit,
     color,
     onClick: click,
     startIcon: icon,
