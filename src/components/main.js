@@ -45,19 +45,19 @@ export default function Application () {
         [ tab, setTab ] = useState( 0 ),
         { authorizations } = context
 
-  const acls = { ...MergeObject( authorizations.map( (item) => ({
+  const acls = MergeObject( authorizations.map( (item) => ({
     [ item.resource ]: MergeObject( Object.keys( item ).filter(
       (key) => key !== 'resource'
     ).map( (key) => ({
       [ key ]: item[ key ] === 1
     })))
-  }))), Demo: { create: true, read: true, update: true, delete: true }}
+  })))
 
-  const tabs = [ ...authorizations.filter(
+  const tabs = authorizations.filter(
     (item) => item.read === 1
   ).map(
     (item) => item.resource
-  ), 'Demo' ]
+  )
 
   function closeSnackBars () {
     setFailure( false )
