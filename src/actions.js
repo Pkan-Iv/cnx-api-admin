@@ -30,6 +30,7 @@ function ApiFetchHandler () {
 const Api = FetchInterface(api.url, ApiFetchHandler),
       Languages = Api('languages'),
       PraAccounts = Api('pra_accounts'),
+      PraAll = Api('pra_all'),
       PraMessages = Api('pra_messages'),
       PraNumbers = Api('pra_numbers'),
       PraPlans = Api('pra_plans'),
@@ -110,31 +111,29 @@ export function get_languages () {
   return request.get()
 }
 
-/*
-function get_all_pra_failure (reason) {
+function get_pra_all_failure (reason) {
   return {
     type: PRA.GET.ALL.FAILURE,
     reason
   }
 }
 
-function get_all_pra_success ({ rows }) {
+function get_pra_all_success ({ count, rows }) {
   return {
     type: PRA.GET.ALL.SUCCESS,
-    resource: 'par_accounts',
+    count,
     rows
   }
 }
 
-export function get_pra () {
-  const request = PraAccounts(
-    get_all_pra_success,
-    get_all_pra_failure
+export function get_pra_all () {
+  const request = PraAll(
+    get_pra_all_success,
+    get_pra_all_failure
   )
 
   return request.get()
 }
-*/
 
 function get_pra_messages_failure (reason) {
   return {
@@ -179,6 +178,30 @@ export function get_pra_numbers () {
   const request = PraNumbers(
     get_pra_numbers_success,
     get_pra_numbers_failure
+  )
+
+  return request.get()
+}
+
+function get_pra_plans_failure (reason) {
+  return {
+    type: PRA.GET.PLANS.FAILURE,
+    reason
+  }
+}
+
+function get_pra_plans_success ({ count, rows }) {
+  return {
+    type: PRA.GET.PLANS.SUCCESS,
+    count,
+    rows
+  }
+}
+
+export function get_pra_plans () {
+  const request = PraPlans(
+    get_pra_plans_success,
+    get_pra_plans_failure
   )
 
   return request.get()

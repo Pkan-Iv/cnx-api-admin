@@ -3,9 +3,10 @@ import React from 'react'
 import {
   create_user,
   delete_user,
-  get_pra,
+  get_pra_all,
   get_pra_messages,
   get_pra_numbers,
+  get_pra_plans,
   get_pra_projects,
   get_users,
   update_user
@@ -82,28 +83,38 @@ export default {
     const actions = {
       create: null,
       delete: null,
-      read: get_pra,
+      read: get_pra_plans,
       update: null
     }
 
-    const fields = []
+    const fields = [
+      { name: 'project', label: 'Project', type: 'input' },
+      { name: 'name', label: 'Plan', type: 'input' },
+      { name: 'message', label: 'Message', type: 'input' },
+      { name: 'destination', label: 'Destination', type: 'input' }
+    ]
 
     const props = { acls, actions, fields, height }
-    return null // <DataTable { ...props } />
+    return <DataTable { ...props } />
   },
 
   Pra (acls, { height }) {
     const actions = {
       create: null,
       delete: null,
-      read: get_pra,
+      read: get_pra_all,
       update: null
     }
 
-    const fields = []
+    const fields = [
+      { name: 'plan', label: 'Plan', type: 'input' },
+      { name: 'number', label: 'Number', type: 'input' },
+      { name: 'message', label: 'Message', type: 'input' },
+      { name: 'destination', label: 'Destination', type: 'input' }
+    ]
 
     const props = { acls, actions, fields, height }
-    return null // <DataTable { ...props } />
+    return <DataTable { ...props } />
   },
 
   Projects (acls, { height }) {
