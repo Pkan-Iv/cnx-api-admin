@@ -4,6 +4,7 @@ import { Context } from './defaults'
 import {
   CREDENTIALS,
   LANGUAGES,
+  PRA,
   PROJECTS,
   TYPES,
   USER,
@@ -28,6 +29,10 @@ export const ContextReducer = CreateContextReducer(
 
 export const CountReducer = CreateNumberReducer(
   ConnectMutator( (s, p) => p.count,
+    PRA.GET.ALL.SUCCESS,
+    PRA.GET.MESSAGES.SUCCESS,
+    PRA.GET.NUMBERS.SUCCESS,
+    PRA.GET.PROJECTS.SUCCESS,
     USERS.GET.SUCCESS
   )
 )
@@ -35,6 +40,10 @@ export const CountReducer = CreateNumberReducer(
 export const ListReducer = CreateObjectReducer(
   ConnectMutator( (s, p) => ({ ...s, [ p.resource ]: p.rows }),
     LANGUAGES.GET.SUCCESS,
+    PRA.GET.ALL.SUCCESS,
+    PRA.GET.MESSAGES.SUCCESS,
+    PRA.GET.NUMBERS.SUCCESS,
+    PRA.GET.PROJECTS.SUCCESS,
     PROJECTS.GET.SUCCESS,
     TYPES.GET.SUCCESS
   )
@@ -43,6 +52,10 @@ export const ListReducer = CreateObjectReducer(
 export const ReasonReducer = CreateStringReducer(
   ConnectMutator( (s, p) => p.reason,
     LANGUAGES.GET.FAILURE,
+    PRA.GET.ALL.FAILURE,
+    PRA.GET.MESSAGES.FAILURE,
+    PRA.GET.NUMBERS.FAILURE,
+    PRA.GET.PROJECTS.FAILURE,
     PROJECTS.GET.FAILURE,
     TYPES.GET.FAILURE,
     USER.CREATE.FAILURE,
@@ -54,6 +67,10 @@ export const ReasonReducer = CreateStringReducer(
 
 export const RowsReducer = CreateArrayReducer(
   ConnectMutator( (s, p) => p.rows,
+    PRA.GET.ALL.SUCCESS,
+    PRA.GET.MESSAGES.SUCCESS,
+    PRA.GET.NUMBERS.SUCCESS,
+    PRA.GET.PROJECTS.SUCCESS,
     USERS.GET.SUCCESS
   )
 )
