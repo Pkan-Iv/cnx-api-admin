@@ -235,7 +235,6 @@ export function update_user (values, id) {
   return request.patch()
 }
 */
-
 function delete_pra_accouts_success ({ rows }) {
   return {
     type: PRA.DELETE.ACCOUNTS.SUCCESS,
@@ -252,7 +251,6 @@ export function delete_pra_accounts (id) {
   request.addPath([id])
   return request.delete()
 }
-
 
 export function get_pra_accounts () {
   const request = Accounts(
