@@ -39,13 +39,29 @@ export const CountReducer = CreateNumberReducer(
 )
 
 export const ListReducer = CreateObjectReducer(
-  /*
-  ConnectMutator( (s, p) => ({ ...s, [ p.resource ]: p.rows }),
-    LANGUAGES.GET.SUCCESS,
-    PROJECTS.GET.SUCCESS,
-    TYPES.GET.SUCCESS
+  ConnectMutator( (s, p) => ({
+    ...s, [ p.resource ]: p.rows.map(
+      (row) => ({
+        id: row.id,
+        name: row.name
+      }))
+    }),
+
+    PRA.LIST.MESSAGES.SUCCESS,
+    PRA.LIST.PLANS.SUCCESS,
+    PRA.LIST.PROJECTS.SUCCESS
+  ),
+
+  ConnectMutator( (s, p) => ({
+    ...s, [ p.resource ]: p.rows.map(
+      (row) => ({
+        id: row.id,
+        name: row.label
+      }))
+    }),
+
+    PRA.LIST.NUMBERS.SUCCESS
   )
-  */
 )
 
 export const ReasonReducer = CreateStringReducer(

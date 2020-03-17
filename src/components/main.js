@@ -101,15 +101,12 @@ export default function Application () {
     if (reason !== '')
       return setFailure( true )
 
+    /*
     switch (action) {
-      case PRA.GET.ACCOUNTS.SUCCESS:
-      case PRA.GET.ALL.SUCCESS:
-      case PRA.GET.MESSAGES.SUCCESS:
-      case PRA.GET.NUMBERS.SUCCESS:
-      case PRA.GET.PLANS.SUCCESS:
-      case PRA.GET.PROJECTS.SUCCESS:
+      case TODO
         return setSuccess( true )
     }
+    */
   }, [ action, reason ])
 
   return (

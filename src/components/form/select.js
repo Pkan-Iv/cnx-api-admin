@@ -39,7 +39,7 @@ export default function FormSelect ({
       margin='normal'
       onChange={ onChange }
       select
-      value={ value }
+      value={ value || '' }
       variant='outlined'>
       { renderValues() }
     </TextField>

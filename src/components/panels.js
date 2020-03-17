@@ -9,13 +9,12 @@ import {
   get_pra_projects
 } from '../actions'
 
-/*
 import {
-  useLanguages,
-  useProjects,
-  useTypes
+  useMessages,
+  useNumbers,
+  usePlans,
+  useProjects
 } from '../hooks'
-*/
 
 import DataTable from './datatable'
 
@@ -40,7 +39,7 @@ export default {
     }
 
     const fields = [
-      { name: 'project', label: 'Project', type: 'input' },
+      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
       { name: 'username', label: 'Username', type: 'input' },
       { name: 'password', label: 'Password', type: 'input', filter: false, visible: false },
       { name: 'role', label: 'Role', type: 'input' },
@@ -59,7 +58,7 @@ export default {
     }
 
     const fields = [
-      { name: 'project', label: 'Project', type: 'input' },
+      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
       { name: 'name', label: 'Message', type: 'input' },
       { name: 'path', label: 'Path', type: 'input' }
     ]
@@ -77,7 +76,7 @@ export default {
     }
 
     const fields = [
-      { name: 'project', label: 'Project', type: 'input' },
+      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
       { name: 'label', label: 'Label', type: 'input' },
       { name: 'number', label: 'Number', type: 'input' }
     ]
@@ -95,9 +94,9 @@ export default {
     }
 
     const fields = [
-      { name: 'project', label: 'Project', type: 'input' },
+      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
       { name: 'name', label: 'Plan', type: 'input' },
-      { name: 'message', label: 'Message', type: 'input' },
+      { name: 'message', label: 'Message', type: 'select', source: useMessages, bind: 'message_ref' },
       { name: 'destination', label: 'Destination', type: 'input' }
     ]
 
@@ -114,9 +113,9 @@ export default {
     }
 
     const fields = [
-      { name: 'plan', label: 'Plan', type: 'input' },
-      { name: 'number', label: 'Number', type: 'input' },
-      { name: 'message', label: 'Message', type: 'input' },
+      { name: 'plan', label: 'Plan', type: 'select', source: usePlans, bind: 'plan_ref' },
+      { name: 'number', label: 'Number', type: 'select', source: useNumbers, bind: 'number_ref' },
+      { name: 'message', label: 'Message', type: 'select', source: useMessages, bind: 'message_ref' },
       { name: 'destination', label: 'Destination', type: 'input' }
     ]
 
@@ -134,7 +133,7 @@ export default {
 
     const fields = [
       { name: 'name', label: 'Project', type: 'input' },
-      { name: 'plan', label: 'Plan', type: 'input' },
+      { name: 'plan', label: 'Plan', type: 'select', source: usePlans, bind: 'plan_ref' },
       { name: 'country', label: 'Country', type: 'input' },
       { name: 'whitelabel', label: 'Whitelabel', type: 'input' }
     ]

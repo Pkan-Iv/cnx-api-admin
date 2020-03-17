@@ -34,11 +34,11 @@ function CreateFailureHandler (type) {
   }
 }
 
-function CreateListHandler (type) {
-  return ({ count, rows }) => {
+function CreateListHandler (type, resource) {
+  return ({ rows }) => {
     return {
       type,
-      count,
+      resource,
       rows
     }
   }
@@ -53,11 +53,11 @@ function CreateResponseHandler (type) {
   }
 }
 
-function CreateSelectorHandler (type, resource) {
-  return ({ rows }) => {
+function CreateRowsHandler (type) {
+  return ({ count, rows }) => {
     return {
       type,
-      resource,
+      count,
       rows
     }
   }
@@ -245,7 +245,7 @@ export function update_user (values, id) {
 
 export function get_pra_accounts () {
   const request = Accounts(
-    CreateListHandler( PRA.GET.ACCOUNTS.SUCCESS ),
+    CreateRowsHandler( PRA.GET.ACCOUNTS.SUCCESS ),
     CreateFailureHandler( PRA.GET.ACCOUNTS.FAILURE )
   )
 
@@ -254,7 +254,7 @@ export function get_pra_accounts () {
 
 export function get_pra_all () {
   const request = All(
-    CreateListHandler( PRA.GET.ALL.SUCCESS ),
+    CreateRowsHandler( PRA.GET.ALL.SUCCESS ),
     CreateFailureHandler( PRA.GET.ALL.FAILURE )
   )
 
@@ -263,7 +263,7 @@ export function get_pra_all () {
 
 export function get_pra_messages () {
   const request = Messages(
-    CreateListHandler( PRA.GET.MESSAGES.SUCCESS ),
+    CreateRowsHandler( PRA.GET.MESSAGES.SUCCESS ),
     CreateFailureHandler( PRA.GET.MESSAGES.FAILURE )
   )
 
@@ -272,7 +272,7 @@ export function get_pra_messages () {
 
 export function get_pra_numbers () {
   const request = Numbers(
-    CreateListHandler( PRA.GET.NUMBERS.SUCCESS ),
+    CreateRowsHandler( PRA.GET.NUMBERS.SUCCESS ),
     CreateFailureHandler( PRA.GET.NUMBERS.FAILURE )
   )
 
@@ -281,7 +281,7 @@ export function get_pra_numbers () {
 
 export function get_pra_plans () {
   const request = Plans(
-    CreateListHandler( PRA.GET.PLANS.SUCCESS ),
+    CreateRowsHandler( PRA.GET.PLANS.SUCCESS ),
     CreateFailureHandler( PRA.GET.PLANS.FAILURE )
   )
 
@@ -290,8 +290,44 @@ export function get_pra_plans () {
 
 export function get_pra_projects () {
   const request = Projects(
-    CreateListHandler( PRA.GET.PROJECTS.SUCCESS ),
+    CreateRowsHandler( PRA.GET.PROJECTS.SUCCESS ),
     CreateFailureHandler( PRA.GET.PROJECTS.FAILURE )
+  )
+
+  return request.get()
+}
+
+export function list_pra_messages () {
+  const request = Messages(
+    CreateListHandler( PRA.LIST.MESSAGES.SUCCESS, 'messages' ),
+    CreateFailureHandler( PRA.LIST.MESSAGES.FAILURE )
+  )
+
+  return request.get()
+}
+
+export function list_pra_numbers () {
+  const request = Numbers(
+    CreateListHandler( PRA.LIST.NUMBERS.SUCCESS, 'numbers' ),
+    CreateFailureHandler( PRA.LIST.NUMBERS.FAILURE )
+  )
+
+  return request.get()
+}
+
+export function list_pra_plans () {
+  const request = Plans(
+    CreateListHandler( PRA.LIST.PLANS.SUCCESS, 'plans' ),
+    CreateFailureHandler( PRA.LIST.PLANS.FAILURE )
+  )
+
+  return request.get()
+}
+
+export function list_pra_projects () {
+  const request = Projects(
+    CreateListHandler( PRA.LIST.PROJECTS.SUCCESS, 'projects' ),
+    CreateFailureHandler( PRA.LIST.PROJECTS.FAILURE )
   )
 
   return request.get()

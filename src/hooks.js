@@ -1,18 +1,48 @@
 import { useEffect } from 'react'
 
 import { useStore } from 'lib/hooks'
-import { get_languages, get_projects, get_types } from './actions'
 
-export function useLanguages () {
+import {
+  list_pra_messages,
+  list_pra_numbers,
+  list_pra_plans,
+  list_pra_projects,
+} from './actions'
+
+export function useMessages () {
   const [ state, dispatch ] = useStore(),
         { list } = state,
-        { languages } = list
+        { messages } = list
 
   useEffect( () => {
-    dispatch(get_languages())
+    dispatch(list_pra_messages())
   }, [])
 
-  return languages
+  return messages
+}
+
+export function useNumbers () {
+  const [ state, dispatch ] = useStore(),
+        { list } = state,
+        { numbers } = list
+
+  useEffect( () => {
+    dispatch(list_pra_numbers())
+  }, [])
+
+  return numbers
+}
+
+export function usePlans () {
+  const [ state, dispatch ] = useStore(),
+        { list } = state,
+        { plans } = list
+
+  useEffect( () => {
+    dispatch(list_pra_plans())
+  }, [])
+
+  return plans
 }
 
 export function useProjects () {
@@ -21,20 +51,8 @@ export function useProjects () {
         { projects } = list
 
   useEffect( () => {
-    dispatch(get_projects())
+    dispatch(list_pra_projects())
   }, [])
 
   return projects
-}
-
-export function useTypes () {
-  const [ state, dispatch ] = useStore(),
-        { list } = state,
-        { types } = list
-
-  useEffect( () => {
-    dispatch(get_types())
-  }, [])
-
-  return types
 }
