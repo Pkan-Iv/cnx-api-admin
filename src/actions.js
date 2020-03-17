@@ -2,12 +2,7 @@ import { FetchInterface } from 'lib/interfaces'
 
 import {
   CREDENTIALS,
-  LANGUAGES,
-  PRA,
-  PROJECTS,
-  TYPES,
-  USER,
-  USERS
+  PRA
 } from './descriptors'
 
 import { api } from '../config.json'
