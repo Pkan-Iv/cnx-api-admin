@@ -1,12 +1,14 @@
 import React from 'react'
 
 import {
+  delete_pra_accounts,
   get_pra_accounts,
   get_pra_all,
   get_pra_messages,
   get_pra_numbers,
   get_pra_plans,
-  get_pra_projects
+  get_pra_projects,
+  post_pra_accounts
 } from '../actions'
 
 import {
@@ -33,17 +35,17 @@ const fields = [
 export default {
   Accounts (acls, { height }) {
     const actions = {
-      create: null,
+      create: post_pra_accounts,
       read: get_pra_accounts,
       update: null,
-      delete: null
+      delete: delete_pra_accounts
     }
 
     const fields = [
-      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
+      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_id' },
       { name: 'username', label: 'Username', type: 'input' },
       { name: 'password', label: 'Password', type: 'password', filter: false, visible: false },
-      { name: 'role', label: 'Role', type: 'select', source: useRoles, bind: 'role_ref' }
+      { name: 'role', label: 'Role', type: 'select', source: useRoles, bind: 'role_id' }
     ]
 
     const props = { acls, actions, fields, height }
@@ -59,7 +61,7 @@ export default {
     }
 
     const fields = [
-      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
+      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_id' },
       { name: 'name', label: 'Message', type: 'input' },
       { name: 'path', label: 'Path', type: 'input' }
     ]
@@ -77,7 +79,7 @@ export default {
     }
 
     const fields = [
-      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
+      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_id' },
       { name: 'label', label: 'Label', type: 'input' },
       { name: 'number', label: 'Number', type: 'input' }
     ]
@@ -95,9 +97,9 @@ export default {
     }
 
     const fields = [
-      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
+      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_id' },
       { name: 'name', label: 'Plan', type: 'input' },
-      { name: 'message', label: 'Message', type: 'select', source: useMessages, bind: 'message_ref' },
+      { name: 'message', label: 'Message', type: 'select', source: useMessages, bind: 'message_id' },
       { name: 'destination', label: 'Destination', type: 'input' }
     ]
 
@@ -114,9 +116,9 @@ export default {
     }
 
     const fields = [
-      { name: 'plan', label: 'Plan', type: 'select', source: usePlans, bind: 'plan_ref' },
-      { name: 'number', label: 'Number', type: 'select', source: useNumbers, bind: 'number_ref' },
-      { name: 'message', label: 'Message', type: 'select', source: useMessages, bind: 'message_ref' },
+      { name: 'plan', label: 'Plan', type: 'select', source: usePlans, bind: 'plan_id' },
+      { name: 'number', label: 'Number', type: 'select', source: useNumbers, bind: 'number_id' },
+      { name: 'message', label: 'Message', type: 'select', source: useMessages, bind: 'message_id' },
       { name: 'destination', label: 'Destination', type: 'input' }
     ]
 
@@ -134,7 +136,7 @@ export default {
 
     const fields = [
       { name: 'name', label: 'Project', type: 'input' },
-      { name: 'plan', label: 'Plan', type: 'select', source: usePlans, bind: 'plan_ref' },
+      { name: 'plan', label: 'Plan', type: 'select', source: usePlans, bind: 'plan_id' },
       { name: 'country', label: 'Country', type: 'input' },
       { name: 'whitelabel', label: 'Whitelabel', type: 'input' }
     ]

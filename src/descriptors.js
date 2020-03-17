@@ -10,6 +10,13 @@ export const CREDENTIALS = {
 }
 
 export const PRA = {
+  DELETE: {
+    ACCOUNTS: {
+      FAILURE: 'PRA.DELETE.ACCOUNTS.FAILURE',
+      SUCCESS: 'PRA.DELETE.ACCOUNTS.SUCCESS'
+    }
+  },
+
   GET: {
     ACCOUNTS: {
       FAILURE: 'PRA.GET.ACCOUNTS.FAILURE',
@@ -36,6 +43,7 @@ export const PRA = {
       SUCCESS: 'PRA.GET.PROJECTS.SUCCESS'
     }
   },
+
   LIST: {
     MESSAGES:{
       FAILURE: 'PRA.LIST.MESSAGES.FAILURE',
@@ -56,6 +64,12 @@ export const PRA = {
     ROLES:{
       FAILURE: 'PRA.LIST.ROLES.FAILURE',
       SUCCESS: 'PRA.LIST.ROLES.SUCCESS'
+    }
+  },
+  POST: {
+    ACCOUNTS: {
+      FAILURE: 'PRA.POST.ACCOUNTS.FAILURE',
+      SUCCESS: 'PRA.POST.ACCOUNTS.SUCCESS'
     }
   }
 }

@@ -58,6 +58,7 @@ export const ListReducer = CreateObjectReducer(
 
 export const ReasonReducer = CreateStringReducer(
   ConnectMutator( (s, p) => p.reason,
+    PRA.DELETE.ACCOUNTS.FAILURE,
     PRA.GET.ACCOUNTS.FAILURE,
     PRA.GET.ALL.FAILURE,
     PRA.GET.MESSAGES.FAILURE,
@@ -68,7 +69,8 @@ export const ReasonReducer = CreateStringReducer(
     PRA.LIST.NUMBERS.FAILURE,
     PRA.LIST.PLANS.FAILURE,
     PRA.LIST.PROJECTS.FAILURE,
-    PRA.LIST.ROLES.FAILURE
+    PRA.LIST.ROLES.FAILURE,
+    PRA.POST.ACCOUNTS.FAILURE
   )
 )
 

@@ -57,6 +57,7 @@ function CreateRowsHandler (type) {
 const Pra = FetchInterface( `${api.url}/pra`, ApiFetchHandler),
       Accounts = Pra( 'accounts' ),
       All = Pra( 'all' ),
+      Credentials = Pra( 'credentials' ),
       Messages = Pra( 'messages' ),
       Numbers = Pra( 'numbers' ),
       Plans = Pra( 'plans' ),
@@ -235,6 +236,24 @@ export function update_user (values, id) {
 }
 */
 
+function delete_pra_accouts_success ({ rows }) {
+  return {
+    type: PRA.DELETE.ACCOUNTS.SUCCESS,
+    rows
+  }
+}
+
+export function delete_pra_accounts (id) {
+  const request = Accounts(
+    delete_pra_accouts_success,
+    CreateFailureHandler( PRA.DELETE.ACCOUNTS.FAILURE )
+  )
+
+  request.addPath([id])
+  return request.delete()
+}
+
+
 export function get_pra_accounts () {
   const request = Accounts(
     CreateRowsHandler( PRA.GET.ACCOUNTS.SUCCESS ),
@@ -334,6 +353,23 @@ export function list_pra_roles () {
   return request.get()
 }
 
+function post_pra_accouts_success ({ rows }) {
+  return {
+    type: PRA.POST.ACCOUNTS.SUCCESS,
+    rows
+  }
+}
+
+export function post_pra_accounts (values) {
+  const request = Accounts(
+    post_pra_accouts_success,
+    CreateFailureHandler( PRA.POST.ACCOUNTS.FAILURE )
+  )
+
+  request.setBody( values )
+  return request.post()
+}
+
 function post_credentials_success (data) {
   return {
     type: CREDENTIALS.POST.SUCCESS,
@@ -342,7 +378,7 @@ function post_credentials_success (data) {
 }
 
 export function post_credentials ({ username, password }) {
-  const request = Accounts(
+  const request = Credentials(
     post_credentials_success,
     CreateFailureHandler( CREDENTIALS.POST.FAILURE )
   )
