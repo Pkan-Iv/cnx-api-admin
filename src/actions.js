@@ -35,23 +35,19 @@ function CreateFailureHandler (type) {
 }
 
 function CreateListHandler (type, resource) {
-  return ({ rows }) => {
-    return {
-      type,
-      resource,
-      rows
-    }
-  }
+  return ({ rows }) => ({
+    type,
+    resource,
+    rows
+  })
 }
 
 function CreateRowsHandler (type) {
-  return ({ count, rows }) => {
-    return {
-      type,
-      count,
-      rows
-    }
-  }
+  return ({ count, rows }) => ({
+    type,
+    count,
+    rows
+  })
 }
 
 const Pra = FetchInterface( `${api.url}/pra`, ApiFetchHandler),
