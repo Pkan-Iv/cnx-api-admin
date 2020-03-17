@@ -1,5 +1,8 @@
 {
   "api": {
     "url": ""
+  },
+  "google": {
+    "client_id": ""
   }
 }
