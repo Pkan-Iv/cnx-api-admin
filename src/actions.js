@@ -28,10 +28,10 @@ function ApiFetchHandler () {
 }
 
 function CreateFailureHandler (type) {
-  return (reason) => {
+  return (reason) => ({
     type,
     reason
-  }
+  })
 }
 
 function CreateListHandler (type, resource) {
