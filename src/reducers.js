@@ -1,15 +1,6 @@
 import { CreateReducer, ConnectMutator } from 'lib/factories'
 import { Context } from './defaults'
-
-import {
-  CREDENTIALS,
-  LANGUAGES,
-  PRA,
-  PROJECTS,
-  TYPES,
-  USER,
-  USERS
-} from './descriptors'
+import { CREDENTIALS, PRA } from './descriptors'
 
 const CreateArrayReducer = CreateReducer( [] ),
       CreateContextReducer = CreateReducer( Context ),
@@ -49,7 +40,8 @@ export const ListReducer = CreateObjectReducer(
 
     PRA.LIST.MESSAGES.SUCCESS,
     PRA.LIST.PLANS.SUCCESS,
-    PRA.LIST.PROJECTS.SUCCESS
+    PRA.LIST.PROJECTS.SUCCESS,
+    PRA.LIST.ROLES.SUCCESS
   ),
 
   ConnectMutator( (s, p) => ({
@@ -71,7 +63,12 @@ export const ReasonReducer = CreateStringReducer(
     PRA.GET.MESSAGES.FAILURE,
     PRA.GET.NUMBERS.FAILURE,
     PRA.GET.PLANS.FAILURE,
-    PRA.GET.PROJECTS.FAILURE
+    PRA.GET.PROJECTS.FAILURE,
+    PRA.LIST.MESSAGES.FAILURE,
+    PRA.LIST.NUMBERS.FAILURE,
+    PRA.LIST.PLANS.FAILURE,
+    PRA.LIST.PROJECTS.FAILURE,
+    PRA.LIST.ROLES.FAILURE
   )
 )
 

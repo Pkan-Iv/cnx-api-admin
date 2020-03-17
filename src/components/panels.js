@@ -13,7 +13,8 @@ import {
   useMessages,
   useNumbers,
   usePlans,
-  useProjects
+  useProjects,
+  useRoles
 } from '../hooks'
 
 import DataTable from './datatable'
@@ -41,8 +42,8 @@ export default {
     const fields = [
       { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
       { name: 'username', label: 'Username', type: 'input' },
-      { name: 'password', label: 'Password', type: 'input', filter: false, visible: false },
-      { name: 'role', label: 'Role', type: 'input' },
+      { name: 'password', label: 'Password', type: 'password', filter: false, visible: false },
+      { name: 'role', label: 'Role', type: 'select', source: useRoles, bind: 'role_ref' }
     ]
 
     const props = { acls, actions, fields, height }

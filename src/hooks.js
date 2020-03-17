@@ -7,6 +7,7 @@ import {
   list_pra_numbers,
   list_pra_plans,
   list_pra_projects,
+  list_pra_roles
 } from './actions'
 
 function useList (resource, getter) {
@@ -34,4 +35,8 @@ export function usePlans () {
 
 export function useProjects () {
   return useList( 'projects', list_pra_projects )
+}
+
+export function useRoles () {
+  return useList( 'roles', list_pra_roles )
 }

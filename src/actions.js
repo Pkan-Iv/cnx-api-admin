@@ -44,15 +44,6 @@ function CreateListHandler (type, resource) {
   }
 }
 
-function CreateResponseHandler (type) {
-  return ({ rows }) => {
-    return {
-      type,
-      rows
-    }
-  }
-}
-
 function CreateRowsHandler (type) {
   return ({ count, rows }) => {
     return {
@@ -64,12 +55,13 @@ function CreateRowsHandler (type) {
 }
 
 const Pra = FetchInterface( `${api.url}/pra`, ApiFetchHandler),
-      Accounts = Pra('accounts'),
-      All = Pra('all'),
-      Messages = Pra('messages'),
-      Numbers = Pra('numbers'),
-      Plans = Pra('plans'),
-      Projects = Pra('projects')
+      Accounts = Pra( 'accounts' ),
+      All = Pra( 'all' ),
+      Messages = Pra( 'messages' ),
+      Numbers = Pra( 'numbers' ),
+      Plans = Pra( 'plans' ),
+      Projects = Pra( 'projects' ),
+      Roles = Pra( 'roles' )
 
 /*
 function create_user_failure (reason) {
@@ -328,6 +320,15 @@ export function list_pra_projects () {
   const request = Projects(
     CreateListHandler( PRA.LIST.PROJECTS.SUCCESS, 'projects' ),
     CreateFailureHandler( PRA.LIST.PROJECTS.FAILURE )
+  )
+
+  return request.get()
+}
+
+export function list_pra_roles () {
+  const request = Roles(
+    CreateListHandler( PRA.LIST.ROLES.SUCCESS, 'roles' ),
+    CreateFailureHandler( PRA.LIST.ROLES.FAILURE )
   )
 
   return request.get()
