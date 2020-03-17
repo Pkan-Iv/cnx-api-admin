@@ -4,7 +4,7 @@ const { DefinePlugin, HotModuleReplacementPlugin } = require( 'webpack' )
 const TerserPlugin = require( 'terser-webpack-plugin' )
 
 const alias = {
-  'lib': path.join(__dirname, 'lib')
+  'lib': path.join( __dirname, 'lib' )
 }
 
 const home = path.resolve( __dirname, 'static' )
@@ -16,7 +16,6 @@ const entry = {
 const exclude = [
   path.resolve( __dirname, 'node_modules' ),
   path.resolve( __dirname, 'static' ),
-  path.resolve( __dirname, 'test' ),
   home
 ]
 
@@ -98,9 +97,41 @@ module.exports = (env, argv) => {
               {
                 loader: 'babel-loader',
                 options: {
-                  plugins: [],
+                  plugins: [
+                    /*
+                    [ 'babel-plugin-import', {
+                        'libraryName': '@material-ui/core',
+                        'libraryDirectory': 'esm',
+                        'camel2DashComponentName': false
+                      },
+                      'core'
+                    ],
+                    [ 'babel-plugin-import', {
+                        'libraryName': '@material-ui/icons',
+                        'libraryDirectory': 'esm',
+                        'camel2DashComponentName': false
+                      },
+                      'icons'
+                    ],
+                    [ 'babel-plugin-transform-imports', {
+                        '@material-ui/core': {
+                          'transform': '@material-ui/core/esm/${member}',
+                          'preventFullImport': true
+                        },
+                        '@material-ui/icons': {
+                          'transform': '@material-ui/icons/esm/${member}',
+                          'preventFullImport': true
+                        }
+                      }
+                    ]
+                    */
+                  ],
                   presets: [
-                    '@babel/preset-env',
+                    [ '@babel/preset-env', {
+                      corejs: 3,
+                      modules: false,
+                      useBuiltIns: 'entry'
+                    }],
                     '@babel/preset-react'
                   ]
                 }

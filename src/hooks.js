@@ -1,39 +1,40 @@
-import { useState, useEffect } from 'react'
-import { useDataProvider } from 'react-admin'
+import { useEffect } from 'react'
 
-export function useDataLoader ({
-  field = 'name',
-  mapper = (row) => ({ id: row.id, name: row.name }),
-  resource = null
-} = {}) {
-  const dataProvider = useDataProvider()
-  const [ error, setError ] = useState( null )
-  const [ loading, setLoading ] = useState( true )
-  const [ values, setValues ] = useState([])
+import { useStore } from 'lib/hooks'
+import { get_languages, get_projects, get_types } from './actions'
+
+export function useLanguages () {
+  const [ state, dispatch ] = useStore(),
+        { list } = state,
+        { languages } = list
 
   useEffect( () => {
-    if (loading && resource) {
-      dataProvider.getList( resource, {
-        filter: {},
-        pagination: {
-          page: 1,
-          perPage: 100
-        },
-        sort: {
-          field,
-          order: 'ASC'
-        }
-      }).then( (response) => {
-        const { data } = response
-
-        setValues( data.map( mapper ))
-        setLoading( false )
-      }).catch( (error) => {
-        setError( error )
-        setLoading( false )
-      })
-    }
+    dispatch(get_languages())
   }, [])
 
-  return [ error, loading, values ]
+  return languages
+}
+
+export function useProjects () {
+  const [ state, dispatch ] = useStore(),
+        { list } = state,
+        { projects } = list
+
+  useEffect( () => {
+    dispatch(get_projects())
+  }, [])
+
+  return projects
+}
+
+export function useTypes () {
+  const [ state, dispatch ] = useStore(),
+        { list } = state,
+        { types } = list
+
+  useEffect( () => {
+    dispatch(get_types())
+  }, [])
+
+  return types
 }
