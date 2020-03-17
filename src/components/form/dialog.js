@@ -155,20 +155,24 @@ export default function FormDialog ({
         variant: 'outlined'
       }
 
-      if (type === 'select') {
-        return (
-          <FormSelect { ...props }
-            dataHandler={ source }
-            value={ values[ name ] }
-          />
-        )
-      }
-      else {
-        return (
-          <TextField { ...props }
-            defaultValue={ values[ name ] }
-          />
-        )
+      switch (type) {
+        case 'select':
+          return (
+            <FormSelect { ...props }
+              dataHandler={ source }
+              value={ values[ name ] }
+            />
+          )
+
+        case 'check':
+          // TODO
+
+        default:
+          return (
+            <TextField { ...props }
+              defaultValue={ values[ name ] }
+            />
+          )
       }
     })
   }
