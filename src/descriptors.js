@@ -9,15 +9,12 @@ export const CREDENTIALS = {
   }
 }
 
-export const LANGUAGES = {
-  GET: {
-    FAILURE: 'LANGUAGES.GET.FAILURE',
-    SUCCESS: 'LANGUAGES.GET.SUCCESS'
-  }
-}
-
 export const PRA = {
   GET: {
+    ACCOUNTS: {
+      FAILURE: 'PRA.GET.ACCOUNTS.FAILURE',
+      SUCCESS: 'PRA.GET.ACCOUNTS.SUCCESS'
+    },
     ALL:{
       FAILURE: 'PRA.GET.ALL.FAILURE',
       SUCCESS: 'PRA.GET.ALL.SUCCESS'
@@ -38,43 +35,5 @@ export const PRA = {
       FAILURE: 'PRA.GET.PROJECTS.FAILURE',
       SUCCESS: 'PRA.GET.PROJECTS.SUCCESS'
     }
-  }
-}
-
-export const PROJECTS = {
-  GET: {
-    FAILURE: 'PROJECTS.GET.FAILURE',
-    SUCCESS: 'PROJECTS.GET.SUCCESS'
-  }
-}
-
-export const TYPES = {
-  GET: {
-    FAILURE: 'TYPES.GET.FAILURE',
-    SUCCESS: 'TYPES.GET.SUCCESS'
-  }
-}
-
-export const USER = {
-  CREATE: {
-    FAILURE: 'USER.CREATE.FAILURE',
-    SUCCESS: 'USER.CREATE.SUCCESS'
-  },
-
-  DELETE: {
-    FAILURE: 'USER.DELETE.FAILURE',
-    SUCCESS: 'USER.DELETE.SUCCESS'
-  },
-
-  UPDATE: {
-    FAILURE: 'USER.UPDATE.FAILURE',
-    SUCCESS: 'USER.UPDATE.SUCCESS'
-  }
-}
-
-export const USERS = {
-  GET: {
-    FAILURE: 'USERS.GET.FAILURE',
-    SUCCESS: 'USERS.GET.SUCCESS'
   }
 }

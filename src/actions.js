@@ -27,18 +27,51 @@ function ApiFetchHandler () {
   }
 }
 
-const Api = FetchInterface(api.url, ApiFetchHandler),
-      Languages = Api('languages'),
-      PraAccounts = Api('pra_accounts'),
-      PraAll = Api('pra_all'),
-      PraMessages = Api('pra_messages'),
-      PraNumbers = Api('pra_numbers'),
-      PraPlans = Api('pra_plans'),
-      PraProjects = Api('pra_projects'),
-      Projects = Api('projects'),
-      Types = Api('types'),
-      Users = Api('users')
+function CreateFailureHandler (type) {
+  return (reason) => {
+    type,
+    reason
+  }
+}
 
+function CreateListHandler (type) {
+  return ({ count, rows }) => {
+    return {
+      type,
+      count,
+      rows
+    }
+  }
+}
+
+function CreateResponseHandler (type) {
+  return ({ rows }) => {
+    return {
+      type,
+      rows
+    }
+  }
+}
+
+function CreateSelectorHandler (type, resource) {
+  return ({ rows }) => {
+    return {
+      type,
+      resource,
+      rows
+    }
+  }
+}
+
+const Pra = FetchInterface( `${api.url}/pra`, ApiFetchHandler),
+      Accounts = Pra('accounts'),
+      All = Pra('all'),
+      Messages = Pra('messages'),
+      Numbers = Pra('numbers'),
+      Plans = Pra('plans'),
+      Projects = Pra('projects')
+
+/*
 function create_user_failure (reason) {
   return {
     type: USER.CREATE.FAILURE,
@@ -106,126 +139,6 @@ export function get_languages () {
   const request = Languages(
     get_languages_success,
     get_languages_failure
-  )
-
-  return request.get()
-}
-
-function get_pra_all_failure (reason) {
-  return {
-    type: PRA.GET.ALL.FAILURE,
-    reason
-  }
-}
-
-function get_pra_all_success ({ count, rows }) {
-  return {
-    type: PRA.GET.ALL.SUCCESS,
-    count,
-    rows
-  }
-}
-
-export function get_pra_all () {
-  const request = PraAll(
-    get_pra_all_success,
-    get_pra_all_failure
-  )
-
-  return request.get()
-}
-
-function get_pra_messages_failure (reason) {
-  return {
-    type: PRA.GET.MESSAGES.FAILURE,
-    reason
-  }
-}
-
-function get_pra_messages_success ({ count, rows }) {
-  return {
-    type: PRA.GET.MESSAGES.SUCCESS,
-    count,
-    rows
-  }
-}
-
-export function get_pra_messages () {
-  const request = PraMessages(
-    get_pra_messages_success,
-    get_pra_messages_failure
-  )
-
-  return request.get()
-}
-
-function get_pra_numbers_failure (reason) {
-  return {
-    type: PRA.GET.NUMBERS.FAILURE,
-    reason
-  }
-}
-
-function get_pra_numbers_success ({ count, rows }) {
-  return {
-    type: PRA.GET.NUMBERS.SUCCESS,
-    count,
-    rows
-  }
-}
-
-export function get_pra_numbers () {
-  const request = PraNumbers(
-    get_pra_numbers_success,
-    get_pra_numbers_failure
-  )
-
-  return request.get()
-}
-
-function get_pra_plans_failure (reason) {
-  return {
-    type: PRA.GET.PLANS.FAILURE,
-    reason
-  }
-}
-
-function get_pra_plans_success ({ count, rows }) {
-  return {
-    type: PRA.GET.PLANS.SUCCESS,
-    count,
-    rows
-  }
-}
-
-export function get_pra_plans () {
-  const request = PraPlans(
-    get_pra_plans_success,
-    get_pra_plans_failure
-  )
-
-  return request.get()
-}
-
-function get_pra_projects_failure (reason) {
-  return {
-    type: PRA.GET.PROJECTS.FAILURE,
-    reason
-  }
-}
-
-function get_pra_projects_success ({ count, rows }) {
-  return {
-    type: PRA.GET.PROJECTS.SUCCESS,
-    count,
-    rows
-  }
-}
-
-export function get_pra_projects () {
-  const request = PraProjects(
-    get_pra_projects_success,
-    get_pra_projects_failure
   )
 
   return request.get()
@@ -304,30 +217,6 @@ export function get_users (params) {
   return request.get()
 }
 
-function post_credentials_failure (reason) {
-  return {
-    type: CREDENTIALS.POST.FAILURE,
-    reason
-  }
-}
-
-function post_credentials_success (data) {
-  return {
-    type: CREDENTIALS.POST.SUCCESS,
-    data
-  }
-}
-
-export function post_credentials ({ username, password }) {
-  const request = PraAccounts(
-    post_credentials_success,
-    post_credentials_failure
-  )
-
-  request.setBody({ username, password })
-  return request.post()
-}
-
 function update_user_failure (reason) {
   return {
     type: USER.UPDATE.FAILURE,
@@ -351,4 +240,76 @@ export function update_user (values, id) {
   request.addPath([ id ])
   request.setBody( values )
   return request.patch()
+}
+*/
+
+export function get_pra_accounts () {
+  const request = Accounts(
+    CreateListHandler( PRA.GET.ACCOUNTS.SUCCESS ),
+    CreateFailureHandler( PRA.GET.ACCOUNTS.FAILURE )
+  )
+
+  return request.get()
+}
+
+export function get_pra_all () {
+  const request = All(
+    CreateListHandler( PRA.GET.ALL.SUCCESS ),
+    CreateFailureHandler( PRA.GET.ALL.FAILURE )
+  )
+
+  return request.get()
+}
+
+export function get_pra_messages () {
+  const request = Messages(
+    CreateListHandler( PRA.GET.MESSAGES.SUCCESS ),
+    CreateFailureHandler( PRA.GET.MESSAGES.FAILURE )
+  )
+
+  return request.get()
+}
+
+export function get_pra_numbers () {
+  const request = Numbers(
+    CreateListHandler( PRA.GET.NUMBERS.SUCCESS ),
+    CreateFailureHandler( PRA.GET.NUMBERS.FAILURE )
+  )
+
+  return request.get()
+}
+
+export function get_pra_plans () {
+  const request = Plans(
+    CreateListHandler( PRA.GET.PLANS.SUCCESS ),
+    CreateFailureHandler( PRA.GET.PLANS.FAILURE )
+  )
+
+  return request.get()
+}
+
+export function get_pra_projects () {
+  const request = Projects(
+    CreateListHandler( PRA.GET.PROJECTS.SUCCESS ),
+    CreateFailureHandler( PRA.GET.PROJECTS.FAILURE )
+  )
+
+  return request.get()
+}
+
+function post_credentials_success (data) {
+  return {
+    type: CREDENTIALS.POST.SUCCESS,
+    data
+  }
+}
+
+export function post_credentials ({ username, password }) {
+  const request = Accounts(
+    post_credentials_success,
+    CreateFailureHandler( CREDENTIALS.POST.FAILURE )
+  )
+
+  request.setBody({ username, password })
+  return request.post()
 }

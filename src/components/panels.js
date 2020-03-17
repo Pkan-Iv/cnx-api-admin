@@ -1,42 +1,49 @@
 import React from 'react'
 
 import {
-  create_user,
-  delete_user,
+  get_pra_accounts,
   get_pra_all,
   get_pra_messages,
   get_pra_numbers,
   get_pra_plans,
-  get_pra_projects,
-  get_users,
-  update_user
+  get_pra_projects
 } from '../actions'
 
+/*
 import {
   useLanguages,
   useProjects,
   useTypes
 } from '../hooks'
+*/
 
 import DataTable from './datatable'
 
+/*
+const fields = [
+  { name: 'display_name', label: 'Username', type: 'input' },
+  { name: 'login', label: 'Login', type: 'input' },
+  { name: 'password', label: 'Password', type: 'password', filter: false, visible: false },
+  { name: 'type', label: 'Type', type: 'select', source: useTypes },
+  { name: 'language', label: 'Language', type: 'select', source: useLanguages },
+  { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
+  { name: 'whitelabel', label: 'Whitelabel', filter: false }
+]
+*/
 export default {
   Accounts (acls, { height }) {
     const actions = {
-      create: create_user,
-      read: get_users,
-      update: update_user,
-      delete: delete_user
+      create: null,
+      read: get_pra_accounts,
+      update: null,
+      delete: null
     }
 
     const fields = [
-      { name: 'display_name', label: 'Username', type: 'input' },
-      { name: 'login', label: 'Login', type: 'input' },
-      { name: 'password', label: 'Password', type: 'password', filter: false, visible: false },
-      { name: 'type', label: 'Type', type: 'select', source: useTypes },
-      { name: 'language', label: 'Language', type: 'select', source: useLanguages },
-      { name: 'project', label: 'Project', type: 'select', source: useProjects, bind: 'project_ref' },
-      { name: 'whitelabel', label: 'Whitelabel', filter: false }
+      { name: 'project', label: 'Project', type: 'input' },
+      { name: 'username', label: 'Username', type: 'input' },
+      { name: 'password', label: 'Password', type: 'input', filter: false, visible: false },
+      { name: 'role', label: 'Role', type: 'input' },
     ]
 
     const props = { acls, actions, fields, height }
