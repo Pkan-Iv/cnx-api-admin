@@ -9,50 +9,29 @@ import {
   list_pra_projects,
 } from './actions'
 
-export function useMessages () {
+function useList (resource, getter) {
   const [ state, dispatch ] = useStore(),
-        { list } = state,
-        { messages } = list
+        { list } = state
 
   useEffect( () => {
-    dispatch(list_pra_messages())
+    dispatch(getter())
   }, [])
 
-  return messages
+  return list[ resource ]
+}
+
+export function useMessages () {
+  return useList( 'messages', list_pra_messages )
 }
 
 export function useNumbers () {
-  const [ state, dispatch ] = useStore(),
-        { list } = state,
-        { numbers } = list
-
-  useEffect( () => {
-    dispatch(list_pra_numbers())
-  }, [])
-
-  return numbers
+  return useList( 'numbers', list_pra_numbers )
 }
 
 export function usePlans () {
-  const [ state, dispatch ] = useStore(),
-        { list } = state,
-        { plans } = list
-
-  useEffect( () => {
-    dispatch(list_pra_plans())
-  }, [])
-
-  return plans
+  return useList( 'plans', list_pra_plans )
 }
 
 export function useProjects () {
-  const [ state, dispatch ] = useStore(),
-        { list } = state,
-        { projects } = list
-
-  useEffect( () => {
-    dispatch(list_pra_projects())
-  }, [])
-
-  return projects
+  return useList( 'projects', list_pra_projects )
 }
