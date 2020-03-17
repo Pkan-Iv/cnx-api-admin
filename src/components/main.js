@@ -12,7 +12,7 @@ import MuiAlert from '@material-ui/lab/Alert'
 
 import Panel from './panel'
 import Panels from './panels'
-import { USER } from '../descriptors'
+import { PRA } from '../descriptors'
 import { MergeObject } from 'lib/factories'
 import { useDimensions, useStore } from 'lib/hooks'
 
@@ -102,9 +102,12 @@ export default function Application () {
       return setFailure( true )
 
     switch (action) {
-      case USER.CREATE.SUCCESS:
-      case USER.DELETE.SUCCESS:
-      case USER.UPDATE.SUCCESS:
+      case PRA.GET.ACCOUNTS.SUCCESS:
+      case PRA.GET.ALL.SUCCESS:
+      case PRA.GET.MESSAGES.SUCCESS:
+      case PRA.GET.NUMBERS.SUCCESS:
+      case PRA.GET.PLANS.SUCCESS:
+      case PRA.GET.PROJECTS.SUCCESS:
         return setSuccess( true )
     }
   }, [ action, reason ])
