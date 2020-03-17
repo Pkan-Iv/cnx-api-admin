@@ -13,7 +13,6 @@ const useStyles = makeStyles( (theme) => ({
 export default function FormSelect ({
   dataHandler = null,
   label = '',
-  multiple = false,
   onChange,
   value = ''
 } = {}) {
