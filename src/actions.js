@@ -105,6 +105,11 @@ export const delete_pra_accounts = CreateDeleteAction( Accounts,
   CreateFailureHandler( PRA.DELETE.ACCOUNTS.FAILURE )
 )
 
+export const delete_pra_all = CreateDeleteAction( All,
+  CreateTypeHandler( PRA.DELETE.ALL.SUCCESS ),
+  CreateFailureHandler( PRA.DELETE.ALL.FAILURE )
+)
+
 export const delete_pra_messages = CreateDeleteAction( Messages,
   CreateTypeHandler( PRA.DELETE.MESSAGES.SUCCESS ),
   CreateFailureHandler( PRA.DELETE.MESSAGES.FAILURE )
@@ -209,6 +214,11 @@ export const patch_pra_accounts = CreatePatchAction( Accounts,
   CreateFailureHandler( PRA.PATCH.ACCOUNTS.FAILURE )
 )
 
+export const patch_pra_all = CreatePatchAction( All,
+  CreateTypeHandler( PRA.PATCH.ALL.SUCCESS ),
+  CreateFailureHandler( PRA.PATCH.ALL.FAILURE )
+)
+
 export const patch_pra_messages = CreatePatchAction( Messages,
   CreateTypeHandler( PRA.PATCH.MESSAGES.SUCCESS ),
   CreateFailureHandler( PRA.PATCH.MESSAGES.FAILURE )
@@ -240,6 +250,11 @@ export const patch_pra_roles = CreatePatchAction( Roles,
 export const post_pra_accounts = CreatePostAction( Accounts,
   CreateTypeHandler( PRA.POST.ACCOUNTS.SUCCESS ),
   CreateFailureHandler( PRA.POST.ACCOUNTS.FAILURE )
+)
+
+export const post_pra_all = CreatePostAction( All,
+  CreateTypeHandler( PRA.POST.ALL.SUCCESS ),
+  CreateFailureHandler( PRA.POST.ALL.FAILURE )
 )
 
 export const post_credentials = CreatePostAction( Credentials,

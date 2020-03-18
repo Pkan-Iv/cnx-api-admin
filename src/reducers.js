@@ -61,6 +61,7 @@ export const ListReducer = CreateObjectReducer(
 export const ReasonReducer = CreateStringReducer(
   ConnectMutator( (s, p) => p.reason,
     PRA.DELETE.ACCOUNTS.FAILURE,
+    PRA.DELETE.ALL.FAILURE,
     PRA.DELETE.MESSAGES.FAILURE,
     PRA.DELETE.NUMBERS.FAILURE,
     PRA.DELETE.PLANS.FAILURE,
@@ -83,6 +84,7 @@ export const ReasonReducer = CreateStringReducer(
     PRA.LIST.ROLES.FAILURE,
 
     PRA.PATCH.ACCOUNTS.FAILURE,
+    PRA.PATCH.ALL.FAILURE,
     PRA.PATCH.MESSAGES.FAILURE,
     PRA.PATCH.NUMBERS.FAILURE,
     PRA.PATCH.PLANS.FAILURE,
@@ -90,6 +92,7 @@ export const ReasonReducer = CreateStringReducer(
     PRA.PATCH.ROLES.FAILURE,
 
     PRA.POST.ACCOUNTS.FAILURE,
+    PRA.POST.ALL.FAILURE,
     PRA.POST.MESSAGES.FAILURE,
     PRA.POST.NUMBERS.FAILURE,
     PRA.POST.PLANS.FAILURE,
@@ -99,6 +102,7 @@ export const ReasonReducer = CreateStringReducer(
 
   ConnectMutator( (s, p) => '',
     PRA.DELETE.ACCOUNTS.SUCCESS,
+    PRA.DELETE.ALL.SUCCESS,
     PRA.DELETE.MESSAGES.SUCCESS,
     PRA.DELETE.NUMBERS.SUCCESS,
     PRA.DELETE.PLANS.SUCCESS,
@@ -121,6 +125,7 @@ export const ReasonReducer = CreateStringReducer(
     PRA.LIST.ROLES.SUCCESS,
 
     PRA.PATCH.ACCOUNTS.SUCCESS,
+    PRA.PATCH.ALL.SUCCESS,
     PRA.PATCH.MESSAGES.SUCCESS,
     PRA.PATCH.NUMBERS.SUCCESS,
     PRA.PATCH.PLANS.SUCCESS,
@@ -128,6 +133,7 @@ export const ReasonReducer = CreateStringReducer(
     PRA.PATCH.ROLES.SUCCESS,
 
     PRA.POST.ACCOUNTS.SUCCESS,
+    PRA.POST.ALL.SUCCESS,
     PRA.POST.MESSAGES.SUCCESS,
     PRA.POST.NUMBERS.SUCCESS,
     PRA.POST.PLANS.SUCCESS,

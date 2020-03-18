@@ -2,6 +2,7 @@ import React from 'react'
 
 import {
   delete_pra_accounts,
+  delete_pra_all,
   delete_pra_messages,
   delete_pra_numbers,
   delete_pra_plans,
@@ -18,6 +19,7 @@ import {
   get_pra_roles,
 
   patch_pra_accounts,
+  patch_pra_all,
   patch_pra_messages,
   patch_pra_numbers,
   patch_pra_plans,
@@ -25,6 +27,7 @@ import {
   patch_pra_roles,
 
   post_pra_accounts,
+  post_pra_all,
   post_pra_messages,
   post_pra_numbers,
   post_pra_plans,
@@ -151,10 +154,10 @@ export default {
 
   Pra (acls, { height }) {
     const actions = {
-      create: null,
-      delete: null,
+      create: post_pra_all,
+      delete: delete_pra_all,
       read: get_pra_all,
-      update: null
+      update: patch_pra_all
     }
 
     const fields = [
