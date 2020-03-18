@@ -11,13 +11,15 @@ CREATE TABLE `Accounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Acls` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `role_id` int(10) unsigned NOT NULL,
   `resource_id` int(10) unsigned NOT NULL,
   `create` TINYINT NOT NULL DEFAULT 0,
   `read` TINYINT NOT NULL DEFAULT 0,
   `update` TINYINT NOT NULL DEFAULT 0,
   `delete` TINYINT NULL DEFAULT 0,
-  PRIMARY KEY (`role_id`,`resource_id`)
+  PRIMARY KEY (`id`),
+  INDEX `acls_key` (`role_id` ASC, `resource_id` ASC);
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Resources` (
