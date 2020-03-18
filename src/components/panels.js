@@ -8,6 +8,7 @@ import {
   get_pra_numbers,
   get_pra_plans,
   get_pra_projects,
+  patch_pra_accounts,
   post_pra_accounts
 } from '../actions'
 
@@ -37,7 +38,7 @@ export default {
     const actions = {
       create: post_pra_accounts,
       read: get_pra_accounts,
-      update: null,
+      update: patch_pra_accounts,
       delete: delete_pra_accounts
     }
 

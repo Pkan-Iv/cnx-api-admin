@@ -66,6 +66,14 @@ export const PRA = {
       SUCCESS: 'PRA.LIST.ROLES.SUCCESS'
     }
   },
+
+  PATCH: {
+    ACCOUNTS: {
+      FAILURE: 'PRA.PATCH.ACCOUNTS.FAILURE',
+      SUCCESS: 'PRA.PATCH.ACCOUNTS.SUCCESS'
+    }
+  },
+
   POST: {
     ACCOUNTS: {
       FAILURE: 'PRA.POST.ACCOUNTS.FAILURE',
