@@ -9,16 +9,38 @@ import { api } from '../config.json'
 
 const validStatus = [ 200, 201, 204 ]
 
-function ApiFetchHandler () {
-  return async (response) => {
-    const { status } = response
+function CreateDeleteAction (resource, success, failure) {
+  return (id) => {
+    const request = resource( success, failure )
 
-    if (validStatus.indexOf( status ) === -1) {
-      throw new Error( status )
-    }
+    request.addPath([ id ])
+    return request.delete()
+  }
+}
 
-    const result = status === 204 ? {} : await response.json()
-    return result
+function CreateGetAction (resource, success, failure) {
+  return () => {
+    const request = resource( success, failure )
+    return request.get()
+  }
+}
+
+function CreatePatchAction (resource, success, failure) {
+  return (values, id) => {
+    const request = resource( success, failure )
+
+    request.addPath([ id ])
+    request.setBody( values )
+    return request.patch()
+  }
+}
+
+function CreatePostAction (resource, success, failure) {
+  return (values) => {
+    const request = resource( success, failure )
+
+    request.setBody( values )
+    return request.post()
   }
 }
 
@@ -37,7 +59,7 @@ function CreateListHandler (type, resource) {
   })
 }
 
-function CreateTableHandler (type) {
+function CreateRowsHandler (type) {
   return ({ count, rows }) => ({
     type,
     count,
@@ -45,15 +67,28 @@ function CreateTableHandler (type) {
   })
 }
 
-function CreateRowsHandler (type) {
-  return ({ rows }) => ({
-    type,
-    rows
+function CreateTypeHandler (type) {
+  return () => ({
+    type
   })
 }
 
-const Pra = FetchInterface( `${api.url}/pra`, ApiFetchHandler),
+function FetchHandler () {
+  return async (response) => {
+    const { status } = response
+
+    if (validStatus.indexOf( status ) === -1) {
+      throw new Error( status )
+    }
+
+    const result = status === 204 ? {} : await response.json()
+    return result
+  }
+}
+
+const Pra = FetchInterface( `${api.url}/pra`, FetchHandler ),
       Accounts = Pra( 'accounts' ),
+      Acls = Pra( 'acls' ),
       All = Pra( 'all' ),
       Credentials = Pra( 'credentials' ),
       Messages = Pra( 'messages' ),
@@ -63,309 +98,191 @@ const Pra = FetchInterface( `${api.url}/pra`, ApiFetchHandler),
       Roles = Pra( 'roles' )
 
 /*
-function create_user_failure (reason) {
-  return {
-    type: USER.CREATE.FAILURE,
-    reason
-  }
-}
+ *  DELETE
+ */
+export const delete_pra_accounts = CreateDeleteAction( Accounts,
+  CreateTypeHandler( PRA.DELETE.ACCOUNTS.SUCCESS ),
+  CreateFailureHandler( PRA.DELETE.ACCOUNTS.FAILURE )
+)
 
-function create_user_success ({ rows }) {
-  return {
-    type: USER.CREATE.SUCCESS,
-    rows
-  }
-}
+export const delete_pra_all = CreateDeleteAction( All,
+  CreateTypeHandler( PRA.DELETE.ALL.SUCCESS ),
+  CreateFailureHandler( PRA.DELETE.ALL.FAILURE )
+)
 
-export function create_user (values) {
-  const request = Users(
-    create_user_success,
-    create_user_failure
-  )
+export const delete_pra_messages = CreateDeleteAction( Messages,
+  CreateTypeHandler( PRA.DELETE.MESSAGES.SUCCESS ),
+  CreateFailureHandler( PRA.DELETE.MESSAGES.FAILURE )
+)
 
-  request.setBody( values )
-  return request.post()
-}
+export const delete_pra_numbers = CreateDeleteAction( Numbers,
+  CreateTypeHandler( PRA.DELETE.NUMBERS.SUCCESS ),
+  CreateFailureHandler( PRA.DELETE.NUMBERS.FAILURE )
+)
 
-function delete_user_failure (reason) {
-  return {
-    type: USER.DELETE.FAILURE,
-    reason
-  }
-}
+export const delete_pra_plans = CreateDeleteAction( Plans,
+  CreateTypeHandler( PRA.DELETE.PLANS.SUCCESS ),
+  CreateFailureHandler( PRA.DELETE.PLANS.FAILURE )
+)
 
-function delete_user_success ({ rows }) {
-  return {
-    type: USER.DELETE.SUCCESS,
-    rows
-  }
-}
+export const delete_pra_projects = CreateDeleteAction( Projects,
+  CreateTypeHandler( PRA.DELETE.PROJECTS.SUCCESS ),
+  CreateFailureHandler( PRA.DELETE.PROJECTS.FAILURE )
+)
 
-export function delete_user (id) {
-  const request = Users(
-    delete_user_success,
-    delete_user_failure
-  )
+export const delete_pra_roles = CreateDeleteAction( Roles,
+  CreateTypeHandler( PRA.DELETE.ROLES.SUCCESS ),
+  CreateFailureHandler( PRA.DELETE.ROLES.FAILURE )
+)
 
-  request.addPath([id])
-  return request.delete()
-}
+/*
+ *  GET
+ */
+export const get_pra_accounts = CreateGetAction( Accounts,
+  CreateRowsHandler( PRA.GET.ACCOUNTS.SUCCESS ),
+  CreateFailureHandler( PRA.GET.ACCOUNTS.FAILURE )
+)
 
-function get_languages_failure (reason) {
-  return {
-    type: LANGUAGES.GET.FAILURE,
-    reason
-  }
-}
+export const get_pra_acls = CreateGetAction( Acls,
+  CreateRowsHandler( PRA.GET.ACLS.SUCCESS ),
+  CreateFailureHandler( PRA.GET.ACLS.FAILURE )
+)
 
-function get_languages_success ({ rows }) {
-  return {
-    type: LANGUAGES.GET.SUCCESS,
-    resource: 'languages',
-    rows
-  }
-}
+export const get_pra_all = CreateGetAction( All,
+  CreateRowsHandler( PRA.GET.ALL.SUCCESS ),
+  CreateFailureHandler( PRA.GET.ALL.FAILURE )
+)
 
-export function get_languages () {
-  const request = Languages(
-    get_languages_success,
-    get_languages_failure
-  )
+export const get_pra_messages = CreateGetAction( Messages,
+  CreateRowsHandler( PRA.GET.MESSAGES.SUCCESS ),
+  CreateFailureHandler( PRA.GET.MESSAGES.FAILURE )
+)
 
-  return request.get()
-}
+export const get_pra_numbers = CreateGetAction( Numbers,
+  CreateRowsHandler( PRA.GET.NUMBERS.SUCCESS ),
+  CreateFailureHandler( PRA.GET.NUMBERS.FAILURE )
+)
 
-function get_projects_failure (reason) {
-  return {
-    type: PROJECTS.GET.FAILURE,
-    reason
-  }
-}
+export const get_pra_plans = CreateGetAction( Plans,
+  CreateRowsHandler( PRA.GET.PLANS.SUCCESS ),
+  CreateFailureHandler( PRA.GET.PLANS.FAILURE )
+)
 
-function get_projects_success ({ rows }) {
-  return {
-    type: PROJECTS.GET.SUCCESS,
-    resource: 'projects',
-    rows
-  }
-}
+export const get_pra_projects = CreateGetAction( Projects,
+  CreateRowsHandler( PRA.GET.PROJECTS.SUCCESS ),
+  CreateFailureHandler( PRA.GET.PROJECTS.FAILURE )
+)
 
-export function get_projects () {
-  const request = Projects(
-    get_projects_success,
-    get_projects_failure
-  )
+export const get_pra_roles = CreateGetAction( Roles,
+  CreateRowsHandler( PRA.GET.ROLES.SUCCESS ),
+  CreateFailureHandler( PRA.GET.ROLES.FAILURE )
+)
 
-  return request.get()
-}
+/*
+ *  LIST
+ */
+export const list_pra_messages = CreateGetAction( Messages,
+  CreateListHandler( PRA.LIST.MESSAGES.SUCCESS, 'messages' ),
+  CreateFailureHandler( PRA.LIST.MESSAGES.FAILURE )
+)
 
-function get_types_failure (reason) {
-  return {
-    type: TYPES.GET.FAILURE,
-    reason
-  }
-}
+export const list_pra_numbers = CreateGetAction( Numbers,
+  CreateListHandler( PRA.LIST.NUMBERS.SUCCESS, 'numbers' ),
+  CreateFailureHandler( PRA.LIST.NUMBERS.FAILURE )
+)
 
-function get_types_success ({ rows }) {
-  return {
-    type: TYPES.GET.SUCCESS,
-    resource: 'types',
-    rows
-  }
-}
+export const list_pra_plans = CreateGetAction( Plans,
+  CreateListHandler( PRA.LIST.PLANS.SUCCESS, 'plans' ),
+  CreateFailureHandler( PRA.LIST.PLANS.FAILURE )
+)
 
-export function get_types () {
-  const request = Types(
-    get_types_success,
-    get_types_failure
-  )
+export const list_pra_projects = CreateGetAction( Projects,
+  CreateListHandler( PRA.LIST.PROJECTS.SUCCESS, 'projects' ),
+  CreateFailureHandler( PRA.LIST.PROJECTS.FAILURE )
+)
 
-  return request.get()
-}
+export const list_pra_roles = CreateGetAction( Roles,
+  CreateListHandler( PRA.LIST.ROLES.SUCCESS, 'roles' ),
+  CreateFailureHandler( PRA.LIST.ROLES.FAILURE )
+)
 
-function get_users_failure (reason) {
-  return {
-    type: USERS.GET.FAILURE,
-    reason
-  }
-}
+/*
+ *  PATCH
+ */
+export const patch_pra_accounts = CreatePatchAction( Accounts,
+  CreateTypeHandler( PRA.PATCH.ACCOUNTS.SUCCESS ),
+  CreateFailureHandler( PRA.PATCH.ACCOUNTS.FAILURE )
+)
 
-function get_users_success ({ count, rows }) {
-  return {
-    type: USERS.GET.SUCCESS,
-    count,
-    rows
-  }
-}
+export const patch_pra_all = CreatePatchAction( All,
+  CreateTypeHandler( PRA.PATCH.ALL.SUCCESS ),
+  CreateFailureHandler( PRA.PATCH.ALL.FAILURE )
+)
 
-export function get_users (params) {
-  const request = Users(
-    get_users_success,
-    get_users_failure
-  )
+export const patch_pra_messages = CreatePatchAction( Messages,
+  CreateTypeHandler( PRA.PATCH.MESSAGES.SUCCESS ),
+  CreateFailureHandler( PRA.PATCH.MESSAGES.FAILURE )
+)
 
-  request.setParams(params)
-  return request.get()
-}
+export const patch_pra_numbers = CreatePatchAction( Numbers,
+  CreateTypeHandler( PRA.PATCH.NUMBERS.SUCCESS ),
+  CreateFailureHandler( PRA.PATCH.NUMBERS.FAILURE )
+)
 
-function update_user_failure (reason) {
-  return {
-    type: USER.UPDATE.FAILURE,
-    reason
-  }
-}
+export const patch_pra_plans = CreatePatchAction( Plans,
+  CreateTypeHandler( PRA.PATCH.PLANS.SUCCESS ),
+  CreateFailureHandler( PRA.PATCH.PLANS.FAILURE )
+)
 
-function update_user_success ({ rows }) {
-  return {
-    type: USER.UPDATE.SUCCESS,
-    rows
-  }
-}
+export const patch_pra_projects = CreatePatchAction( Projects,
+  CreateTypeHandler( PRA.PATCH.PROJECTS.SUCCESS ),
+  CreateFailureHandler( PRA.PATCH.PROJECTS.FAILURE )
+)
 
-export function update_user (values, id) {
-  const request = Users(
-    update_user_success,
-    update_user_failure
-  )
+export const patch_pra_roles = CreatePatchAction( Roles,
+  CreateTypeHandler( PRA.PATCH.ROLES.SUCCESS ),
+  CreateFailureHandler( PRA.PATCH.ROLES.FAILURE )
+)
 
-  request.addPath([ id ])
-  request.setBody( values )
-  return request.patch()
-}
-*/
+/*
+ *  POST
+ */
+export const post_pra_accounts = CreatePostAction( Accounts,
+  CreateTypeHandler( PRA.POST.ACCOUNTS.SUCCESS ),
+  CreateFailureHandler( PRA.POST.ACCOUNTS.FAILURE )
+)
 
-export function delete_pra_accounts (id) {
-  const request = Accounts(
-    CreateRowsHandler( PRA.DELETE.ACCOUNTS.SUCCESS ),
-    CreateFailureHandler( PRA.DELETE.ACCOUNTS.FAILURE )
-  )
+export const post_pra_all = CreatePostAction( All,
+  CreateTypeHandler( PRA.POST.ALL.SUCCESS ),
+  CreateFailureHandler( PRA.POST.ALL.FAILURE )
+)
 
-  request.addPath([id])
-  return request.delete()
-}
+export const post_credentials = CreatePostAction( Credentials,
+  (data) => ({ type: CREDENTIALS.POST.SUCCESS, data }),
+  CreateFailureHandler( CREDENTIALS.POST.FAILURE )
+)
 
-export function get_pra_accounts () {
-  const request = Accounts(
-    CreateTableHandler( PRA.GET.ACCOUNTS.SUCCESS ),
-    CreateFailureHandler( PRA.GET.ACCOUNTS.FAILURE )
-  )
+export const post_pra_messages = CreatePostAction( Messages,
+  CreateTypeHandler( PRA.POST.MESSAGES.SUCCESS ),
+  CreateFailureHandler( PRA.POST.MESSAGES.FAILURE )
+)
 
-  return request.get()
-}
+export const post_pra_numbers = CreatePostAction( Numbers,
+  CreateTypeHandler( PRA.POST.NUMBERS.SUCCESS ),
+  CreateFailureHandler( PRA.POST.NUMBERS.FAILURE )
+)
 
-export function get_pra_all () {
-  const request = All(
-    CreateTableHandler( PRA.GET.ALL.SUCCESS ),
-    CreateFailureHandler( PRA.GET.ALL.FAILURE )
-  )
+export const post_pra_plans = CreatePostAction( Plans,
+  CreateTypeHandler( PRA.POST.PLANS.SUCCESS ),
+  CreateFailureHandler( PRA.POST.PLANS.FAILURE )
+)
 
-  return request.get()
-}
+export const post_pra_projects = CreatePostAction( Projects,
+  CreateTypeHandler( PRA.POST.PROJECTS.SUCCESS ),
+  CreateFailureHandler( PRA.POST.PROJECTS.FAILURE )
+)
 
-export function get_pra_messages () {
-  const request = Messages(
-    CreateTableHandler( PRA.GET.MESSAGES.SUCCESS ),
-    CreateFailureHandler( PRA.GET.MESSAGES.FAILURE )
-  )
-
-  return request.get()
-}
-
-export function get_pra_numbers () {
-  const request = Numbers(
-    CreateTableHandler( PRA.GET.NUMBERS.SUCCESS ),
-    CreateFailureHandler( PRA.GET.NUMBERS.FAILURE )
-  )
-
-  return request.get()
-}
-
-export function get_pra_plans () {
-  const request = Plans(
-    CreateTableHandler( PRA.GET.PLANS.SUCCESS ),
-    CreateFailureHandler( PRA.GET.PLANS.FAILURE )
-  )
-
-  return request.get()
-}
-
-export function get_pra_projects () {
-  const request = Projects(
-    CreateTableHandler( PRA.GET.PROJECTS.SUCCESS ),
-    CreateFailureHandler( PRA.GET.PROJECTS.FAILURE )
-  )
-
-  return request.get()
-}
-
-export function list_pra_messages () {
-  const request = Messages(
-    CreateListHandler( PRA.LIST.MESSAGES.SUCCESS, 'messages' ),
-    CreateFailureHandler( PRA.LIST.MESSAGES.FAILURE )
-  )
-
-  return request.get()
-}
-
-export function list_pra_numbers () {
-  const request = Numbers(
-    CreateListHandler( PRA.LIST.NUMBERS.SUCCESS, 'numbers' ),
-    CreateFailureHandler( PRA.LIST.NUMBERS.FAILURE )
-  )
-
-  return request.get()
-}
-
-export function list_pra_plans () {
-  const request = Plans(
-    CreateListHandler( PRA.LIST.PLANS.SUCCESS, 'plans' ),
-    CreateFailureHandler( PRA.LIST.PLANS.FAILURE )
-  )
-
-  return request.get()
-}
-
-export function list_pra_projects () {
-  const request = Projects(
-    CreateListHandler( PRA.LIST.PROJECTS.SUCCESS, 'projects' ),
-    CreateFailureHandler( PRA.LIST.PROJECTS.FAILURE )
-  )
-
-  return request.get()
-}
-
-export function list_pra_roles () {
-  const request = Roles(
-    CreateListHandler( PRA.LIST.ROLES.SUCCESS, 'roles' ),
-    CreateFailureHandler( PRA.LIST.ROLES.FAILURE )
-  )
-
-  return request.get()
-}
-
-export function post_pra_accounts (values) {
-  const request = Accounts(
-    CreateRowsHandler( PRA.POST.ACCOUNTS.SUCCESS ),
-    CreateFailureHandler( PRA.POST.ACCOUNTS.FAILURE )
-  )
-
-  request.setBody( values )
-  return request.post()
-}
-
-function post_credentials_success (data) {
-  return {
-    type: CREDENTIALS.POST.SUCCESS,
-    data
-  }
-}
-
-export function post_credentials ({ username, password }) {
-  const request = Credentials(
-    post_credentials_success,
-    CreateFailureHandler( CREDENTIALS.POST.FAILURE )
-  )
-
-  request.setBody({ username, password })
-  return request.post()
-}
+export const post_pra_roles = CreatePostAction( Roles,
+  CreateTypeHandler( PRA.POST.ROLES.SUCCESS ),
+  CreateFailureHandler( PRA.POST.ROLES.FAILURE )
+)

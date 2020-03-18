@@ -101,12 +101,36 @@ export default function Application () {
     if (reason !== '')
       return setFailure( true )
 
-    /*
     switch (action) {
-      case ???
+      case PRA.DELETE.ACCOUNTS.SUCCESS:
+      case PRA.PATCH.ACCOUNTS.SUCCESS:
+      case PRA.POST.ACCOUNTS.SUCCESS:
+
+      case PRA.DELETE.ALL.SUCCESS:
+      case PRA.PATCH.ALL.SUCCESS:
+      case PRA.POST.ALL.SUCCESS:
+
+      case PRA.DELETE.MESSAGES.SUCCESS:
+      case PRA.PATCH.MESSAGES.SUCCESS:
+      case PRA.POST.MESSAGES.SUCCESS:
+
+      case PRA.DELETE.NUMBERS.SUCCESS:
+      case PRA.PATCH.NUMBERS.SUCCESS:
+      case PRA.POST.NUMBERS.SUCCESS:
+
+      case PRA.DELETE.PLANS.SUCCESS:
+      case PRA.PATCH.PLANS.SUCCESS:
+      case PRA.POST.PLANS.SUCCESS:
+
+      case PRA.DELETE.PROJECTS.SUCCESS:
+      case PRA.PATCH.PROJECTS.SUCCESS:
+      case PRA.POST.PROJECTS.SUCCESS:
+
+      case PRA.DELETE.ROLES.SUCCESS:
+      case PRA.PATCH.ROLES.SUCCESS:
+      case PRA.POST.ROLES.SUCCESS:
         return setSuccess( true )
     }
-    */
   }, [ action, reason ])
 
   return (

@@ -2,13 +2,37 @@ import React from 'react'
 
 import {
   delete_pra_accounts,
+  delete_pra_all,
+  delete_pra_messages,
+  delete_pra_numbers,
+  delete_pra_plans,
+  delete_pra_projects,
+  delete_pra_roles,
+
+  get_pra_acls,
   get_pra_accounts,
   get_pra_all,
   get_pra_messages,
   get_pra_numbers,
   get_pra_plans,
   get_pra_projects,
-  post_pra_accounts
+  get_pra_roles,
+
+  patch_pra_accounts,
+  patch_pra_all,
+  patch_pra_messages,
+  patch_pra_numbers,
+  patch_pra_plans,
+  patch_pra_projects,
+  patch_pra_roles,
+
+  post_pra_accounts,
+  post_pra_all,
+  post_pra_messages,
+  post_pra_numbers,
+  post_pra_plans,
+  post_pra_projects,
+  post_pra_roles
 } from '../actions'
 
 import {
@@ -37,7 +61,7 @@ export default {
     const actions = {
       create: post_pra_accounts,
       read: get_pra_accounts,
-      update: null,
+      update: patch_pra_accounts,
       delete: delete_pra_accounts
     }
 
@@ -52,12 +76,33 @@ export default {
     return <DataTable { ...props } />
   },
 
-  Messages (acls, { height }) {
+  Acls (acls, { height }) {
     const actions = {
       create: null,
-      delete: null,
+      read: get_pra_acls,
+      update: null,
+      delete: null
+    }
+
+    const fields = [
+      { name: 'role', label: 'Role', type: 'select', source: useRoles, bind: 'role_id' },
+      { name: 'resource', label: 'Resource', type: 'input' },
+      { name: 'create', label: 'Create', type: 'check' },
+      { name: 'read', label: 'Read', type: 'check' },
+      { name: 'update', label: 'Update', type: 'check' },
+      { name: 'delete', label: 'Delete', type: 'check' }
+    ]
+
+    const props = { acls, actions, fields, height }
+    return <DataTable { ...props } />
+  },
+
+  Messages (acls, { height }) {
+    const actions = {
+      create: post_pra_messages,
+      delete: delete_pra_messages,
       read: get_pra_messages,
-      update: null
+      update: patch_pra_messages
     }
 
     const fields = [
@@ -72,10 +117,10 @@ export default {
 
   Numbers (acls, { height }) {
     const actions = {
-      create: null,
-      delete: null,
+      create: post_pra_numbers,
+      delete: delete_pra_numbers,
       read: get_pra_numbers,
-      update: null
+      update: patch_pra_numbers
     }
 
     const fields = [
@@ -90,10 +135,10 @@ export default {
 
   Plans (acls, { height }) {
     const actions = {
-      create: null,
-      delete: null,
+      create: post_pra_plans,
+      delete: delete_pra_plans,
       read: get_pra_plans,
-      update: null
+      update: patch_pra_plans
     }
 
     const fields = [
@@ -109,10 +154,10 @@ export default {
 
   Pra (acls, { height }) {
     const actions = {
-      create: null,
-      delete: null,
+      create: post_pra_all,
+      delete: delete_pra_all,
       read: get_pra_all,
-      update: null
+      update: patch_pra_all
     }
 
     const fields = [
@@ -128,10 +173,10 @@ export default {
 
   Projects (acls, { height }) {
     const actions = {
-      create: null,
-      delete: null,
+      create: post_pra_projects,
+      delete: delete_pra_projects,
       read: get_pra_projects,
-      update: null
+      update: patch_pra_projects
     }
 
     const fields = [
@@ -139,6 +184,22 @@ export default {
       { name: 'plan', label: 'Plan', type: 'select', source: usePlans, bind: 'plan_id' },
       { name: 'country', label: 'Country', type: 'input' },
       { name: 'whitelabel', label: 'Whitelabel', type: 'input' }
+    ]
+
+    const props = { acls, actions, fields, height }
+    return <DataTable { ...props } />
+  },
+
+  Roles (acls, { height }) {
+    const actions = {
+      create: post_pra_roles,
+      delete: delete_pra_roles,
+      read: get_pra_roles,
+      update: patch_pra_roles
+    }
+
+    const fields = [
+      { name: 'name', label: 'Name', type: 'input' }
     ]
 
     const props = { acls, actions, fields, height }
