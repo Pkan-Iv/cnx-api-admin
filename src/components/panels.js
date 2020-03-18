@@ -2,6 +2,12 @@ import React from 'react'
 
 import {
   delete_pra_accounts,
+  delete_pra_messages,
+  delete_pra_numbers,
+  delete_pra_plans,
+  delete_pra_projects,
+  delete_pra_roles,
+
   get_pra_acls,
   get_pra_accounts,
   get_pra_all,
@@ -10,8 +16,20 @@ import {
   get_pra_plans,
   get_pra_projects,
   get_pra_roles,
+
   patch_pra_accounts,
-  post_pra_accounts
+  patch_pra_messages,
+  patch_pra_numbers,
+  patch_pra_plans,
+  patch_pra_projects,
+  patch_pra_roles,
+
+  post_pra_accounts,
+  post_pra_messages,
+  post_pra_numbers,
+  post_pra_plans,
+  post_pra_projects,
+  post_pra_roles
 } from '../actions'
 
 import {
@@ -78,10 +96,10 @@ export default {
 
   Messages (acls, { height }) {
     const actions = {
-      create: null,
-      delete: null,
+      create: post_pra_messages,
+      delete: delete_pra_messages,
       read: get_pra_messages,
-      update: null
+      update: patch_pra_messages
     }
 
     const fields = [
@@ -96,10 +114,10 @@ export default {
 
   Numbers (acls, { height }) {
     const actions = {
-      create: null,
-      delete: null,
+      create: post_pra_numbers,
+      delete: delete_pra_numbers,
       read: get_pra_numbers,
-      update: null
+      update: patch_pra_numbers
     }
 
     const fields = [
@@ -114,10 +132,10 @@ export default {
 
   Plans (acls, { height }) {
     const actions = {
-      create: null,
-      delete: null,
+      create: post_pra_plans,
+      delete: delete_pra_plans,
       read: get_pra_plans,
-      update: null
+      update: patch_pra_plans
     }
 
     const fields = [
@@ -152,10 +170,10 @@ export default {
 
   Projects (acls, { height }) {
     const actions = {
-      create: null,
-      delete: null,
+      create: post_pra_projects,
+      delete: delete_pra_projects,
       read: get_pra_projects,
-      update: null
+      update: patch_pra_projects
     }
 
     const fields = [
@@ -171,10 +189,10 @@ export default {
 
   Roles (acls, { height }) {
     const actions = {
-      create: null,
+      create: post_pra_roles,
+      delete: delete_pra_roles,
       read: get_pra_roles,
-      update: null,
-      delete: null
+      update: patch_pra_roles
     }
 
     const fields = [
