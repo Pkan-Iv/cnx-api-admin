@@ -19,8 +19,13 @@ function CreateDeleteAction (resource, success, failure) {
 }
 
 function CreateGetAction (resource, success, failure) {
-  return () => {
+  return (data) => {
     const request = resource( success, failure )
+
+    if (data !== undefined) {
+      request.setParams( data )
+    }
+
     return request.get()
   }
 }
