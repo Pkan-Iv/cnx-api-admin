@@ -2,12 +2,14 @@ import React from 'react'
 
 import {
   delete_pra_accounts,
+  get_pra_acls,
   get_pra_accounts,
   get_pra_all,
   get_pra_messages,
   get_pra_numbers,
   get_pra_plans,
   get_pra_projects,
+  get_pra_roles,
   patch_pra_accounts,
   post_pra_accounts
 } from '../actions'
@@ -47,6 +49,27 @@ export default {
       { name: 'username', label: 'Username', type: 'input' },
       { name: 'password', label: 'Password', type: 'password', filter: false, visible: false },
       { name: 'role', label: 'Role', type: 'select', source: useRoles, bind: 'role_id' }
+    ]
+
+    const props = { acls, actions, fields, height }
+    return <DataTable { ...props } />
+  },
+
+  Acls (acls, { height }) {
+    const actions = {
+      create: null,
+      read: get_pra_acls,
+      update: null,
+      delete: null
+    }
+
+    const fields = [
+      { name: 'role', label: 'Role', type: 'select', source: useRoles, bind: 'role_id' },
+      { name: 'resource', label: 'Resource', type: 'input' },
+      { name: 'create', label: 'Create', type: 'check' },
+      { name: 'read', label: 'Read', type: 'check' },
+      { name: 'update', label: 'Update', type: 'check' },
+      { name: 'delete', label: 'Delete', type: 'check' }
     ]
 
     const props = { acls, actions, fields, height }
@@ -140,6 +163,22 @@ export default {
       { name: 'plan', label: 'Plan', type: 'select', source: usePlans, bind: 'plan_id' },
       { name: 'country', label: 'Country', type: 'input' },
       { name: 'whitelabel', label: 'Whitelabel', type: 'input' }
+    ]
+
+    const props = { acls, actions, fields, height }
+    return <DataTable { ...props } />
+  },
+
+  Roles (acls, { height }) {
+    const actions = {
+      create: null,
+      read: get_pra_roles,
+      update: null,
+      delete: null
+    }
+
+    const fields = [
+      { name: 'name', label: 'Name', type: 'input' }
     ]
 
     const props = { acls, actions, fields, height }

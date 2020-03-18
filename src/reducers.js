@@ -21,11 +21,13 @@ export const ContextReducer = CreateContextReducer(
 export const CountReducer = CreateNumberReducer(
   ConnectMutator( (s, p) => p.count,
     PRA.GET.ACCOUNTS.SUCCESS,
+    PRA.GET.ACLS.SUCCESS,
     PRA.GET.ALL.SUCCESS,
     PRA.GET.MESSAGES.SUCCESS,
     PRA.GET.NUMBERS.SUCCESS,
     PRA.GET.PLANS.SUCCESS,
-    PRA.GET.PROJECTS.SUCCESS
+    PRA.GET.PROJECTS.SUCCESS,
+    PRA.GET.ROLES.SUCCESS
   )
 )
 
@@ -60,11 +62,13 @@ export const ReasonReducer = CreateStringReducer(
   ConnectMutator( (s, p) => p.reason,
     PRA.DELETE.ACCOUNTS.FAILURE,
     PRA.GET.ACCOUNTS.FAILURE,
+    PRA.GET.ACLS.FAILURE,
     PRA.GET.ALL.FAILURE,
     PRA.GET.MESSAGES.FAILURE,
     PRA.GET.NUMBERS.FAILURE,
     PRA.GET.PLANS.FAILURE,
     PRA.GET.PROJECTS.FAILURE,
+    PRA.GET.ROLES.FAILURE,
     PRA.LIST.MESSAGES.FAILURE,
     PRA.LIST.NUMBERS.FAILURE,
     PRA.LIST.PLANS.FAILURE,
@@ -78,10 +82,12 @@ export const ReasonReducer = CreateStringReducer(
 export const RowsReducer = CreateArrayReducer(
   ConnectMutator( (s, p) => p.rows,
     PRA.GET.ACCOUNTS.SUCCESS,
+    PRA.GET.ACLS.SUCCESS,
     PRA.GET.ALL.SUCCESS,
     PRA.GET.MESSAGES.SUCCESS,
     PRA.GET.NUMBERS.SUCCESS,
     PRA.GET.PLANS.SUCCESS,
-    PRA.GET.PROJECTS.SUCCESS
+    PRA.GET.PROJECTS.SUCCESS,
+    PRA.GET.ROLES.SUCCESS
   )
 )

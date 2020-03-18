@@ -89,6 +89,7 @@ function CreateRowsHandler (type) {
 
 const Pra = FetchInterface( `${api.url}/pra`, FetchHandler ),
       Accounts = Pra( 'accounts' ),
+      Acls = Pra( 'acls' ),
       All = Pra( 'all' ),
       Credentials = Pra( 'credentials' ),
       Messages = Pra( 'messages' ),
@@ -96,26 +97,6 @@ const Pra = FetchInterface( `${api.url}/pra`, FetchHandler ),
       Plans = Pra( 'plans' ),
       Projects = Pra( 'projects' ),
       Roles = Pra( 'roles' )
-
-/*
-function update_user_success ({ rows }) {
-  return {
-    type: USER.UPDATE.SUCCESS,
-    rows
-  }
-}
-
-export function update_user (values, id) {
-  const request = Users(
-    update_user_success,
-    update_user_failure
-  )
-
-  request.addPath([ id ])
-  request.setBody( values )
-  return request.patch()
-}
-*/
 
 export const delete_pra_accounts = CreateDeleteAction( Accounts,
   CreateRowsHandler( PRA.DELETE.ACCOUNTS.SUCCESS ),
@@ -125,6 +106,11 @@ export const delete_pra_accounts = CreateDeleteAction( Accounts,
 export const get_pra_accounts = CreateGetAction( Accounts,
   CreateTableHandler( PRA.GET.ACCOUNTS.SUCCESS ),
   CreateFailureHandler( PRA.GET.ACCOUNTS.FAILURE )
+)
+
+export const get_pra_acls = CreateGetAction( Acls,
+  CreateTableHandler( PRA.GET.ACLS.SUCCESS ),
+  CreateFailureHandler( PRA.GET.ACLS.FAILURE )
 )
 
 export const get_pra_all = CreateGetAction( All,
@@ -150,6 +136,11 @@ export const get_pra_plans = CreateGetAction( Plans,
 export const get_pra_projects = CreateGetAction( Projects,
   CreateTableHandler( PRA.GET.PROJECTS.SUCCESS ),
   CreateFailureHandler( PRA.GET.PROJECTS.FAILURE )
+)
+
+export const get_pra_roles = CreateGetAction( Roles,
+  CreateTableHandler( PRA.GET.ROLES.SUCCESS ),
+  CreateFailureHandler( PRA.GET.ROLES.FAILURE )
 )
 
 export const list_pra_messages = CreateGetAction( Messages,
