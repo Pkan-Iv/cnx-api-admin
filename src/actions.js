@@ -9,19 +9,6 @@ import { api } from '../config.json'
 
 const validStatus = [ 200, 201, 204 ]
 
-function FetchHandler () {
-  return async (response) => {
-    const { status } = response
-
-    if (validStatus.indexOf( status ) === -1) {
-      throw new Error( status )
-    }
-
-    const result = status === 204 ? {} : await response.json()
-    return result
-  }
-}
-
 function CreateDeleteAction (resource, success, failure) {
   return (id) => {
     const request = resource( success, failure )
@@ -85,6 +72,19 @@ function CreateRowsHandler (type) {
     type,
     rows
   })
+}
+
+function FetchHandler () {
+  return async (response) => {
+    const { status } = response
+
+    if (validStatus.indexOf( status ) === -1) {
+      throw new Error( status )
+    }
+
+    const result = status === 204 ? {} : await response.json()
+    return result
+  }
 }
 
 const Pra = FetchInterface( `${api.url}/pra`, FetchHandler ),
