@@ -42,25 +42,31 @@ CREATE TABLE `Roles` (
 
 DROP TRIGGER IF EXISTS Roles_insert;
 
-INSERT INTO `Resources` (`name`) VALUES ('Accounts');
-INSERT INTO `Resources` (`name`) VALUES ('Roles');
-INSERT INTO `Resources` (`name`) VALUES ('Acls');
-INSERT INTO `Resources` (`name`) VALUES ('Projects');
-INSERT INTO `Resources` (`name`) VALUES ('Numbers');
-INSERT INTO `Resources` (`name`) VALUES ('Messages');
-INSERT INTO `Resources` (`name`) VALUES ('Plans');
-INSERT INTO `Resources` (`name`) VALUES ('Pra');
+INSERT INTO `Resources` (`id`, `name`) VALUES (1, 'Accounts');
+INSERT INTO `Resources` (`id`, `name`) VALUES (2, 'Roles');
+INSERT INTO `Resources` (`id`, `name`) VALUES (3, 'Acls');
+INSERT INTO `Resources` (`id`, `name`) VALUES (4, 'Projects');
+INSERT INTO `Resources` (`id`, `name`) VALUES (5, 'Numbers');
+INSERT INTO `Resources` (`id`, `name`) VALUES (6, 'Messages');
+INSERT INTO `Resources` (`id`, `name`) VALUES (7, 'Plans');
+INSERT INTO `Resources` (`id`, `name`) VALUES (8, 'Pra');
 
-INSERT INTO `Roles` (`name`) VALUES ('administrator');
+INSERT INTO `Roles` (`id`, `name`) VALUES (1, 'administrator');
+INSERT INTO `Roles` (`id`, `name`) VALUES (2, 'exploitation');
 
-INSERT INTO `Acls` (`role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (1, 1, 1, 1, 1, 1);
-INSERT INTO `Acls` (`role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (1, 2, 1, 1, 1, 1);
-INSERT INTO `Acls` (`role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (1, 3, 1, 1, 1, 1);
-INSERT INTO `Acls` (`role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (1, 4, 1, 1, 1, 1);
-INSERT INTO `Acls` (`role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (1, 5, 1, 1, 1, 1);
-INSERT INTO `Acls` (`role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (1, 6, 1, 1, 1, 1);
-INSERT INTO `Acls` (`role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (1, 7, 1, 1, 1, 1);
-INSERT INTO `Acls` (`role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (1, 8, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (1, 1, 1, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (2, 1, 2, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (3, 1, 3, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (4, 1, 4, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (5, 1, 5, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (6, 1, 6, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (7, 1, 7, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (8, 1, 8, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (9, 2, 4, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (10, 2, 5, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (11, 2, 6, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (12, 2, 7, 1, 1, 1, 1);
+INSERT INTO `Acls` (`id`, `role_id`, `resource_id`, `create`, `read`, `update`, `delete`) VALUES (13, 2, 8, 1, 1, 1, 1);
 
 INSERT INTO `Accounts` (`username`, `password`, `project_id`, `role_id`) VALUES ('connectics', UNHEX(SHA1('cnx427!')), 1, 1);
 
@@ -68,7 +74,7 @@ DELIMITER $$
 
 CREATE TRIGGER Roles_insert AFTER INSERT ON `Roles` FOR EACH ROW
 BEGIN
-  INSERT INTO `Acls` (`role_id`, `resource_id`) SELECT NEW.`id`, R.`id` FROM `Resources` R ORDER BY R.`id` ASC;
+  INSERT INTO `Acls` (`role_id`, `resource_id`) SELECT NEW.`id`, R.`id` FROM `Resources` R WHERE R.`name` <> 'Accounts' ORDER BY R.`id` ASC;
 END$$
 
 DELIMITER ;
