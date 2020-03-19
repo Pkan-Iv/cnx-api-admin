@@ -111,16 +111,6 @@ export default function FormDialog ({
     handleClose()
   }
 
-  function renderButtonCreate () {
-    if (type === 'create') {
-      return (
-        <FormButton click={ handleSubmit } icon={ <Save /> } type='submit'>
-          CREATE
-        </FormButton>
-      )
-    }
-  }
-
   function renderButtonRemove () {
     if (type === 'update') {
       return (
@@ -152,7 +142,7 @@ export default function FormDialog ({
   }
 
   function renderFormFields () {
-    return fields.map( ({ name, label, type, source }, index) => {
+    return fields.map( ({ disabled, name, label, type, source }, index) => {
       const props = {
         className: classes.input,
         id: name,
@@ -168,6 +158,7 @@ export default function FormDialog ({
           return (
             <FormCheckbox { ...props }
               checked={ values[ name ] === 1 }
+              disabled={ disabled === true }
               onChange={ createCheckHandler( name ) }
             />
           )
@@ -176,6 +167,7 @@ export default function FormDialog ({
           return (
             <FormSelect { ...props }
               dataHandler={ source }
+              disabled={ disabled === true }
               value={ values[ name ] }
               onChange={ createValueHandler( name ) }
             />
@@ -185,6 +177,7 @@ export default function FormDialog ({
           return (
             <TextField { ...props }
               defaultValue={ values[ name ] }
+              disabled={ disabled === true }
               onChange={ createValueHandler( name ) }
             />
           )
@@ -226,7 +219,6 @@ export default function FormDialog ({
             'left': '0',
             'right': '0',
         }} >
-          { renderButtonCreate() }
           { renderButtonUpdate() }
           { renderButtonRemove() }
           { renderButtonSearch() }

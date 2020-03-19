@@ -4,6 +4,7 @@ import { Checkbox, FormControlLabel, FormGroup } from '@material-ui/core'
 
 export default function FormCheckbox({
   checked = false,
+  disabled = false,
   label = '',
   onChange
 } = {}) {
@@ -12,6 +13,7 @@ export default function FormCheckbox({
       <FormControlLabel
         control={
           <Checkbox checked={ checked }
+            disabled={ disabled }
             onChange={ onChange }
             value='primary'
             inputProps={{ 'aria-label': 'primary checkbox' }} />

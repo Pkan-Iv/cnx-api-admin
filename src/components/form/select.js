@@ -12,6 +12,7 @@ const useStyles = makeStyles( (theme) => ({
 
 export default function FormSelect ({
   dataHandler = null,
+  disabled = false,
   label = '',
   onChange,
   value = ''
@@ -33,6 +34,7 @@ export default function FormSelect ({
 
   return (
     <TextField className={ classes.input }
+      disabled={ disabled }
       id={ label.toLowerCase() }
       label={ label }
       margin='normal'
