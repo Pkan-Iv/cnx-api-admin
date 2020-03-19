@@ -172,9 +172,8 @@ export default function FormDialog ({
 
         case 'check':
           return (
-            <FormCheckbox {...props}
-              dataHandler={ source }
-              value={values[ name ]}
+            <FormCheckbox { ...props }
+              checked={ values[ name ] === 1 }
             />
           )
 
@@ -187,6 +186,8 @@ export default function FormDialog ({
       }
     })
   }
+
+  console.log( values )
 
   return (
     <Dialog disableBackdropClick={ true }
