@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useStore } from 'lib/hooks'
 
 import {
+  list_pra_acls,
   list_pra_messages,
   list_pra_numbers,
   list_pra_plans,
@@ -19,6 +20,10 @@ function useList (resource, getter) {
   }, [])
 
   return list[ resource ]
+}
+
+export function useAcls () {
+  return useList( 'acls', list_pra_acls )
 }
 
 export function useMessages () {
