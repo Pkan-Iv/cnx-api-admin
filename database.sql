@@ -40,6 +40,7 @@ CREATE TABLE `Roles` (
   UNIQUE INDEX `name_UNIQUE` (`name` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TRIGGER IF EXISTS Roles_delete;
 DROP TRIGGER IF EXISTS Roles_insert;
 
 INSERT INTO `Resources` (`id`, `name`) VALUES (1, 'Accounts');
@@ -72,9 +73,14 @@ INSERT INTO `Accounts` (`username`, `password`, `project_id`, `role_id`) VALUES 
 
 DELIMITER $$
 
+CREATE TRIGGER Roles_delete AFTER DELETE ON `Roles` FOR EACH ROW
+BEGIN
+  DELETE FROM `Acls` WHERE `role_id` = OLD.`id`;
+END$$
+
 CREATE TRIGGER Roles_insert AFTER INSERT ON `Roles` FOR EACH ROW
 BEGIN
-  INSERT INTO `Acls` (`role_id`, `resource_id`) SELECT NEW.`id`, R.`id` FROM `Resources` R WHERE R.`name` <> 'Accounts' ORDER BY R.`id` ASC;
+  INSERT INTO `Acls` (`role_id`, `resource_id`) SELECT NEW.`id`, R.`id` FROM `Resources` R WHERE R.`name` NOT IN ('Accounts', 'Acls', 'Roles') ORDER BY R.`id` ASC;
 END$$
 
 DELIMITER ;
