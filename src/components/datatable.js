@@ -271,10 +271,7 @@ export default function DataTable({
       />
 
       { renderDialog() }
-
-      <Fab className={ classes.fab } color="primary" onClick={ handleCreate }>
-        <Add />
-      </Fab>
+      { renderCreateButton() }
     </div>
   )
 }
