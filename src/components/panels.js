@@ -19,6 +19,7 @@ import {
   get_pra_roles,
 
   patch_pra_accounts,
+  patch_pra_acls,
   patch_pra_all,
   patch_pra_messages,
   patch_pra_numbers,
@@ -82,7 +83,7 @@ export default {
     const actions = {
       create: null,
       read: get_pra_acls,
-      update: null,
+      update: patch_pra_acls,
       delete: null
     }
 

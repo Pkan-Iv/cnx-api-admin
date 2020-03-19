@@ -106,6 +106,8 @@ export default function Application () {
       case PRA.PATCH.ACCOUNTS.SUCCESS:
       case PRA.POST.ACCOUNTS.SUCCESS:
 
+      case PRA.PATCH.ACLS.SUCCESS:
+
       case PRA.DELETE.ALL.SUCCESS:
       case PRA.PATCH.ALL.SUCCESS:
       case PRA.POST.ALL.SUCCESS:

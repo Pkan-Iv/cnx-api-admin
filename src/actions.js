@@ -230,6 +230,11 @@ export const patch_pra_accounts = CreatePatchAction( Accounts,
   CreateFailureHandler( PRA.PATCH.ACCOUNTS.FAILURE )
 )
 
+export const patch_pra_acls = CreatePatchAction( Acls,
+  CreateTypeHandler( PRA.PATCH.ACLS.SUCCESS ),
+  CreateFailureHandler( PRA.PATCH.ACLS.FAILURE )
+)
+
 export const patch_pra_all = CreatePatchAction( All,
   CreateTypeHandler( PRA.PATCH.ALL.SUCCESS ),
   CreateFailureHandler( PRA.PATCH.ALL.FAILURE )
