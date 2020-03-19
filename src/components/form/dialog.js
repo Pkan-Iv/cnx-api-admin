@@ -190,32 +190,45 @@ export default function FormDialog ({
   console.log( values )
 
   return (
-    <Dialog disableBackdropClick={ true }
+    <Dialog
+      disableBackdropClick={ true }
       maxWidth='lg'
       open={ visible }
-      onClose={ handleClose }>
-      <DialogTitle id='form-dialog-title' className={ classes.box }>
-        <span>{ title }</span>
+      onClose={ handleClose }
+       >
+      <div style={ {
+        height: '500px',
+        width: '715px'
+      } }>
+        <DialogTitle id='form-dialog-title' className={ classes.box }>
+          <span>{ title }</span>
 
-        <IconButton onClick={handleClose} style={{'float': 'right'}}>
-          <Cancel />
-        </IconButton>
-      </DialogTitle>
+          <IconButton onClick={handleClose} style={{'float': 'right'}}>
+            <Cancel />
+          </IconButton>
+        </DialogTitle>
 
-      <DialogContent>
-        <form autoComplete='off' noValidate onSubmit={ handleSubmit }>
-          <Box component='span' display='block' height='100%' >
-            { renderFormFields() }
-          </Box>
-        </form>
-      </DialogContent>
+        <DialogContent>
+          <form autoComplete='off' noValidate onSubmit={ handleSubmit }>
+            <Box component='span' display='block' height='100%' >
+              { renderFormFields() }
+            </Box>
+          </form>
+        </DialogContent>
 
-      <DialogActions disableSpacing={ true } style={{ 'display':' block' }} >
-        { renderButtonCreate() }
-        { renderButtonUpdate() }
-        { renderButtonRemove() }
-        { renderButtonSearch() }
-      </DialogActions>
+        <DialogActions disableSpacing={ true }
+          style={{ 'display':' block',
+            'position': 'absolute',
+            'bottom': '0',
+            'left': '0',
+            'right': '0',
+        }} >
+          { renderButtonCreate() }
+          { renderButtonUpdate() }
+          { renderButtonRemove() }
+          { renderButtonSearch() }
+        </DialogActions>
+      </div>
     </Dialog>
   )
 }
