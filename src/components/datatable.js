@@ -160,6 +160,18 @@ export default function DataTable({
     }
   }
 
+  function renderCreateButton () {
+    const { create } = actions
+
+    if (typeof create === 'function') {
+      return (
+        <Fab className={ classes.fab } color="primary" onClick={ handleCreate }>
+          <Add />
+        </Fab>
+      )
+    }
+  }
+
   function renderDialog () {
     const { selected, title, type } = dialog,
           filter = type === 'search' ? isFilter : isDefined
