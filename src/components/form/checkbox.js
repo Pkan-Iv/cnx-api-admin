@@ -10,37 +10,42 @@ export default function FormCheckbox({
   onChange,
   value = ''
 } = {}) {
-  const [ state, dispatch ] = useStore(),
-        { rows } = state
-  // const values = dataHandler()
-
-  function renderValues () {
-    return values.map( (value) => console.log(value) )
-  }
-
-
-  const handleCheck = (e) => {
-    setState({ ...state, [e.target.name]: e.target.checked})
-  }
-
-  // if (values === undefined) {
-  //   return null
-  // }
-  useEffect( () => {
-    // console.log(data)
-    // renderValues()
+  const [ checked, setChecked ] = useState({
+    create: '',
+    read: '',
+    update: '',
+    delete: ''
   })
+  const values = dataHandler()
+
+  function renderValues (label) {
+    console.log(values)
+    return values.map( (value) => (
+      console.log(value.label)
+      /* <Checkbox
+            checked={ value.label }
+            label={ label }
+            onChange={ handleCheck }
+          /> */
+    ))
+  }
+
+
+  const handleCheck = (label) => {
+    return (e) =>{
+    setChecked({...checked, [e.target.label]: e.target.checked})
+    }
+  }
+
+  if (values === undefined) {
+    return null
+  }
+
+  renderValues()
 
   return (
     <FormGroup>
       <FormControlLabel
-        control={
-          <Checkbox
-            checked={ state.label }
-            label={ label }
-            onChange={ handleCheck }
-          />
-        }
         />
 
     </FormGroup>
