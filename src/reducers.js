@@ -36,6 +36,20 @@ export const ListReducer = CreateObjectReducer(
     ...s, [ p.resource ]: p.rows.map(
       (row) => ({
         id: row.id,
+        create: row.create,
+        read: row.read,
+        update: row.update,
+        delete: row.delete
+      }))
+    }),
+
+    PRA.LIST.ACLS.SUCCESS,
+  ),
+
+  ConnectMutator( (s, p) => ({
+    ...s, [ p.resource ]: p.rows.map(
+      (row) => ({
+        id: row.id,
         name: row.name
       }))
     }),
@@ -77,6 +91,7 @@ export const ReasonReducer = CreateStringReducer(
     PRA.GET.PROJECTS.FAILURE,
     PRA.GET.ROLES.FAILURE,
 
+    PRA.LIST.ACLS.FAILURE,
     PRA.LIST.MESSAGES.FAILURE,
     PRA.LIST.NUMBERS.FAILURE,
     PRA.LIST.PLANS.FAILURE,
