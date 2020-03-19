@@ -187,8 +187,6 @@ export default function FormDialog ({
     })
   }
 
-  console.log( values )
-
   return (
     <Dialog disableBackdropClick={ true }
       maxWidth='lg'
