@@ -36,6 +36,7 @@ import {
 } from '../actions'
 
 import {
+  useAcls,
   useMessages,
   useNumbers,
   usePlans,
@@ -87,10 +88,10 @@ export default {
     const fields = [
       { name: 'role', label: 'Role', type: 'select', source: useRoles, bind: 'role_id' },
       { name: 'resource', label: 'Resource', type: 'input' },
-      { name: 'create', label: 'Create', type: 'check' },
-      { name: 'read', label: 'Read', type: 'check' },
-      { name: 'update', label: 'Update', type: 'check' },
-      { name: 'delete', label: 'Delete', type: 'check' }
+      { name: 'create', label: 'Create', type: 'check', source: useAcls, bind: 'role_id' },
+      { name: 'read', label: 'Read', type: 'check', source: useAcls, bind: 'role_id' },
+      { name: 'update', label: 'Update', type: 'check', source: useAcls, bind: 'role_id' },
+      { name: 'delete', label: 'Delete', type: 'check', source: useAcls, bind: 'role_id' }
     ]
 
     const props = { acls, actions, fields, height }
