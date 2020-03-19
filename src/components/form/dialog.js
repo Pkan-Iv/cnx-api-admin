@@ -58,13 +58,16 @@ export default function FormDialog ({
         [ visible, setVisible ] = useState( true ),
         [ {}, dispatch ] = useStore()
 
-  function createHandler (field) {
+  function createCheckHandler (field) {
     return (e) => {
-      const { checked, value } = e.target
+      console.log( field, e.target.checked )
+      setValues({ ...values, [ field ]: e.target.checked  ? 1 : 0 })
+    }
+  }
 
-      setValues({ ...values, [ field ]: checked !== undefined ? (
-        checked === true ? 1 : 0
-       ) : value })
+  function createValueHandler (field) {
+    return (e) => {
+      setValues({ ...values, [ field ]: e.target.value })
     }
   }
 
@@ -156,7 +159,6 @@ export default function FormDialog ({
         key: index,
         label,
         margin: 'normal',
-        onChange: createHandler( name ),
         type,
         variant: 'outlined'
       }
@@ -166,6 +168,7 @@ export default function FormDialog ({
           return (
             <FormCheckbox { ...props }
               checked={ values[ name ] === 1 }
+              onChange={ createCheckHandler( name ) }
             />
           )
 
@@ -174,6 +177,7 @@ export default function FormDialog ({
             <FormSelect { ...props }
               dataHandler={ source }
               value={ values[ name ] }
+              onChange={ createValueHandler( name ) }
             />
           )
 
@@ -181,6 +185,7 @@ export default function FormDialog ({
           return (
             <TextField { ...props }
               defaultValue={ values[ name ] }
+              onChange={ createValueHandler( name ) }
             />
           )
       }
