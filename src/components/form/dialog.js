@@ -60,7 +60,11 @@ export default function FormDialog ({
 
   function createHandler (field) {
     return (e) => {
-      setValues({ ...values, [ field ]: e.target.value })
+      const { checked, value } = e.target
+
+      setValues({ ...values, [ field ]: checked !== undefined ? (
+        checked === true ? 1 : 0
+       ) : value })
     }
   }
 
