@@ -21,10 +21,12 @@ import {
 } from '@material-ui/icons'
 
 import FormButton from './button'
+import FormCheckbox from './checkbox'
 import FormSelect from './select'
 
 import { MergeObject } from 'lib/factories'
 import { useStore } from 'lib/hooks'
+
 
 const useStyles = makeStyles( (theme) => ({
   box: {
@@ -165,7 +167,12 @@ export default function FormDialog ({
           )
 
         case 'check':
-          // TODO
+          return (
+            <FormCheckbox {...props}
+              dataHandler={ source }
+              value={values[ name ]}
+            />
+          )
 
         default:
           return (
