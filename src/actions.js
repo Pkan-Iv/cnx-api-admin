@@ -186,6 +186,11 @@ export const get_pra_roles = CreateGetAction( Roles,
 /*
  *  LIST
  */
+export const list_pra_acls = CreateGetAction( Acls,
+  CreateListHandler( PRA.LIST.ACLS.SUCCESS, 'acls' ),
+  CreateFailureHandler( PRA.LIST.ACLS.FAILURE )
+)
+
 export const list_pra_messages = CreateGetAction( Messages,
   CreateListHandler( PRA.LIST.MESSAGES.SUCCESS, 'messages' ),
   CreateFailureHandler( PRA.LIST.MESSAGES.FAILURE )
