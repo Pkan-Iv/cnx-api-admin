@@ -23,7 +23,7 @@ const Theme = createMuiTheme({
 ReactDOM.render(
   <Provider store={ Store }>
     <ThemeProvider theme={ Theme }>
-      <ScopedCssBaseline>
+      <ScopedCssBaseline style={{ height: '100vh', }} >
         <Application />
       </ScopedCssBaseline>
     </ThemeProvider>
