@@ -162,18 +162,18 @@ export default function FormDialog ({
       }
 
       switch (type) {
+        case 'check':
+          return (
+            <FormCheckbox { ...props }
+              checked={ values[ name ] === 1 }
+            />
+          )
+
         case 'select':
           return (
             <FormSelect { ...props }
               dataHandler={ source }
               value={ values[ name ] }
-            />
-          )
-
-        case 'check':
-          return (
-            <FormCheckbox { ...props }
-              checked={ values[ name ] === 1 }
             />
           )
 
