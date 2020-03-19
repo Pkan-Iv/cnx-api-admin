@@ -100,6 +100,7 @@ const Pra = FetchInterface( `${api.url}/pra`, FetchHandler ),
       Numbers = Pra( 'numbers' ),
       Plans = Pra( 'plans' ),
       Projects = Pra( 'projects' ),
+      Resources = Pra( 'resources' ),
       Roles = Pra( 'roles' )
 
 /*
@@ -209,6 +210,11 @@ export const list_pra_plans = CreateGetAction( Plans,
 export const list_pra_projects = CreateGetAction( Projects,
   CreateListHandler( PRA.LIST.PROJECTS.SUCCESS, 'projects' ),
   CreateFailureHandler( PRA.LIST.PROJECTS.FAILURE )
+)
+
+export const list_pra_resources = CreateGetAction( Resources,
+  CreateListHandler( PRA.LIST.RESOURCES.SUCCESS, 'resources' ),
+  CreateFailureHandler( PRA.LIST.RESOURCES.FAILURE )
 )
 
 export const list_pra_roles = CreateGetAction( Roles,

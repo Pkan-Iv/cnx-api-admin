@@ -8,6 +8,7 @@ import {
   list_pra_numbers,
   list_pra_plans,
   list_pra_projects,
+  list_pra_resources,
   list_pra_roles
 } from './actions'
 
@@ -40,6 +41,10 @@ export function usePlans () {
 
 export function useProjects () {
   return useList( 'projects', list_pra_projects )
+}
+
+export function useResources () {
+  return useList( 'resources', list_pra_resources )
 }
 
 export function useRoles () {
