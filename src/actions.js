@@ -240,7 +240,7 @@ export const patch_pra_all = CreatePatchAction( All,
   CreateFailureHandler( PRA.PATCH.ALL.FAILURE )
 )
 
-export const post_credentials = CreatePostAction( Credentials,
+export const patch_credentials = CreatePatchAction( Credentials,
   (data) => ({ type: CREDENTIALS.PATCH.SUCCESS, data }),
   CreateFailureHandler( CREDENTIALS.PATCH.FAILURE )
 )
