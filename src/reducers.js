@@ -13,6 +13,10 @@ export const ContextReducer = CreateContextReducer(
     CREDENTIALS.POST.SUCCESS
   ),
 
+  ConnectMutator( (s, p) => ({ ...s, authenticated: false, ...p.data }),
+    CREDENTIALS.PATCH.SUCCESS
+  ),
+
   ConnectMutator( () => ({ ...Context, authenticated: false }),
     CREDENTIALS.DELETE.SUCCESS
   )
