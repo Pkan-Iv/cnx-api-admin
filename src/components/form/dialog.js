@@ -142,23 +142,27 @@ export default function FormDialog ({
   }
 
   function renderFormFields () {
-    return fields.map( ({ disabled, name, label, type, source }, index) => {
+    return fields.map( (field, index) => {
+      const { form, name, label, source } = field
+
       const props = {
         className: classes.input,
         id: name,
         key: index,
         label,
         margin: 'normal',
-        type,
+        type: field.type,
         variant: 'outlined'
       }
 
-      switch (type) {
+      const disabled = type !== 'search' ? form === false : false
+
+      switch (field.type) {
         case 'check':
           return (
             <FormCheckbox { ...props }
               checked={ values[ name ] === 1 }
-              disabled={ disabled === true }
+              disabled={ disabled }
               onChange={ createCheckHandler( name ) }
             />
           )
@@ -167,7 +171,7 @@ export default function FormDialog ({
           return (
             <FormSelect { ...props }
               dataHandler={ source }
-              disabled={ disabled === true }
+              disabled={ disabled }
               value={ values[ name ] }
               onChange={ createValueHandler( name ) }
             />
@@ -177,7 +181,7 @@ export default function FormDialog ({
           return (
             <TextField { ...props }
               defaultValue={ values[ name ] }
-              disabled={ disabled === true }
+              disabled={ disabled }
               onChange={ createValueHandler( name ) }
             />
           )

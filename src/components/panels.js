@@ -88,12 +88,12 @@ export default {
     }
 
     const fields = [
-      { name: 'role', label: 'Role', type: 'select', source: useRoles, bind: 'role_id' },
-      { name: 'resource', label: 'Resource', type: 'select', source: useResources, bind: 'resource_id', disabled: true },
-      { name: 'create', label: 'Create', type: 'check' },
-      { name: 'read', label: 'Read', type: 'check' },
-      { name: 'update', label: 'Update', type: 'check' },
-      { name: 'delete', label: 'Delete', type: 'check' }
+      { name: 'role', label: 'Role', type: 'select', source: useRoles, bind: 'role_id', form: false },
+      { name: 'resource', label: 'Resource', type: 'select', source: useResources, bind: 'resource_id', form: false },
+      { name: 'create', label: 'Create', type: 'check', filter: false },
+      { name: 'read', label: 'Read', type: 'check', filter: false },
+      { name: 'update', label: 'Update', type: 'check', filter: false },
+      { name: 'delete', label: 'Delete', type: 'check', filter: false }
     ]
 
     const props = { acls, actions, fields, height }
