@@ -8,7 +8,7 @@ import {
   TextField
 } from '@material-ui/core'
 
-import { post_credentials } from '../actions'
+import { patch_credentials, post_credentials } from '../actions'
 import { useStore } from 'lib/hooks'
 // import GoogleLoginButton from './google'
 
@@ -77,7 +77,7 @@ export default function Auth () {
     const { password, password2, username } = fields
 
     e.preventDefault()
-    confirmPassword() ? console.log({ password, password2, username }) : console.log('Try again')
+    confirmPassword() ? dispatch(patch_credentials({ password, username })) : console.log('Try again')
   }
 
   return (
