@@ -62,7 +62,6 @@ export default function DataTable({
           title: null,
           type: null
         }),
-        // TODO: Manage filter's values
         [ filters, setFilters ] = useState({}),
         [ page, setPage ] = useState( 0 ),
         [ sort, setSort ] = useState({
@@ -102,8 +101,10 @@ export default function DataTable({
     loadData( Object.keys( values ).filter(
       (field) => values[field] !== undefined
     ).map(
-      (field) => `(${field},eq,${values[field]})`
+      (field) => `(${field},li,${values[field]})`
     ).join( '~and' ))
+
+    setFilters( values)
   }
 
   function handleSearch () {
@@ -174,12 +175,13 @@ export default function DataTable({
 
   function renderDialog () {
     const { selected, title, type } = dialog,
+          data = type === 'search' ? filters : rows.filter( ({ id }) => id === selected )[0],
           filter = type === 'search' ? isFilter : isDefined
 
     if (type !== null) {
       return (
         <FormDialog actions={{ ...actions, close: handleClose, search: handleFiltering }}
-          data={ rows.filter( ({ id }) => id === selected )[0] }
+          data={ data }
           fields={
             fields.filter( filter ).map( (field) => {
               const { bind } = field
