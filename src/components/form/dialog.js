@@ -126,7 +126,7 @@ export default function FormDialog ({
   function renderButtonCreate () {
     if (type === 'create') {
       return (
-        <FormButton click={ handleSubmit } icon={ <Add /> } type='submit'>
+        <FormButton click={ handleSubmit } icon={ <Save /> } type='submit'>
           CREATE
         </FormButton>
       )
@@ -226,8 +226,7 @@ export default function FormDialog ({
       disableBackdropClick={ true }
       maxWidth='lg'
       open={ visible }
-      onClose={ handleClose }
-       >
+      onClose={ handleClose }>
       <div style={ {
         height: '500px',
         width: '715px'
@@ -254,7 +253,7 @@ export default function FormDialog ({
             'bottom': '0',
             'left': '0',
             'right': '0',
-        }} >
+        }}>
           { renderButtonCreate() }
           { renderButtonUpdate() }
           { renderButtonRemove() }
