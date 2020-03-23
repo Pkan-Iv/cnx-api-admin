@@ -17,7 +17,8 @@ import {
   Delete,
   Edit,
   Save,
-  Search
+  Search,
+  Add
 } from '@material-ui/icons'
 
 import FormButton from './button'
@@ -109,6 +110,16 @@ export default function FormDialog ({
     }
 
     handleClose()
+  }
+
+  function renderButtonCreate () {
+    if (type === 'create') {
+      return (
+        <FormButton click={ handleSubmit } icon={ <Add /> } type='submit'>
+          CREATE
+        </FormButton>
+      )
+    }
   }
 
   function renderButtonRemove () {
@@ -223,6 +234,7 @@ export default function FormDialog ({
             'left': '0',
             'right': '0',
         }} >
+          { renderButtonCreate() }
           { renderButtonUpdate() }
           { renderButtonRemove() }
           { renderButtonSearch() }
