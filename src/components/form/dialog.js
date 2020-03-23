@@ -95,8 +95,8 @@ export default function FormDialog ({
   function handleSubmit (e) {
     const action = actions[ type ],
           content = MergeObject( fields.map(
-            ({ name }) => ({ [ name ]: values[ name ] })
-          ))
+            ({ name }) =>  typeof values[ name ] === 'object' ? null : ({ [ name ]: values[ name ] })
+          ).filter( (value) => value !== null ))
 
     e.preventDefault()
 
