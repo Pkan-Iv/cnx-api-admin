@@ -79,14 +79,14 @@ export default function DataTable({
     setPage( value )
   }
 
-  function handleClose (load = true) {
+  function handleClose (reload = true) {
     setDialog({
       selected: null,
       title: null,
       type: null
     })
 
-    if (load === true) {
+    if (reload === true) {
       loadData()
     }
   }

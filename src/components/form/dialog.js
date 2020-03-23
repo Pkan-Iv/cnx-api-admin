@@ -73,12 +73,12 @@ export default function FormDialog ({
     }
   }
 
-  function handleClose (load = true) {
+  function handleClose (reload = true) {
     setVisible( false )
 
     if ('close' in actions) {
       if (typeof actions.close === 'function') {
-        actions.close( load )
+        actions.close( reload )
       }
     }
   }
