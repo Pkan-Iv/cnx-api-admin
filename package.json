@@ -44,6 +44,7 @@
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.6.4",
+    "babel-watch": "^7.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
