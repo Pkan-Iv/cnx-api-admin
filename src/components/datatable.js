@@ -79,14 +79,16 @@ export default function DataTable({
     setPage( value )
   }
 
-  function handleClose () {
+  function handleClose (load = true) {
     setDialog({
       selected: null,
       title: null,
       type: null
     })
 
-    loadData()
+    if (load === true) {
+      loadData()
+    }
   }
 
   function handleCreate () {
@@ -97,14 +99,19 @@ export default function DataTable({
     })
   }
 
+  function handleReset () {
+    setFilters({})
+    handleClose()
+  }
+
   function handleFiltering (values) {
+    setFilters( values )
+
     loadData( Object.keys( values ).filter(
       (field) => values[field] !== undefined
     ).map(
       (field) => `(${field},li,${values[field]})`
     ).join( '~and' ))
-
-    setFilters( values)
   }
 
   function handleSearch () {
@@ -180,7 +187,7 @@ export default function DataTable({
 
     if (type !== null) {
       return (
-        <FormDialog actions={{ ...actions, close: handleClose, search: handleFiltering }}
+        <FormDialog actions={{ ...actions, close: handleClose, reset: handleReset, search: handleFiltering }}
           data={ data }
           fields={
             fields.filter( filter ).map( (field) => {

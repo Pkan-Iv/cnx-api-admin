@@ -45,6 +45,7 @@ export default function FormDialog ({
     close: null,
     create: null,
     delete: null,
+    reset: null,
     search: null,
     update: null
   },
@@ -72,12 +73,12 @@ export default function FormDialog ({
     }
   }
 
-  function handleClose () {
+  function handleClose (load = true) {
     setVisible( false )
 
     if ('close' in actions) {
       if (typeof actions.close === 'function') {
-        actions.close()
+        actions.close( load )
       }
     }
   }
@@ -90,6 +91,14 @@ export default function FormDialog ({
     }
 
     handleClose()
+  }
+
+  function handleReset () {
+    if ('reset' in actions) {
+      if (typeof actions.reset === 'function') {
+        actions.reset()
+      }
+    }
   }
 
   function handleSubmit (e) {
@@ -111,7 +120,7 @@ export default function FormDialog ({
       }
     }
 
-    handleClose()
+    handleClose( type !== 'search' )
   }
 
   function renderButtonCreate () {
@@ -129,6 +138,16 @@ export default function FormDialog ({
       return (
         <FormButton click={ handleDelete } color='secondary' icon={ <Delete /> }>
           REMOVE
+        </FormButton>
+      )
+    }
+  }
+
+  function renderButtonReset () {
+    if (type === 'search') {
+      return (
+        <FormButton click={ handleReset } color='secondary' icon={ <Delete /> }>
+          RESET
         </FormButton>
       )
     }
@@ -239,6 +258,7 @@ export default function FormDialog ({
           { renderButtonCreate() }
           { renderButtonUpdate() }
           { renderButtonRemove() }
+          { renderButtonReset() }
           { renderButtonSearch() }
         </DialogActions>
       </div>
