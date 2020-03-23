@@ -34,7 +34,7 @@ ReactDOM.render(
 
 /**/
 Store.dispatch( post_credentials({
-  username: 'connectics',
+  username: 'softeam',
   password: 'cnx427!'
 }))
 /**/
