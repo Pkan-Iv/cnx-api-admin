@@ -8,8 +8,19 @@ const CreateArrayReducer = CreateReducer( [] ),
       CreateObjectReducer = CreateReducer( {} ),
       CreateStringReducer = CreateReducer( '' )
 
+function SetAuthenticated (s, p) {
+  const { data } = p,
+        { authorizations, role } = data
+
+  return {
+    ...s,
+    authenticated: true,
+    ...(role === 'administrator' ? { authorizations, role } : data )
+  }
+}
+
 export const ContextReducer = CreateContextReducer(
-  ConnectMutator( (s, p) => ({ ...s, authenticated: true, ...p.data }),
+  ConnectMutator( SetAuthenticated,
     CREDENTIALS.POST.SUCCESS
   ),
 
