@@ -38,11 +38,15 @@
   "main": "main.js",
   "scripts": {
     "build": "webpack --mode=production --progress",
+    "server": "babel-watch server/index.js",
     "watch": "webpack-dev-server --compress --open --progress --watch --hot"
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.6.4",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "react-router-dom": "^5.1.2"
   }
 }
