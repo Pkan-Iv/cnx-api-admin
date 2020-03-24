@@ -6,6 +6,12 @@ const { api, server } = Config,
       { sender, senderPass } = server
 
 export default {
+  // TODO
+  /**
+   * Create a unique url link to send
+   * Email exist in Db
+   * Email is a match
+   * */
   getEmail (req, res) {
     const { email } = req.body
     const transporter = nodemailer.createTransport({
@@ -24,11 +30,9 @@ export default {
 
     const sendEMail = () => {
       transporter.sendMail(mailOptions, (error, info) => {
-        console.log(info)
-        (error) ? console.log(error) : console.log(`Email sent: ${info.response}`)
+        (error) ? res.status(500).json(`An error occured while sending the email`) : res.status(200).json({ message: `** Email sent: ${info.response} **` })
       })
     }
-    email ? sendEMail() : console.log(`An error occured`)
-    return res.status(200)
+    sendEMail()
   }
 }
