@@ -72,26 +72,28 @@ export default function Auth () {
   }
 
   function handleRecover(e) {
-    const { email } = fields
-    const headersConfig = {
-      'Access-Control-Allow-Origin':'*',
-      'Content-Type': 'application/json',
-      Accept: '*/*'
-    }
+    const { email } = fields,
+          url = `${HOST}:${PORT}/api/pra/reset`,
+          headersConfig = {
+            'Access-Control-Allow-Origin':'*',
+            'Content-Type': 'application/json',
+            Accept: '*/*'
+          }
     const request = { email: email}
     e.preventDefault()
 
     if (email !== undefined) {
-      fetch(`${HOST}:${PORT}/api/pra/reset`, {
+      fetch( url, {
         headers: headersConfig,
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify(request)
       })
       .then( (response) => response.json())
+      .then( () => setEmail( !userEmail ))
       .catch( (err) => console.log('error', err))
     }
-    setForgotten( !forgotten )
+
   }
 
   function handleReset() {
@@ -109,27 +111,38 @@ export default function Auth () {
     const { password, username } = fields
 
     e.preventDefault()
-    confirmPassword() ? dispatch(patch_credentials({ password, username })) : console.log('Try again')
+    confirmPassword()
+    ? dispatch(patch_credentials({ password, username }))
+    : console.log('Try again')
+
+    setForgotten(false)
+    setEmail(false)
   }
 
+  function handleForgotten () {
+    setForgotten(!forgotten)
+  }
+
+  console.log(userEmail, forgotten)
   return (
     ( !userEmail && !forgotten)
     ? (<Signin
         handleSubmit={handleSubmit}
         createChangeHandler={createChangeHandler}
-        handleReset={handleRecover} />)
+        handleForgotten={handleForgotten} />)
     : ( !userEmail && forgotten )
     ? <RecoverPassword
-        handleRecover={handleRecover}
-        createChangeHandler={createChangeHandler} />
-    : (<UpdatePassword
-        handleSubmitReset={handleSubmitReset}
         createChangeHandler={createChangeHandler}
-        handleReset={handleReset} />)
+        handleForgotten={handleForgotten}
+        handleRecover={handleRecover} />
+    : (<UpdatePassword
+        createChangeHandler={createChangeHandler}
+        handleReset={handleReset}
+        handleSubmitReset={handleSubmitReset} />)
   )
 }
 
-function RecoverPassword({ createChangeHandler, handleRecover}) {
+function RecoverPassword({ createChangeHandler, handleForgotten,handleRecover}) {
   const classes = useStyles()
   return (
     <Paper className={classes.paper}>
@@ -145,6 +158,13 @@ function RecoverPassword({ createChangeHandler, handleRecover}) {
           required variant='outlined' />
 
         <Box component='div' className={classes.button}>
+          <Button className={classes.submit}
+            color='secondary'
+            onClick={handleForgotten}
+            style={{'float': 'left'}}
+            variant='contained'>
+            GO TO SIGN IN
+          </Button>
           <Button color='primary'
             onClick={handleRecover}
             style={{'float': 'right'}} variant='contained'>
@@ -156,7 +176,7 @@ function RecoverPassword({ createChangeHandler, handleRecover}) {
   )
 }
 
-function Signin({handleSubmit, createChangeHandler, handleReset}) {
+function Signin({handleSubmit, createChangeHandler, handleForgotten}) {
   const classes = useStyles()
   return (
     <Paper className={classes.paper}>
@@ -191,7 +211,7 @@ function Signin({handleSubmit, createChangeHandler, handleReset}) {
             Sign In
           </Button>
           <Button color='secondary'
-            onClick={handleReset}
+            onClick={handleForgotten}
             style={{'float': 'right'}} variant='contained'>
             RESET PASSWORD
           </Button>
