@@ -9,8 +9,9 @@ export default {
   // TODO
   /**
    * Create a unique url link to send
-   * Email exist in Db
+   * Email exist in DB
    * Email is a match
+   * Display display_name in template
    * */
   getEmail (req, res) {
     const { email } = req.body,
@@ -32,7 +33,12 @@ export default {
 
     const sendEMail = () => {
       transporter.sendMail(mailOptions, (error, info) => {
-        (error) ? res.status(500).json(`An error occured while sending the email, ${error}`) : res.status(200).json({ message: `** Email sent: ${info.response} **` })
+        (error)
+        ? res.status(500).json(`An error occured while sending the email, ${error}`)
+        : (
+          console.log(`INFO: Message sent to ${email} succesfully.`),
+          res.status(200).json({ message: `** Email sent: ${info.response} **` })
+        )
       })
     }
     sendEMail()
