@@ -30,7 +30,7 @@ export default {
 
     const sendEMail = () => {
       transporter.sendMail(mailOptions, (error, info) => {
-        (error) ? res.status(500).json(`An error occured while sending the email`) : res.status(200).json({ message: `** Email sent: ${info.response} **` })
+        (error) ? res.status(500).json(`An error occured while sending the email, ${error}`) : res.status(200).json({ message: `** Email sent: ${info.response} **` })
       })
     }
     sendEMail()
