@@ -13,7 +13,9 @@ export default {
    * Email is a match
    * */
   getEmail (req, res) {
-    const { email } = req.body
+    const { email } = req.body,
+          html = `<p>You can use the following link to reset your password:</p>
+                  <a href=${admin}>${admin}</a>`
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -25,7 +27,7 @@ export default {
       from: sender,
       to: email,
       subject: 'Sending Email using Node.js, Express and nodemailer',
-      text: 'Test 01'
+      html: html
     }
 
     const sendEMail = () => {
