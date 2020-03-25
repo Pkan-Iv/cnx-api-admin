@@ -14,11 +14,13 @@ import { useStore } from 'lib/hooks'
 
 import * as Config from '../../config.json'
 import fetch from 'cross-fetch'
+import { ResetPassword } from './reset'
+import { ForgottenPassword } from './forgottenPassword'
 
 const { server } = Config,
       { HOST, PORT } = server
 
-const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles(theme => ({
 
   paper: {
     left: '0',
@@ -131,48 +133,14 @@ export default function Auth () {
         createChangeHandler={createChangeHandler}
         handleForgotten={handleForgotten} />)
     : ( !userEmail && forgotten )
-    ? <RecoverPassword
+    ? <ForgottenPassword
         createChangeHandler={createChangeHandler}
         handleForgotten={handleForgotten}
         handleRecover={handleRecover} />
-    : (<UpdatePassword
+    : (<ResetPassword
         createChangeHandler={createChangeHandler}
         handleReset={handleReset}
         handleSubmitReset={handleSubmitReset} />)
-  )
-}
-
-function RecoverPassword({ createChangeHandler, handleForgotten,handleRecover}) {
-  const classes = useStyles()
-  return (
-    <Paper className={classes.paper}>
-      <form className={classes.form}>
-        <TextField
-          autoFocus
-          fullWidth
-          id='email'
-          label='Email'
-          margin='normal'
-          name='email'
-          onChange={createChangeHandler('email')}
-          required variant='outlined' />
-
-        <Box component='div' className={classes.button}>
-          <Button className={classes.submit}
-            color='secondary'
-            onClick={handleForgotten}
-            style={{'float': 'left'}}
-            variant='contained'>
-            GO TO SIGN IN
-          </Button>
-          <Button color='primary'
-            onClick={handleRecover}
-            style={{'float': 'right'}} variant='contained'>
-            SEND EMAIL
-          </Button>
-        </Box>
-      </form>
-    </Paper>
   )
 }
 
@@ -223,60 +191,4 @@ function Signin({handleSubmit, createChangeHandler, handleForgotten}) {
   )
 }
 
-function UpdatePassword({handleSubmitReset, createChangeHandler, handleReset}) {
-  const classes = useStyles()
-  return (
-    <Paper className={classes.paper}>
-      <form className={classes.form} onSubmit={handleSubmitReset}>
-        <TextField
-          autoFocus
-          fullWidth
-          id='username'
-          label='Username'
-          margin='normal'
-          name='username'
-          onChange={createChangeHandler('username')}
-          required
-          variant='outlined' />
 
-        <TextField
-          fullWidth
-          id='password'
-          label='Password'
-          margin='normal'
-          name='password'
-          onChange={createChangeHandler('password')}
-          required autoComplete='no'
-          type='password'
-          variant='outlined' />
-        <TextField
-          fullWidth
-          id='password2'
-          label='Password2'
-          margin='normal'
-          name='password2'
-          onChange={createChangeHandler('password2')}
-          required autoComplete='no'
-          type='password'
-          variant='outlined' />
-
-        <Box component='div' className={classes.button}>
-          <Button
-            color='primary'
-            type='submit'
-            style={{'float': 'left'}}
-            variant='contained'>
-            RESET
-          </Button>
-          <Button
-            color='secondary'
-            onClick={handleReset}
-            style={{'float': 'right'}}
-            variant='contained'>
-            CANCEL
-          </Button>
-        </Box>
-      </form>
-    </Paper>
-  )
-}
