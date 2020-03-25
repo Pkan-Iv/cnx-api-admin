@@ -9,17 +9,28 @@ const CreateArrayReducer = CreateReducer( [] ),
       CreateStringReducer = CreateReducer( '' )
 
 export const ContextReducer = CreateContextReducer(
+
+  ConnectMutator( () => ({ ...Context, authenticated: false }),
+    CREDENTIALS.DELETE.SUCCESS
+  ),
+
+  ConnectMutator( () => ({ ...Context, authenticated: false, forgotten: true }),
+    CREDENTIALS.FORGOTTEN.SUCCESS
+  ),
+
+  ConnectMutator( (s, p) => ({ ...s, authenticated: false, ...p.data, forgotten: false, userEmail: false }),
+    CREDENTIALS.PATCH.SUCCESS
+  ),
+
   ConnectMutator( (s, p) => ({ ...s, authenticated: true, ...p.data }),
     CREDENTIALS.POST.SUCCESS
   ),
 
-  ConnectMutator( (s, p) => ({ ...s, authenticated: false, ...p.data }),
-    CREDENTIALS.PATCH.SUCCESS
-  ),
-
-  ConnectMutator( () => ({ ...Context, authenticated: false }),
-    CREDENTIALS.DELETE.SUCCESS
+  ConnectMutator( (s, p) => ({ ...s, authenticated: false, userEmail: true, ...p.data }),
+    CREDENTIALS.RESET.SUCCESS
   )
+
+
 )
 
 export const CountReducer = CreateNumberReducer(
