@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Box,
   Button,
@@ -6,23 +6,16 @@ import {
   TextField
 } from '@material-ui/core'
 
-
-import * as Config from '../../config.json'
-
 import { useStyles } from './auth'
 
-
-const { server } = Config,
-      { HOST, PORT } = server
-
-export function ForgottenPassword({
+export default function ForgottenPassword({
   createChangeHandler,
   fields = {email:''},
   forgotten = true,
   handleForgotten,
   handleRecover,
   userEmail = false
-} ={}) {
+} = {}) {
   const classes = useStyles()
 
   return (<Paper className={classes.paper}>
@@ -50,6 +43,7 @@ export function ForgottenPassword({
          color='primary'
          onClick={handleRecover}
          style={{ 'float': 'right' }}
+         type='reset'
          variant='contained'>
           SEND EMAIL
         </Button>
