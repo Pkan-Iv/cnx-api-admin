@@ -288,6 +288,16 @@ export const post_credentials = CreatePostAction( Credentials,
   CreateFailureHandler( CREDENTIALS.POST.FAILURE )
 )
 
+export const post_forgotten_credentials = CreatePostAction( Credentials,
+  CreateTypeHandler( CREDENTIALS.FORGOTTEN.SUCCESS ),
+  CreateFailureHandler( CREDENTIALS.FORGOTTEN.FAILURE )
+)
+
+export const post_reset_credentials = CreatePostAction( Credentials,
+  (data) => ({ type: CREDENTIALS.RESET.SUCCESS, data }),
+  CreateFailureHandler( CREDENTIALS.RESET.FAILURE )
+)
+
 export const post_pra_messages = CreatePostAction( Messages,
   CreateTypeHandler( PRA.POST.MESSAGES.SUCCESS ),
   CreateFailureHandler( PRA.POST.MESSAGES.FAILURE )
