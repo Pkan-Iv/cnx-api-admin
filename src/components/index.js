@@ -13,10 +13,11 @@ import * as Config from '../../config.json'
 import { useStore } from 'lib/hooks'
 
 import Auth from './auth'
+import ForgottenPassword from './forgottenPassword'
 import Main from './main'
 
 import { CREDENTIALS } from '../descriptors'
-import { ForgottenPassword } from './forgottenPassword'
+import { ResetPassword } from './reset'
 
 const useStyles = makeStyles( (theme) => ({
   grow: {
@@ -29,7 +30,8 @@ export default function Application () {
         [ { context }, dispatch ] = useStore(),
         { authenticated } = context,
         [ forgotten, setForgotten ] = useState(false),
-        [ userEmail, setEmail ] = useState(false)
+        [ userEmail, setEmail ] = useState(false),
+        token = null
 
   function createChangeHandler(field) {
     return (e) => {
@@ -46,7 +48,7 @@ export default function Application () {
     dispatch({ type: CREDENTIALS.DELETE.SUCCESS })
   }
 
-  function handleRecover(e) {
+  function handleRecover() {
     const { server } = Config,
       { HOST, PORT } = server,
       { email } = fields,
@@ -54,7 +56,7 @@ export default function Application () {
           headersConfig = {
             'Access-Control-Allow-Origin':'*',
             'Content-Type': 'application/json',
-            Accept: '*/*'
+            Accept: `*/*`
           },
           data = {
             headers: headersConfig,
@@ -63,8 +65,6 @@ export default function Application () {
             body: JSON.stringify(request)
           },
           request = { email: email}
-
-    e.preventDefault()
 
     console.log(data)
     console.log(url)
@@ -113,7 +113,8 @@ export default function Application () {
   function renderView () {
     if (!authenticated) {
       if (!forgotten) {
-
+        console.log(`Forgotten: ${forgotten}
+        User email: ${userEmail}`)
       return (
         <Auth
           createChangeHandler={createChangeHandler}
@@ -121,15 +122,22 @@ export default function Application () {
           handleSubmit={handleSubmit} />
         )
       } else if (!userEmail && forgotten) {
+        console.log(`Forgotten: ${forgotten}
+        User email: ${userEmail}`)
         return (
           <ForgottenPassword
             createChangeHandler={createChangeHandler}
             handleForgotten={handleForgotten}
             handleRecover={handleRecover} />
         )
+      } else if (token !== null) {
+        return (
+          <ResetPassword
+            createChangeHandler={createChangeHandler}
+            handleReset={handleReset}
+            handleSubmitReset={handleSubmitReset}/>
+        )
       }
-      console.log(`Forgotten: ${forgotten}
-      User email: ${userEmail}`)
     }
     return <Main />
   }
