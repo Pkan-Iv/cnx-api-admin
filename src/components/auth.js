@@ -1,15 +1,14 @@
-import React, { Fragment } from 'react'
+import React, { useState } from 'react'
+
+import {
+  Box,
+  Button,
+  Paper,
+  TextField
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-
-import { post_forgotten_credentials } from '../actions'
-import { useStore } from 'lib/hooks'
 // import GoogleLoginButton from './google'
-
-
-import { ForgottenPassword } from './forgottenPassword'
-import { ResetPassword } from './reset'
-import { Signin } from './Signin'
 
 export const useStyles = makeStyles(theme => ({
 
@@ -39,27 +38,73 @@ export const useStyles = makeStyles(theme => ({
 
 
 export default function Auth () {
-  const [ { context } ] = useStore(),
-        { forgotten, userEmail } = context
 
-
-  function renderView() {
-    if (!forgotten){
-     return <Signin />
+  const classes = useStyles(),
+        [ forgotten, setForgotten ] = useState(false),
+        [ fields, setFields ] = useState({
+          username: '',
+          password: ''
+        })
+  function createChangeHandler(field) {
+    return (e) => {
+      setFields({ ...fields, [field]: e.target.value })
     }
-    if( !userEmail ){
-      return<ForgottenPassword />
-      }
-    return <ResetPassword />
   }
 
+  function handleForgotten(e) {
+    e.preventDefault()
+    setForgotten(!forgotten)
+  }
 
-  console.log(userEmail, forgotten)
+  function handleSubmit(e) {
+    const { password, username } = fields
+    e.preventDefault()
+    dispatch(post_credentials({ password, username }))
+  }
+
   return (
-    <Fragment>
-      {renderView()}
-    </Fragment>
-   )
+    <Paper className={classes.paper}>
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <TextField
+          autoFocus
+          fullWidth
+          id='username'
+          label='Username'
+          margin='normal'
+          name='username'
+          onChange={createChangeHandler('username')}
+          required variant='outlined' />
+
+        <TextField
+          fullWidth
+          id='password'
+          label='Password'
+          margin='normal'
+          name='password'
+          onChange={createChangeHandler('password')}
+          required autoComplete='no'
+          type='password'
+          variant='outlined' />
+
+        <Box component='div' className={classes.button}>
+          <Button className={classes.submit}
+            color='primary'
+            type='submit'
+            style={{ 'float': 'left' }}
+            variant='contained'>
+            Sign In
+          </Button>
+          <Button
+            color='secondary'
+            onClick={handleForgotten}
+            style={{ 'float': 'right' }}
+            variant='contained'>
+            RESET PASSWORD
+          </Button>
+        </Box>
+      </form>
+    </Paper>
+  )
 }
 
 
