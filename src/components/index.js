@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -8,6 +8,7 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core'
+import * as Config from '../../config.json'
 
 import { useStore } from 'lib/hooks'
 
@@ -15,6 +16,7 @@ import Auth from './auth'
 import Main from './main'
 
 import { CREDENTIALS } from '../descriptors'
+import { ForgottenPassword } from './forgottenPassword'
 
 const useStyles = makeStyles( (theme) => ({
   grow: {
@@ -25,10 +27,76 @@ const useStyles = makeStyles( (theme) => ({
 export default function Application () {
   const classes = useStyles(),
         [ { context }, dispatch ] = useStore(),
-        { authenticated } = context
+        { authenticated } = context,
+        [ forgotten, setForgotten ] = useState(false),
+        [ userEmail, setEmail ] = useState(false)
+
+  function createChangeHandler(field) {
+    return (e) => {
+      setFields({ ...fields, [field]: e.target.value })
+    }
+  }
+
+  function handleForgotten(e) {
+    e.preventDefault()
+    setForgotten(!forgotten)
+  }
 
   function handleLogout () {
     dispatch({ type: CREDENTIALS.DELETE.SUCCESS })
+  }
+
+  function handleRecover(e) {
+    const { server } = Config,
+      { HOST, PORT } = server,
+      { email } = fields,
+          url = `${HOST}:${PORT}/api/pra/reset`,
+          headersConfig = {
+            'Access-Control-Allow-Origin':'*',
+            'Content-Type': 'application/json',
+            Accept: '*/*'
+          },
+          data = {
+            headers: headersConfig,
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(request)
+          },
+          request = { email: email}
+
+    e.preventDefault()
+
+    console.log(data)
+    console.log(url)
+    if (email !== undefined) {
+      fetch( url, data)
+      .then( (response) => response.json())
+      .then( (result) => console.log(result) )
+      .then( () => setEmail( !userEmail ))
+      .catch( (err) => console.log('error', err))
+    }
+  }
+
+  function handleReset() {
+    setEmail( !userEmail )
+  }
+
+  function handleSubmit(e) {
+    const { password, username } = fields
+    e.preventDefault()
+    dispatch(post_credentials({ password, username }))
+  }
+
+  function handleSubmitReset (e) {
+    const { email ,password } = fields
+
+    e.preventDefault()
+    confirmPassword()
+    ? dispatch(patch_credentials({ email ,password }))
+    : console.log('Try again')
+
+    setForgotten(false)
+    setEmail(false)
   }
 
   function renderLogout () {
@@ -43,9 +111,26 @@ export default function Application () {
   }
 
   function renderView () {
-    if (!authenticated)
-      return <Auth />
+    if (!authenticated) {
+      if (!forgotten) {
 
+      return (
+        <Auth
+          createChangeHandler={createChangeHandler}
+          handleForgotten={handleForgotten}
+          handleSubmit={handleSubmit} />
+        )
+      } else if (!userEmail && forgotten) {
+        return (
+          <ForgottenPassword
+            createChangeHandler={createChangeHandler}
+            handleForgotten={handleForgotten}
+            handleRecover={handleRecover} />
+        )
+      }
+      console.log(`Forgotten: ${forgotten}
+      User email: ${userEmail}`)
+    }
     return <Main />
   }
 
