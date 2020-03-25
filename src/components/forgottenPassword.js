@@ -1,15 +1,29 @@
-import React from 'react'
-import { Box, Button, Paper, TextField } from '@material-ui/core'
+import React, { useState } from 'react'
+import {
+  Box,
+  Button,
+  Paper,
+  TextField
+} from '@material-ui/core'
+
+import { useStore } from 'lib/hooks'
+
+import * as Config from '../../config.json'
+import { CREDENTIALS } from '../descriptors'
+
 import { useStyles } from './auth'
 
-export function ForgottenPassword({ createChangeHandler, handleForgotten, handleRecover }) {
+
+const { server } = Config,
+      { HOST, PORT } = server
+
+export function ForgottenPassword({ createChangeHandler, handleRecover }) {
   const classes = useStyles(),
         [ fields, setFields ] = useState({
           email: '',
         }),
-        [ forgotten, setForgotten ] = useState( false ),
-        [ userEmail, setEmail ] = useState( false ),
-        [ state, dispatch ] = useStore()
+        [ { context }, dispatch ] = useStore(),
+        { userEmail } = context
 
   function createChangeHandler (field) {
     return (e) => {
@@ -42,7 +56,7 @@ export function ForgottenPassword({ createChangeHandler, handleForgotten, handle
 
   }
   function handleForgotten () {
-    setForgotten(!forgotten)
+    dispatch({ type: CREDENTIALS.FORGOTTEN.FAILURE })
   }
 
 
