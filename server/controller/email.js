@@ -17,7 +17,7 @@ export default {
    * */
   getEmail (req, res) {
     const { email } = req.body,
-          token = shortId.generate()
+          token = shortId.generate(),
           html = `<p>You can use the following link to reset your password:</p>
                   <a href=${admin}/?t=${token}>${admin}/?t=${token}</a>`
     const transporter = nodemailer.createTransport({
