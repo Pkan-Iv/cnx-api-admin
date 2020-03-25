@@ -8,17 +8,13 @@ import {
   TextField
 } from '@material-ui/core'
 
-import { patch_credentials, post_credentials } from '../actions'
+import { post_forgotten_credentials } from '../actions'
 import { useStore } from 'lib/hooks'
 // import GoogleLoginButton from './google'
 
-import * as Config from '../../config.json'
-import fetch from 'cross-fetch'
+
 import { ResetPassword } from './reset'
 import { ForgottenPassword } from './forgottenPassword'
-
-const { server } = Config,
-      { HOST, PORT } = server
 
 export const useStyles = makeStyles(theme => ({
 
@@ -51,21 +47,9 @@ export default function Auth () {
   const [ fields, setFields ] = useState({
           username: '',
           password: ''
-        } ||
-        { username: '',
-          password: '',
-          password2: ''
-        }||
-        { email: ''
-        }),
-        [ forgotten, setForgotten ] = useState( false ),
-        [ userEmail, setEmail ] = useState( false ),
-        [ state, dispatch ] = useStore()
-
-  function confirmPassword () {
-    const { password, password2, username } = fields
-    return (password.length > 0 && password === password2) ? 1 : 0
-  }
+        } ),
+        [ { context }, dispatch ] = useStore(),
+        { forgotten, userEmail } = context
 
   function createChangeHandler (field) {
     return (e) => {
@@ -73,33 +57,9 @@ export default function Auth () {
     }
   }
 
-  function handleRecover(e) {
-    const { email } = fields,
-          url = `${HOST}:${PORT}/api/pra/reset`,
-          headersConfig = {
-            'Access-Control-Allow-Origin':'*',
-            'Content-Type': 'application/json',
-            Accept: '*/*'
-          }
-    const request = { email: email}
-    e.preventDefault()
-
-    if (email !== undefined) {
-      fetch( url, {
-        headers: headersConfig,
-        method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify(request)
-      })
-      .then( (response) => response.json())
-      .then( () => setEmail( !userEmail ))
-      .catch( (err) => console.log('error', err))
-    }
-
-  }
-
-  function handleReset() {
-    setEmail( !userEmail )
+  function handleForgotten() {
+    dispatch({ type: CREDENTIALS.FORGOTTEN.SUCCESS })
+    // dispatch(post_forgotten_credentials())
   }
 
   function handleSubmit (e) {
@@ -109,21 +69,6 @@ export default function Auth () {
     dispatch(post_credentials({ password, username }))
   }
 
-  function handleSubmitReset (e) {
-    const { password, username } = fields
-
-    e.preventDefault()
-    confirmPassword()
-    ? dispatch(patch_credentials({ password, username }))
-    : console.log('Try again')
-
-    setForgotten(false)
-    setEmail(false)
-  }
-
-  function handleForgotten () {
-    setForgotten(!forgotten)
-  }
 
   console.log(userEmail, forgotten)
   return (
@@ -134,13 +79,12 @@ export default function Auth () {
         handleForgotten={handleForgotten} />)
     : ( !userEmail && forgotten )
     ? <ForgottenPassword
-        createChangeHandler={createChangeHandler}
-        handleForgotten={handleForgotten}
-        handleRecover={handleRecover} />
+        createChangeHandler
+        handleRecover />
     : (<ResetPassword
-        createChangeHandler={createChangeHandler}
-        handleReset={handleReset}
-        handleSubmitReset={handleSubmitReset} />)
+        createChangeHandler
+        handleReset
+        handleSubmitReset />)
   )
 }
 
