@@ -14,7 +14,7 @@ export const ContextReducer = CreateContextReducer(
     CREDENTIALS.DELETE.SUCCESS
   ),
 
-  ConnectMutator( () => ({ ...Context, authenticated: false, forgotten: true }),
+  ConnectMutator( (s, p) => ({ ...s, ...Context,  authenticated: false,  forgotten: true }),
     CREDENTIALS.FORGOTTEN.SUCCESS
   ),
 
