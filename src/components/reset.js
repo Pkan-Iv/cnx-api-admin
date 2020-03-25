@@ -11,38 +11,19 @@ import { patch_credentials } from '../actions'
 
 import { useStyles } from './auth'
 
-export function ResetPassword({ createChangeHandler, handleReset, handleSubmitReset }) {
-  const classes = useStyles(),
-        [ fields, setFields ] = useState({
-          email: '',
-          password: '',
-          password2: ''
-        }),
-        [ forgotten, setForgotten ] = useState( false ),
-        [ userEmail, setEmail ] = useState( false ),
-        [ state, dispatch ] = useStore()
+export function ResetPassword({
+  createChangeHandler,
+  fields = {
+    email: '',
+    password: '',
+    password2: ''
+  },
+  handleReset,
+  handleSubmitReset,
+  token
+} = {}) {
+  const classes = useStyles()
 
-  function createChangeHandler (field) {
-    return (e) => {
-      setFields({ ...fields, [ field ]: e.target.value })
-    }
-  }
-
-  function handleReset() {
-    setEmail( !userEmail )
-  }
-
-  function handleSubmitReset (e) {
-    const { email ,password } = fields
-
-    e.preventDefault()
-    confirmPassword()
-    ? dispatch(patch_credentials({ email ,password }))
-    : console.log('Try again')
-
-    setForgotten(false)
-    setEmail(false)
-  }
 
   return (
     <Paper className={classes.paper}>
