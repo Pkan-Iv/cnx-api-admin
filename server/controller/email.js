@@ -1,5 +1,7 @@
-import nodemailer from 'nodemailer'
 import * as Config from '../../config.json'
+
+import nodemailer from 'nodemailer'
+import shortId from 'shortid'
 
 const { api, server } = Config,
       { admin } = api,
@@ -15,8 +17,9 @@ export default {
    * */
   getEmail (req, res) {
     const { email } = req.body,
+          token = shortId.generate()
           html = `<p>You can use the following link to reset your password:</p>
-                  <a href=${admin}>${admin}</a>`
+                  <a href=${admin}/?t=${token}>${admin}/?t=${token}</a>`
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -27,7 +30,7 @@ export default {
     mailOptions = {
       from: sender,
       to: email,
-      subject: 'Sending Email using Node.js, Express and nodemailer',
+      subject: '[PASSWORD RESET]',
       html: html
     }
 
