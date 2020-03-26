@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -34,22 +34,6 @@ export default function Application () {
         [ token, setToken ] = useState(null)
 
 
-  function getToken() {
-    const { server } = Config,
-    { HOST, PORT } = server,
-    url = `${HOST}:${PORT}/api/pra/reset`,
-    headersConfig = {
-      'Access-Control-Allow-Origin':'*',
-      'Content-Type': 'application/json',
-      Accept: `*/*`
-    }
-    return fetch(`${url}/token`, {
-      headers: headersConfig,
-      method: 'GET'
-    })
-      .then((res) => res.json())
-      .then((result) => result.token)
-  }
 
   function handleForgotten(e) {
     e.preventDefault()
@@ -62,7 +46,10 @@ export default function Application () {
   }
 
   function handleReset() {
-    setEmail( !userEmail )
+    const { api } = Config,
+          { admin }= api
+
+    return window.location.href(`${admin}`)
   }
 
 
@@ -77,25 +64,39 @@ export default function Application () {
     )
   }
 
+  const renderResetView = () => {
+    const { server } = Config,
+    { HOST, PORT } = server,
+    url = `${HOST}:${PORT}/api/pra/reset`,
+    headersConfig = {
+      'Access-Control-Allow-Origin':'*',
+      'Content-Type': 'application/json',
+      Accept: `*/*`
+    }
+
+    fetch(`${url}/token`, {
+      headers: headersConfig,
+      method: 'GET'
+    })
+      .then((res) => res.json())
+      .then((res) => setToken(res.token))
+
+    if (window.location.search === `?t=${token}`) {
+      return (
+        <ResetPassword
+          handlereset={handleReset} />
+      )
+    }
+  }
+
   function renderView () {
     if (!authenticated) {
       if (window.location.search.length > 0) {
-        console.log('OK')
-          return (
-            <ResetPassword
-              handlereset={handleReset} />
-          )
-        // console.log(forgotten)
-        // console.log(userEmail)
-        /*if (forgotten && userEmail) {
-        } setToken(getToken())
-        if (token !== null && window.location.search === `?t=${token}`) {
-          console.log('Token:', token)
-          console.log('Window param:', window.location.search)
-          console.log('display:', window.location.search === `?t=${token}`)
-
-
-        } */
+        return(
+          <Fragment>
+            { renderResetView() }
+          </Fragment>
+        )
       }
 
       else if (!forgotten) {
@@ -107,6 +108,7 @@ export default function Application () {
           valueforgotten={forgotten} />
         )
       }
+
       else if (!userEmail && forgotten){
         console.log('Forgotten Password')
         console.log('Forgotten: ', forgotten)
@@ -117,11 +119,11 @@ export default function Application () {
             valueforgotten={forgotten}
             valueuseremail={userEmail} />
         )
-      }}
+      }
+    }
     return <Main />
   }
 
-  console.log(window.location.search.length > 0)
   return (
     <Fragment>
       <AppBar position='relative' color='default'>

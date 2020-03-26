@@ -38,9 +38,6 @@ export function ResetPassword({ handlereset } = {}) {
       confirmPassword()
       ? dispatch(patch_credentials({ email ,password }))
       : console.log('Try again')
-
-      setForgotten(false)
-      setEmail(false)
     }
 
   return (
