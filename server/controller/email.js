@@ -5,7 +5,8 @@ import shortId from 'shortid'
 
 const { api, server } = Config,
       { admin } = api,
-      { sender, senderPass } = server
+      { sender, senderPass } = server,
+      token = shortId.generate()
 
 export default {
   // TODO
@@ -17,7 +18,6 @@ export default {
    * */
   getEmail (req, res) {
     const { email } = req.body,
-          token = shortId.generate(),
           html = `<p>You can use the following link to reset your password:</p>
                   <a href=${admin}/?t=${token}>${admin}/?t=${token}</a>`
     const transporter = nodemailer.createTransport({
@@ -51,5 +51,14 @@ export default {
       })
     }
     sendEMail()
+  },
+
+  getEmailToken(req, res) {
+    req.body = token
+    console.log('Token:',token)
+    return res.status(200).json({
+      message: 'Token provided',
+      token: token
+    })
   }
 }
