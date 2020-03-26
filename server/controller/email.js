@@ -34,21 +34,36 @@ export default {
       html: html
     }
 
+    const validateEmail = (mail) => {
+      const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      if (mailformat.test(String(email).toLowerCase()))
+        {
+          return (true)
+        }
+          console.log("You have entered an invalid email address!")
+          return (false)
+      }
+
+
     const sendEMail = () => {
-      transporter.sendMail(mailOptions, (error, info) => {
-        (error)
-        ? (
-          console.log(`ERROR: ${ error }`),
-          res.status(500)
-          .json(`An error occured while sending the email, ${ error }`)
-        )
-        : (
-          console.log(`INFO:     Message sent to ${ email } succesfully.
-          ${ info.response }`),
-          res.status(200)
-          .json({ message: `** Email sent: ${ info.response } **` })
-        )
-      })
+      if(validateEmail(email)) {
+        transporter.sendMail(mailOptions, (error, info) => {
+          (error)
+          ? (
+            console.log(`ERROR: ${ error }`),
+            res.status(500)
+            .json(`An error occured while sending the email, ${ error }`)
+          )
+          : (
+            console.log(`INFO:     Message sent to ${ email } succesfully.
+            ${ info.response }`),
+            res.status(200)
+            .json({ message: `** Email sent: ${ info.response } **` })
+          )
+        })
+      } else{
+      return res.status(500).json({ msg: `You have entered an invalid email address!`})
+      }
     }
     sendEMail()
   },
