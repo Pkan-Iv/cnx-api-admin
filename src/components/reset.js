@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import {
   Box,
@@ -7,23 +7,41 @@ import {
   TextField
 } from '@material-ui/core'
 
+import { useStore } from 'lib/hooks'
+
 import { patch_credentials } from '../actions'
 
 import { useStyles } from './auth'
 
-export function ResetPassword({
-  createChangeHandler,
-  fields = {
-    email: '',
-    password: '',
-    password2: ''
-  },
-  handleReset,
-  handleSubmitReset,
-  token
-} = {}) {
-  const classes = useStyles()
+export function ResetPassword({ handlereset } = {}) {
+  const classes = useStyles(),
+        [ , dispatch ] = useStore(),
+        [ fields, setFields ] = useState(
+          { email: '', password: '', password2: '' }
+        )
 
+    function createChangeHandler(field) {
+      return (e) => {
+        setFields({ ...fields, [field]: e.target.value })
+      }
+    }
+
+    function confirmPassword () {
+      const { password, password2 } = fields
+      return (password.length > 0 && password === password2) ? 1 : 0
+    }
+
+    function handleSubmitReset (e) {
+      const { email ,password } = fields
+
+      e.preventDefault()
+      confirmPassword()
+      ? dispatch(patch_credentials({ email ,password }))
+      : console.log('Try again')
+
+      setForgotten(false)
+      setEmail(false)
+    }
 
   return (
     <Paper className={classes.paper}>
@@ -70,7 +88,7 @@ export function ResetPassword({
           </Button>
           <Button
             color='secondary'
-            onClick={handleReset}
+            onClick={handlereset}
             style={{ 'float': 'right' }}
             variant='contained'>
             CANCEL

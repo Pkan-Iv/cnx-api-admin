@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -31,73 +31,40 @@ export default function Application () {
         { authenticated } = context,
         [ forgotten, setForgotten ] = useState(false),
         [ userEmail, setEmail ] = useState(false),
-        token = null
+        [ token, setToken ] = useState(null)
 
-  function createChangeHandler(field) {
-    return (e) => {
-      setFields({ ...fields, [field]: e.target.value })
+
+  function getToken() {
+    const { server } = Config,
+    { HOST, PORT } = server,
+    url = `${HOST}:${PORT}/api/pra/reset`,
+    headersConfig = {
+      'Access-Control-Allow-Origin':'*',
+      'Content-Type': 'application/json',
+      Accept: `*/*`
     }
+    return fetch(`${url}/token`, {
+      headers: headersConfig,
+      method: 'GET'
+    })
+      .then((res) => res.json())
+      .then((result) => result.token)
   }
 
   function handleForgotten(e) {
     e.preventDefault()
     setForgotten(!forgotten)
+    console.log('handleForgotten OK')
   }
 
   function handleLogout () {
     dispatch({ type: CREDENTIALS.DELETE.SUCCESS })
   }
 
-  function handleRecover() {
-    const { server } = Config,
-      { HOST, PORT } = server,
-      { email } = fields,
-          url = `${HOST}:${PORT}/api/pra/reset`,
-          headersConfig = {
-            'Access-Control-Allow-Origin':'*',
-            'Content-Type': 'application/json',
-            Accept: `*/*`
-          },
-          data = {
-            headers: headersConfig,
-            method: 'POST',
-            mode: 'cors',
-            body: JSON.stringify(request)
-          },
-          request = { email: email}
-
-    console.log(data)
-    console.log(url)
-    if (email !== undefined) {
-      fetch( url, data)
-      .then( (response) => response.json())
-      .then( (result) => console.log(result) )
-      .then( () => setEmail( !userEmail ))
-      .catch( (err) => console.log('error', err))
-    }
-  }
-
   function handleReset() {
     setEmail( !userEmail )
   }
 
-  function handleSubmit(e) {
-    const { password, username } = fields
-    e.preventDefault()
-    dispatch(post_credentials({ password, username }))
-  }
-
-  function handleSubmitReset (e) {
-    const { email ,password } = fields
-
-    e.preventDefault()
-    confirmPassword()
-    ? dispatch(patch_credentials({ email ,password }))
-    : console.log('Try again')
-
-    setForgotten(false)
-    setEmail(false)
-  }
 
   function renderLogout () {
     if (!authenticated)
@@ -112,36 +79,49 @@ export default function Application () {
 
   function renderView () {
     if (!authenticated) {
-      if (!forgotten) {
-        console.log(`Forgotten: ${forgotten}
-        User email: ${userEmail}`)
-      return (
+      if (window.location.search.length > 0) {
+        console.log('OK')
+          return (
+            <ResetPassword
+              handlereset={handleReset} />
+          )
+        // console.log(forgotten)
+        // console.log(userEmail)
+        /*if (forgotten && userEmail) {
+        } setToken(getToken())
+        if (token !== null && window.location.search === `?t=${token}`) {
+          console.log('Token:', token)
+          console.log('Window param:', window.location.search)
+          console.log('display:', window.location.search === `?t=${token}`)
+
+
+        } */
+      }
+
+      else if (!forgotten) {
+        console.log('Auth')
+        console.log('Forgotten: ', forgotten)
+        return (
         <Auth
-          createChangeHandler={createChangeHandler}
-          handleForgotten={handleForgotten}
-          handleSubmit={handleSubmit} />
-        )
-      } else if (!userEmail && forgotten) {
-        console.log(`Forgotten: ${forgotten}
-        User email: ${userEmail}`)
-        return (
-          <ForgottenPassword
-            createChangeHandler={createChangeHandler}
-            handleForgotten={handleForgotten}
-            handleRecover={handleRecover} />
-        )
-      } else if (token !== null) {
-        return (
-          <ResetPassword
-            createChangeHandler={createChangeHandler}
-            handleReset={handleReset}
-            handleSubmitReset={handleSubmitReset}/>
+          handleforgotten={handleForgotten}
+          valueforgotten={forgotten} />
         )
       }
-    }
+      else if (!userEmail && forgotten){
+        console.log('Forgotten Password')
+        console.log('Forgotten: ', forgotten)
+        console.log('User Email: ', userEmail)
+        return (
+          <ForgottenPassword
+            handleforgotten={handleForgotten}
+            valueforgotten={forgotten}
+            valueuseremail={userEmail} />
+        )
+      }}
     return <Main />
   }
 
+  console.log(window.location.search.length > 0)
   return (
     <Fragment>
       <AppBar position='relative' color='default'>

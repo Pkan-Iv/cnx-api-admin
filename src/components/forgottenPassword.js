@@ -47,6 +47,7 @@ export default function ForgottenPassword({
       fetch( url, data)
       .then( (response) => response.json())
       .then( (result) => console.log(result) )
+      .then( getToken(url, headersConfig) )
       .catch( (err) => console.log('error', err))
     }
   }
@@ -86,3 +87,5 @@ export default function ForgottenPassword({
     </Paper>
   )
 }
+
+

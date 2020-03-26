@@ -8,6 +8,10 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { useStore } from 'lib/hooks'
+
+import { post_credentials } from '../actions'
+
 // import GoogleLoginButton from './google'
 
 export const useStyles = makeStyles(theme => ({
@@ -40,10 +44,10 @@ export const useStyles = makeStyles(theme => ({
 export default function Auth ({
   valueforgotten,
   handleforgotten,
-  handlesubmit
 } = {}) {
 
   const classes = useStyles(),
+        [ state, dispatch ] = useStore(),
         [ fields, setFields ] = useState(
           { username: '', password: '' }
         )
@@ -53,9 +57,16 @@ export default function Auth ({
       setFields({ ...fields, [field]: e.target.value })
     }
   }
+
+  function handleSubmit(e) {
+    const { password, username } = fields
+    e.preventDefault()
+    dispatch(post_credentials({ password, username }))
+  }
+
   return (
     <Paper className={classes.paper}>
-      <form className={classes.form} onSubmit={handlesubmit}>
+      <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
           autoFocus
           fullWidth
