@@ -24,8 +24,8 @@ app.use( bodyParser.json() )
 
 app.use( fileUpload() )
 
-app.use('/api/pra', email)
-app.use('/api/pra', upload)
+app.use('/pra', email)
+app.use('/pra', upload)
 
 app.listen(PORT, () =>
   console.log(`Server is listening on port ${PORT}`)
