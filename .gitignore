@@ -3,3 +3,4 @@ static/*.css
 static/*.js
 config.json
 package-lock.json
+uploads/
