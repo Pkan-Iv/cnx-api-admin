@@ -38,7 +38,6 @@ export default function Application () {
   function handleForgotten(e) {
     e.preventDefault()
     setForgotten(!forgotten)
-    console.log('handleForgotten OK')
   }
 
   function handleLogout () {
@@ -100,8 +99,6 @@ export default function Application () {
       }
 
       else if (!forgotten) {
-        console.log('Auth')
-        console.log('Forgotten: ', forgotten)
         return (
         <Auth
           handleforgotten={handleForgotten}
@@ -110,9 +107,6 @@ export default function Application () {
       }
 
       else if (!userEmail && forgotten){
-        console.log('Forgotten Password')
-        console.log('Forgotten: ', forgotten)
-        console.log('User Email: ', userEmail)
         return (
           <ForgottenPassword
             handleforgotten={handleForgotten}

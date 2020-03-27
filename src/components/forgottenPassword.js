@@ -41,13 +41,10 @@ export default function ForgottenPassword({
             body: JSON.stringify(request)
           }
 
-    console.log('Fields: ',fields)
-    console.log('Body: ',data.body)
     if (email !== undefined) {
       fetch( url, data)
       .then( (response) => response.json())
       .then( (result) => console.log(result) )
-      .then( getToken(url, headersConfig) )
       .catch( (err) => console.log('error', err))
     }
   }

@@ -15,7 +15,7 @@ import { useStyles } from './auth'
 
 export function ResetPassword({ handlereset } = {}) {
   const classes = useStyles(),
-        [ , dispatch ] = useStore(),
+        [ state, dispatch ] = useStore(),
         [ fields, setFields ] = useState(
           { email: '', password: '', password2: '' }
         )
@@ -28,21 +28,23 @@ export function ResetPassword({ handlereset } = {}) {
 
     function confirmPassword () {
       const { password, password2 } = fields
-      return (password.length > 0 && password === password2) ? 1 : 0
+      return (password.length > 0 && password === password2) ? true : false
     }
 
     function handleSubmitReset (e) {
       const { email ,password } = fields
 
       e.preventDefault()
+
       confirmPassword()
       ? dispatch(patch_credentials({ email ,password }))
-      : console.log('Try again')
+      : console.log('Try again with matching passwords')
+
     }
 
   return (
     <Paper className={classes.paper}>
-      <form className={classes.form} onSubmit={handleSubmitReset}>
+      <form className={classes.form} onSubmit={handleSubmitReset} >
         <TextField
           autoFocus
           fullWidth
